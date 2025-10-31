@@ -42,48 +42,49 @@
     <!-- Navigation -->
     {% include "header.html"%}
 
-    <!-- Clean Modern Header -->
-    <header class="post-header-clean">
-      <!-- Featured Image Section -->
-      <div class="featured-image-wrapper">
-        <div
-          class="featured-image"
-          style='background-image: url("{{posts.img_url}}")'
-        >
-          <div class="image-overlay"></div>
+    <!-- Hero Section with Image -->
+    <div class="post-hero">
+      <div
+        class="hero-image"
+        style='background-image: url("{{posts.img_url}}")'
+      >
+        <div class="hero-gradient"></div>
+        <div class="hero-content">
+          <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+              <div class="col-md-10 col-lg-8 col-xl-7">
+                <span class="hero-badge">
+                  <i class="fas fa-newspaper"></i>
+                  Article
+                </span>
+                <h1 class="hero-title">{{posts.title}}</h1>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
 
-      <!-- Post Info Section -->
+    <!-- Post Header Info -->
+    <div class="post-info-bar">
       <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
           <div class="col-md-10 col-lg-8 col-xl-7">
-            <div class="post-header-content">
-              <!-- Category Badge -->
-              <span class="post-category">
-                <i class="fas fa-terminal"></i> BLOG POST
-              </span>
-
-              <!-- Title -->
-              <h1 class="post-title-clean">{{posts.title}}</h1>
-
-              <!-- Subtitle -->
-              <p class="post-subtitle-clean">{{posts.subtitle}}</p>
-
-              <!-- Meta Info -->
-              <div class="post-meta-clean">
-                <a href="{{url_for('get_about')}}" class="meta-author">
-                  <i class="fas fa-user"></i>
-                  {{posts.author.name}}
+            <div class="post-subtitle-modern">{{posts.subtitle}}</div>
+            <div class="post-meta-modern">
+              <div class="meta-left">
+                <a href="{{url_for('get_about')}}" class="author-link-modern">
+                  <i class="fas fa-user-circle"></i>
+                  <span>{{posts.author.name}}</span>
                 </a>
-                <span class="meta-divider">•</span>
-                <span class="meta-date">
-                  <i class="far fa-calendar"></i>
+                <span class="meta-sep">•</span>
+                <span class="meta-item-modern">
                   {{month}} {{date}}, {{year}}
                 </span>
-                <span class="meta-divider">•</span>
-                <span class="meta-read">
-                  <i class="far fa-clock"></i>
+              </div>
+              <div class="meta-right">
+                <span class="reading-time">
+                  <i class="fas fa-book-open"></i>
                   5 min read
                 </span>
               </div>
@@ -91,29 +92,32 @@
           </div>
         </div>
       </div>
-    </header>
+    </div>
 
     <div class="main-wrapper">
       <!-- Post Content -->
-      <article class="mb-5">
+      <article class="post-article">
         <div class="container px-4 px-lg-5">
           <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
-              <div class="post-content">{{posts.body|safe}}</div>
+              <div class="article-content">{{posts.body|safe}}</div>
 
               {% if current_user.id == 1 %}
-              <div class="post-actions">
+              <div class="admin-actions">
                 <a
-                  class="btn btn-primary"
+                  class="action-btn edit-btn"
                   href="{{url_for('edit_post', post_id=posts.id)}}"
                 >
-                  <i class="fas fa-edit"></i> Edit Post
+                  <i class="fas fa-pen"></i>
+                  <span>Edit Post</span>
                 </a>
                 <a
-                  class="btn btn-danger"
+                  class="action-btn delete-btn"
                   href="{{url_for('delete_post', post_id=posts.id)}}"
+                  onclick="return confirm('Are you sure you want to delete this post?');"
                 >
-                  <i class="fas fa-trash"></i> Delete Post
+                  <i class="fas fa-trash-alt"></i>
+                  <span>Delete Post</span>
                 </a>
               </div>
               {% endif %}
@@ -123,76 +127,84 @@
       </article>
 
       <!-- Comments Section -->
-      <section class="comments-section">
+      <section class="comments-modern">
         <div class="container px-4 px-lg-5">
           <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
-              <!-- Section Header -->
-              <div class="section-header">
-                <h3>
+              <!-- Comments Header -->
+              <div class="comments-header">
+                <h2>
                   <i class="fas fa-comments"></i>
-                  Comments {% if comments %}
-                  <span class="comment-count">{{comments|length}}</span>
+                  Discussion {% if comments %}
+                  <span class="comment-badge">{{comments|length}}</span>
                   {% endif %}
-                </h3>
+                </h2>
               </div>
 
-              <!-- Comment Form -->
-              <div class="terminal-window comment-box">
-                <div class="terminal-header">
-                  <div class="terminal-dots">
-                    <div class="terminal-dot red"></div>
-                    <div class="terminal-dot yellow"></div>
-                    <div class="terminal-dot green"></div>
-                  </div>
-                  <span class="terminal-title">
-                    <i class="fas fa-plus-circle"></i> Add Comment
-                  </span>
-                </div>
-                <div class="terminal-content">
-                  <form
-                    action="{{url_for('blogs', post_id=posts.id)}}"
-                    method="POST"
-                    class="comment-form"
-                  >
-                    {{render_form(form)}}
-                  </form>
-                </div>
+              <!-- Add Comment Form -->
+              <div class="add-comment-card">
+                <h3 class="form-title">
+                  <i class="fas fa-comment-dots"></i>
+                  Add Your Comment
+                </h3>
+                <form
+                  action="{{url_for('blogs', post_id=posts.id)}}"
+                  method="POST"
+                  class="modern-comment-form"
+                >
+                  {{render_form(form)}}
+                </form>
               </div>
 
               <!-- Comments List -->
-              {% if comments %} {% for comment in comments %}
-              <div class="comment-card">
-                <div class="comment-header">
-                  <div class="author-info">
+              {% if comments %}
+              <div class="comments-list">
+                {% for comment in comments %}
+                <div class="comment-item">
+                  <div class="comment-avatar-wrapper">
                     <img
-                      class="author-avatar"
-                      src="{{ gravatar_url(comment.user.email, 50) }}"
-                      alt="{{ comment.user.name }}"
+                      src="{{ gravatar_url(comment.user.email, size=60) }}"
+                      alt="{{ comment.user.name }}'s avatar"
+                      class="comment-avatar-img"
+                      onerror="this.src='https://www.gravatar.com/avatar?d=mp&s=60';"
                     />
-                    <div class="author-details">
-                      <strong>{{comment.user.name}}</strong>
-                      <span class="comment-time">Just now</span>
-                    </div>
                   </div>
-                  {% if current_user.is_authenticated and (current_user.id ==
-                  comment.user_id or current_user.id == 1) %}
-                  <a
-                    href="#"
-                    class="btn-delete-comment"
-                    onclick="return confirm('Are you sure you want to delete this comment?');"
-                    title="Delete comment"
-                  >
-                    <i class="fas fa-trash-alt"></i>
-                  </a>
-                  {% endif %}
+                  <div class="comment-body">
+                    <div class="comment-top">
+                      <div class="comment-author">
+                        <strong>{{comment.user.name}}</strong>
+                        <span class="comment-date">Just now</span>
+                      </div>
+                      {% if current_user.is_authenticated and (current_user.id
+                      == comment.user_id or current_user.id == 1) %}
+                      <form
+                        method="POST"
+                        action="{{url_for('delete_comment', comment_id=comment.id, post_id=comment.blog_id)}}"
+                        style="display: inline; margin: 0"
+                      >
+                        <button
+                          type="submit"
+                          class="delete-comment-btn"
+                          onclick="return confirm('Delete this comment?');"
+                          title="Delete comment"
+                        >
+                          <i class="fas fa-times"></i>
+                        </button>
+                      </form>
+                      {% endif %}
+                    </div>
+                    <div class="comment-content">{{comment.text|safe}}</div>
+                  </div>
                 </div>
-                <div class="comment-text">{{comment.text|safe}}</div>
+                {% endfor %}
               </div>
-              {% endfor %} {% else %}
-              <div class="no-comments">
-                <i class="fas fa-comment-slash"></i>
-                <p>No comments yet. Be the first to comment!</p>
+              {% else %}
+              <div class="no-comments-modern">
+                <div class="no-comments-icon">
+                  <i class="far fa-comments"></i>
+                </div>
+                <h4>Start the conversation</h4>
+                <p>Be the first to share what you think!</p>
               </div>
               {% endif %}
             </div>
@@ -209,211 +221,360 @@
     {{ckeditor.load()}} {{ckeditor.config()}}
 
     <style>
-      /* Clean Post Header */
-      .post-header-clean {
-        margin-bottom: 3rem;
-      }
-
-      /* Featured Image */
-      .featured-image-wrapper {
+      /* Hero Section */
+      .post-hero {
         width: 100%;
-        height: 450px;
-        overflow: hidden;
+        height: 60vh;
+        min-height: 500px;
         position: relative;
-        border-bottom: 3px solid var(--terminal-cyan);
+        overflow: hidden;
+        margin-bottom: 0;
       }
 
-      .featured-image {
+      .hero-image {
         width: 100%;
         height: 100%;
         background-size: cover;
         background-position: center;
-        background-repeat: no-repeat;
         position: relative;
       }
 
-      .image-overlay {
+      .hero-gradient {
         position: absolute;
-        top: 0;
+        bottom: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
+        right: 0;
+        height: 70%;
         background: linear-gradient(
-          to bottom,
-          rgba(0, 0, 0, 0.3) 0%,
-          rgba(0, 0, 0, 0.6) 100%
+          to top,
+          rgba(10, 14, 20, 0.95) 0%,
+          rgba(10, 14, 20, 0.7) 50%,
+          transparent 100%
         );
       }
 
-      /* Post Header Content */
-      .post-header-content {
-        padding: 3rem 0 2rem;
+      .hero-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 3rem 0;
       }
 
-      .post-category {
+      .hero-badge {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        background: rgba(0, 255, 65, 0.1);
+        background: rgba(0, 255, 65, 0.2);
         border: 1px solid var(--terminal-green);
         color: var(--terminal-green);
-        padding: 0.5rem 1rem;
-        border-radius: 6px;
-        font-size: 0.8rem;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
         font-weight: 600;
-        letter-spacing: 1px;
         text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 1.5rem;
+        backdrop-filter: blur(10px);
+      }
+
+      .hero-title {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 800;
+        line-height: 1.2;
+        color: #ffffff;
+        margin: 0;
+        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+      }
+
+      /* Post Info Bar */
+      .post-info-bar {
+        background: var(--terminal-bg-light);
+        border-bottom: 2px solid var(--terminal-border);
+        padding: 2rem 0;
+        position: relative;
+        z-index: 10;
+      }
+
+      .post-subtitle-modern {
+        font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+        line-height: 1.6;
+        color: var(--terminal-cyan);
+        font-weight: 400;
         margin-bottom: 1.5rem;
       }
 
-      .post-title-clean {
-        color: var(--terminal-green);
-        font-size: 2.8rem;
-        font-weight: 700;
-        line-height: 1.2;
-        margin-bottom: 1rem;
-      }
-
-      .post-subtitle-clean {
-        color: var(--terminal-cyan);
-        font-size: 1.4rem;
-        font-weight: 400;
-        line-height: 1.5;
-        margin-bottom: 2rem;
-        opacity: 0.95;
-      }
-
-      .post-meta-clean {
+      .post-meta-modern {
         display: flex;
+        justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
-        gap: 0.75rem;
-        color: var(--terminal-text-dim);
-        font-size: 0.95rem;
+        gap: 1rem;
         padding-top: 1.5rem;
         border-top: 1px solid var(--terminal-border);
       }
 
-      .meta-author {
+      .meta-left {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.95rem;
+      }
+
+      .author-link-modern {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
         color: var(--terminal-green);
         text-decoration: none;
         font-weight: 600;
         transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
       }
-
-      .meta-author:hover {
-        color: var(--terminal-cyan);
-      }
-
-      .meta-author i,
-      .meta-date i,
-      .meta-read i {
-        opacity: 0.7;
-      }
-
-      .meta-divider {
-        color: var(--terminal-border);
-      }
-
-      .meta-date,
-      .meta-read {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      /* Post Content */
-      .post-content {
-        font-size: 1.1rem;
-        line-height: 1.8;
-        color: var(--terminal-text);
-        margin-top: 3rem;
-      }
-
-      .post-content p {
+      .post-info-bar {
         margin-bottom: 1.5rem;
       }
 
-      .post-content h2,
-      .post-content h3 {
-        margin-top: 2.5rem;
-        margin-bottom: 1rem;
-        color: var(--terminal-green);
+      .author-link-modern:hover {
+        color: var(--terminal-cyan);
       }
 
-      .post-actions {
+      .author-link-modern i {
+        font-size: 1.2rem;
+      }
+
+      .meta-sep {
+        color: var(--terminal-text-dim);
+      }
+
+      .meta-item-modern {
+        color: var(--terminal-text-dim);
+      }
+
+      .meta-right {
+        display: flex;
+        align-items: center;
+      }
+
+      .reading-time {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--terminal-text-dim);
+        font-size: 0.9rem;
+      }
+
+      /* Article Content */
+      .post-article {
+        padding: 4rem 0 3rem;
+      }
+
+      .article-content {
+        font-size: clamp(1.05rem, 2vw, 1.15rem);
+        line-height: 1.8;
+        color: var(--terminal-text);
+      }
+
+      .article-content p {
+        margin-bottom: 1.75rem;
+      }
+
+      .article-content h2,
+      .article-content h3 {
+        color: var(--terminal-green);
         margin-top: 3rem;
-        padding-top: 2rem;
-        border-top: 2px solid var(--terminal-border);
+        margin-bottom: 1.25rem;
+        font-weight: 700;
+      }
+
+      .article-content h2 {
+        font-size: clamp(1.5rem, 3vw, 2rem);
+      }
+
+      .article-content h3 {
+        font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+      }
+
+      .article-content img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin: 2rem 0;
+      }
+      .post-article .container {
+        padding-left: 1.5rem; /* Matches .px-4 */
+        padding-right: 1.5rem;
+      }
+
+      /* If the card (article body) has an inner dark background, make sure it doesn’t shift */
+      .article-content {
+        background: var(--bs-dark); /* or your custom dark color */
+        border-radius: 10px;
+        padding: 2rem; /* nice internal spacing */
+        margin-left: 0; /* kills offset */
+        margin-right: 0;
+        box-sizing: border-box;
+      }
+
+      /* Fix any nested left padding from text blocks */
+      .article-content > * {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+      }
+
+      /* Keep the green stripe or code block style aligned */
+      .article-content pre,
+      .article-content blockquote {
+        margin-left: 0;
+        padding-left: 1rem;
+        border-left: 3px solid limegreen; /* adjust if you like that accent */
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 6px;
+      }
+
+      /* Optional: subtle shadow for card effect */
+      .article-content {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+      }
+
+      /* Admin Actions */
+      .admin-actions {
         display: flex;
         gap: 1rem;
+        margin-top: 3rem;
+        padding-top: 3rem;
+        border-top: 2px solid var(--terminal-border);
         flex-wrap: wrap;
       }
 
-      /* Comments Section */
-      .comments-section {
-        padding: 3rem 0;
-        margin-top: 2rem;
-      }
-
-      .section-header {
-        margin-bottom: 2rem;
-      }
-
-      .section-header h3 {
-        color: var(--terminal-green);
-        font-size: 1.8rem;
-        display: flex;
+      .action-btn {
+        display: inline-flex;
         align-items: center;
         gap: 0.75rem;
-        margin: 0;
-      }
-
-      .section-header i {
-        color: var(--terminal-cyan);
-      }
-
-      .comment-count {
-        background: rgba(0, 217, 255, 0.2);
-        color: var(--terminal-cyan);
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
-        font-size: 0.9rem;
-        border: 1px solid var(--terminal-cyan);
-      }
-
-      /* Comment Box */
-      .comment-box {
-        margin-bottom: 2.5rem;
-        box-shadow: 0 10px 40px rgba(0, 255, 65, 0.15);
-      }
-
-      .comment-form .form-label {
-        color: var(--terminal-green) !important;
+        padding: 0.75rem 1.75rem;
+        border-radius: 8px;
+        text-decoration: none;
         font-weight: 600;
-        font-size: 0.9rem;
-      }
-
-      .comment-form .form-control,
-      .comment-form textarea {
-        background: rgba(0, 0, 0, 0.3) !important;
-        border: 2px solid var(--terminal-border) !important;
-        color: var(--terminal-text) !important;
-        border-radius: 6px !important;
+        font-size: 0.95rem;
         transition: all 0.3s ease;
       }
 
-      .comment-form .form-control:focus,
-      .comment-form textarea:focus {
-        border-color: var(--terminal-cyan) !important;
-        box-shadow: 0 0 20px rgba(0, 217, 255, 0.3) !important;
+      .edit-btn {
+        background: rgba(0, 217, 255, 0.1);
+        border: 2px solid var(--terminal-cyan);
+        color: var(--terminal-cyan);
       }
 
-      .comment-form .btn-primary {
+      .edit-btn:hover {
+        background: rgba(0, 217, 255, 0.2);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 217, 255, 0.3);
+        color: var(--terminal-cyan);
+      }
+
+      .delete-btn {
+        background: rgba(255, 95, 87, 0.1);
+        border: 2px solid var(--terminal-red);
+        color: var(--terminal-red);
+      }
+
+      .delete-btn:hover {
+        background: rgba(255, 95, 87, 0.2);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(255, 95, 87, 0.3);
+        color: var(--terminal-red);
+      }
+
+      /* Comments Section */
+      .comments-modern {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 4rem 0;
+        border-top: 2px solid var(--terminal-border);
+      }
+
+      .comments-header {
+        margin-bottom: 2.5rem;
+      }
+
+      .comments-header h2 {
+        font-size: clamp(1.6rem, 3vw, 2rem);
+        font-weight: 700;
+        color: var(--terminal-green);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin: 0;
+        flex-wrap: wrap;
+      }
+
+      .comments-header i {
+        color: var(--terminal-cyan);
+      }
+
+      .comment-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.5rem;
+        height: 2.5rem;
+        background: rgba(0, 217, 255, 0.2);
+        color: var(--terminal-cyan);
+        border-radius: 50%;
+        font-size: 1rem;
+        font-weight: 700;
+        padding: 0 0.5rem;
+        border: 2px solid var(--terminal-cyan);
+      }
+
+      /* Add Comment Card */
+      .add-comment-card {
+        background: var(--terminal-bg-light);
+        border: 2px solid var(--terminal-border);
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 3rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .form-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--terminal-cyan);
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .modern-comment-form .form-label {
+        color: var(--terminal-green) !important;
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .modern-comment-form .form-control,
+      .modern-comment-form textarea {
+        background: rgba(0, 0, 0, 0.4) !important;
+        border: 2px solid var(--terminal-border) !important;
+        color: var(--terminal-text) !important;
+        border-radius: 8px !important;
+        padding: 0.75rem 1rem !important;
+        font-size: 1rem !important;
+        transition: all 0.3s ease;
+      }
+
+      .modern-comment-form .form-control:focus,
+      .modern-comment-form textarea:focus {
+        border-color: var(--terminal-cyan) !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.15) !important;
+        outline: none !important;
+      }
+
+      .modern-comment-form .btn-primary {
         margin-top: 1rem;
+        padding: 0.85rem 2rem;
+        font-weight: 600;
       }
 
       /* CKEditor Dark Theme */
@@ -421,277 +582,237 @@
         background: rgba(0, 0, 0, 0.4) !important;
         color: var(--terminal-text) !important;
         border: none !important;
-        min-height: 200px;
-      }
-
-      .ck.ck-editor__main > .ck-editor__editable:focus {
-        background: rgba(0, 0, 0, 0.5) !important;
-        box-shadow: none !important;
+        min-height: 150px;
+        border-radius: 0 0 8px 8px;
       }
 
       .ck.ck-toolbar {
         background: rgba(0, 0, 0, 0.5) !important;
         border: none !important;
-        border-bottom: 1px solid var(--terminal-border) !important;
+        border-bottom: 2px solid var(--terminal-border) !important;
+        border-radius: 8px 8px 0 0 !important;
       }
 
-      .ck.ck-button,
-      .ck.ck-dropdown__button {
+      .ck.ck-button {
         color: var(--terminal-text) !important;
-        background: transparent !important;
       }
 
-      .ck.ck-button:hover,
-      .ck.ck-dropdown__button:hover {
+      .ck.ck-button:hover {
         background: rgba(0, 255, 65, 0.2) !important;
       }
 
-      .ck.ck-button.ck-on,
-      .ck.ck-button.ck-on:hover {
-        background: rgba(0, 217, 255, 0.3) !important;
-        color: var(--terminal-cyan) !important;
+      /* Comments List */
+      .comments-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
       }
 
-      .ck.ck-dropdown__panel {
-        background: var(--terminal-bg-light) !important;
-        border: 1px solid var(--terminal-border) !important;
-      }
-
-      .ck.ck-list__item {
-        background: transparent !important;
-        color: var(--terminal-text) !important;
-      }
-
-      .ck.ck-list__item:hover {
-        background: rgba(0, 255, 65, 0.2) !important;
-      }
-
-      .ck.ck-list__item_active {
-        background: rgba(0, 217, 255, 0.3) !important;
-      }
-
-      .ck.ck-icon {
-        color: var(--terminal-text) !important;
-      }
-
-      .ck.ck-button:hover .ck-icon,
-      .ck.ck-button.ck-on .ck-icon {
-        color: var(--terminal-cyan) !important;
-      }
-
-      .ck.ck-editor__editable .ck-placeholder::before {
-        color: var(--terminal-text-dim) !important;
-      }
-
-      .ck.ck-editor__editable::-webkit-scrollbar {
-        width: 8px;
-      }
-
-      .ck.ck-editor__editable::-webkit-scrollbar-track {
-        background: rgba(0, 0, 0, 0.3);
-      }
-
-      .ck.ck-editor__editable::-webkit-scrollbar-thumb {
-        background: var(--terminal-cyan);
-        border-radius: 4px;
-      }
-
-      .ck.ck-editor__editable::-webkit-scrollbar-thumb:hover {
-        background: var(--terminal-green);
-      }
-
-      /* Comment Card */
-      .comment-card {
+      .comment-item {
+        display: flex;
+        gap: 1rem;
         background: var(--terminal-bg-light);
-        border: 1px solid var(--terminal-border);
-        border-left: 3px solid var(--terminal-cyan);
-        border-radius: 8px;
+        border: 2px solid var(--terminal-border);
+        border-left: 4px solid var(--terminal-cyan);
+        border-radius: 12px;
         padding: 1.5rem;
-        margin-bottom: 1.5rem;
         transition: all 0.3s ease;
       }
 
-      .comment-card:hover {
+      .comment-item:hover {
         border-left-color: var(--terminal-green);
-        transform: translateX(3px);
-        box-shadow: 0 5px 20px rgba(0, 255, 65, 0.1);
+        transform: translateX(5px);
+        box-shadow: 0 5px 25px rgba(0, 255, 65, 0.15);
       }
 
-      .comment-header {
+      .comment-avatar-wrapper {
+        flex-shrink: 0;
+      }
+
+      .comment-avatar-icon {
+        font-size: 3rem;
+        color: var(--terminal-cyan);
+      }
+
+      .comment-body {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .comment-top {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
         margin-bottom: 1rem;
-        padding-bottom: 0.75rem;
-        border-bottom: 1px solid var(--terminal-border);
+        gap: 1rem;
       }
 
-      .author-info {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-      }
-
-      .author-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        border: 2px solid var(--terminal-green);
-        object-fit: cover;
-        background-color: #1a1a1a;
-        flex-shrink: 0;
-      }
-
-      .author-details {
+      .comment-author {
         display: flex;
         flex-direction: column;
         gap: 0.25rem;
       }
 
-      .author-details strong {
+      .comment-author strong {
         color: var(--terminal-green);
-        font-size: 0.95rem;
+        font-size: 1.05rem;
       }
 
-      .comment-time {
+      .comment-date {
         color: var(--terminal-text-dim);
-        font-size: 0.8rem;
-      }
-
-      .btn-delete-comment {
-        background: transparent;
-        border: 1px solid rgba(255, 65, 54, 0.3);
-        color: #ff4136;
-        padding: 0.4rem 0.75rem;
-        border-radius: 6px;
         font-size: 0.85rem;
+      }
+
+      .delete-comment-btn {
+        background: transparent;
+        border: none;
+        color: var(--terminal-text-dim);
         cursor: pointer;
+        padding: 0.35rem 0.6rem;
+        border-radius: 6px;
         transition: all 0.3s ease;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
+        font-size: 1rem;
+        line-height: 1;
       }
 
-      .btn-delete-comment:hover {
-        background: rgba(255, 65, 54, 0.1);
-        border-color: #ff4136;
-        color: #ff6b63;
-        transform: translateY(-2px);
+      .delete-comment-btn:hover {
+        color: var(--terminal-red);
+        background: rgba(255, 95, 87, 0.15);
       }
 
-      .comment-text {
+      .comment-content {
         color: var(--terminal-text);
         line-height: 1.7;
-      }
-
-      .comment-text p {
-        margin-bottom: 0.5rem;
-      }
-
-      .comment-text p:last-child {
-        margin-bottom: 0;
-      }
-
-      /* No Comments */
-      .no-comments {
-        text-align: center;
-        padding: 3rem 2rem;
-        background: rgba(0, 0, 0, 0.1);
-        border: 1px dashed var(--terminal-border);
-        border-radius: 8px;
-        color: var(--terminal-text-dim);
-      }
-
-      .no-comments i {
-        font-size: 3rem;
-        opacity: 0.3;
-        margin-bottom: 1rem;
-        display: block;
-      }
-
-      .no-comments p {
-        margin: 0;
         font-size: 1rem;
       }
 
-      /* Animations */
-      .comment-card {
-        animation: fadeInUp 0.5s ease;
+      .comment-content p {
+        margin-bottom: 0.75rem;
       }
 
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      .comment-content p:last-child {
+        margin-bottom: 0;
       }
 
-      /* Responsive */
+      /* No Comments State */
+      .no-comments-modern {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: rgba(0, 0, 0, 0.2);
+        border: 2px dashed var(--terminal-border);
+        border-radius: 12px;
+      }
+
+      .no-comments-icon {
+        font-size: 4rem;
+        color: var(--terminal-cyan);
+        opacity: 0.3;
+        margin-bottom: 1.5rem;
+      }
+
+      .no-comments-modern h4 {
+        color: var(--terminal-green);
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .no-comments-modern p {
+        color: var(--terminal-text-dim);
+        font-size: 1rem;
+        margin: 0;
+      }
+      .comment-avatar-wrapper {
+        flex-shrink: 0;
+        margin-right: 1rem;
+      }
+
+      .comment-avatar-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: 2px solid var(--terminal-green, #00ff88);
+        object-fit: cover;
+        background-color: rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .comment-avatar-img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
+      }
+
+      /* Responsive Design */
       @media (max-width: 768px) {
-        .featured-image-wrapper {
-          height: 300px;
+        .post-hero {
+          height: 50vh;
+          min-height: 400px;
         }
 
-        .post-header-content {
-          padding: 2rem 0 1.5rem;
-        }
-
-        .post-title-clean {
-          font-size: 2rem;
-        }
-
-        .post-subtitle-clean {
-          font-size: 1.1rem;
-        }
-
-        .post-meta-clean {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 0.5rem;
-        }
-
-        .meta-divider {
-          display: none;
-        }
-
-        .comments-section {
+        .hero-content {
           padding: 2rem 0;
         }
 
-        .section-header h3 {
-          font-size: 1.5rem;
+        .post-info-bar {
+          padding: 1.5rem 0;
         }
 
-        .comment-card {
-          padding: 1.25rem;
-        }
-
-        .comment-header {
+        .post-meta-modern {
           flex-direction: column;
+          align-items: flex-start;
           gap: 0.75rem;
         }
 
-        .btn-delete-comment {
-          align-self: flex-end;
+        .post-article {
+          padding: 3rem 0 2rem;
         }
 
-        .post-actions {
+        .admin-actions {
           flex-direction: column;
         }
 
-        .post-actions .btn {
+        .action-btn {
           width: 100%;
+          justify-content: center;
+        }
+
+        .comments-modern {
+          padding: 3rem 0;
+        }
+
+        .add-comment-card {
+          padding: 1.5rem;
+        }
+
+        .comment-item {
+          padding: 1.25rem;
+        }
+
+        .comment-avatar-icon {
+          font-size: 2.5rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero-badge {
+          font-size: 0.75rem;
+          padding: 0.3rem 0.75rem;
+        }
+
+        .comment-item {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .comment-avatar-icon {
+          font-size: 2rem;
         }
       }
     </style>
 
     <script>
-      // Create particles
       function createParticles() {
         const particlesContainer = document.getElementById("particles");
         if (!particlesContainer) return;
@@ -710,7 +831,7 @@
       document.addEventListener("DOMContentLoaded", function () {
         createParticles();
 
-        // Force CKEditor Dark Theme
+        // CKEditor Dark Theme
         setTimeout(function () {
           const ckEditors = document.querySelectorAll(".ck-editor__editable");
           ckEditors.forEach((editor) => {
@@ -721,18 +842,10 @@
           const ckToolbars = document.querySelectorAll(".ck-toolbar");
           ckToolbars.forEach((toolbar) => {
             toolbar.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-            toolbar.style.borderColor = "#2a3441";
-          });
-
-          const ckButtons = document.querySelectorAll(
-            ".ck-button, .ck-dropdown__button",
-          );
-          ckButtons.forEach((button) => {
-            button.style.color = "#e0e6f0";
           });
         }, 500);
 
-        // Watch for CKEditor initialization
+        // Watch for CKEditor
         const observer = new MutationObserver(function (mutations) {
           mutations.forEach(function (mutation) {
             if (mutation.addedNodes.length) {
@@ -752,22 +865,8 @@
           subtree: true,
         });
 
-        // Form submission feedback
-        const commentForm = document.querySelector(".comment-form");
-        if (commentForm) {
-          commentForm.addEventListener("submit", function (e) {
-            const submitBtn = this.querySelector('button[type="submit"]');
-            if (submitBtn) {
-              const originalText = submitBtn.innerHTML;
-              submitBtn.innerHTML =
-                '<i class="fas fa-spinner fa-spin"></i> Posting...';
-              submitBtn.disabled = true;
-            }
-          });
-        }
-
         console.log(
-          "%c[POST]%c Page loaded successfully",
+          "%c[POST]%c Loaded successfully",
           "color: #00ff41; font-weight: bold;",
           "color: #00d9ff;",
         );

@@ -1,8 +1,10 @@
 import hashlib
+import os
 from datetime import datetime
 from functools import wraps
 from smtplib import SMTP
 
+from dotenv import load_dotenv
 from flask import Flask, abort, flash, redirect, render_template, request, url_for
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
@@ -26,6 +28,7 @@ from werkzeug import security
 
 from forms import CommentForm, ContactForm, LoginForm, NewPostForm, UserRegisterForm
 
+load_dotenv()
 app = Flask(__name__)
 bootstrap = Bootstrap5(app)
 ckeditor = CKEditor(app)
@@ -37,17 +40,18 @@ class Base(DeclarativeBase):
 
 
 db = SQLAlchemy(model_class=Base)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///posts.db"
-app.config["SECRET_KEY"] = "secret-key-goes-here"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DB_URI", "sqlite:///posts.db")
+app.config["SECRET_KEY"] = os.getenv("FlASK-KEY")
 db.init_app(app)
 login_manager.init_app(app)
 login_manager.login_view = "login"
 login_manager.login_message = "Please Login to access this content"
 
 
-username = "Enter email"
-password = "password"
-app.secret_key = "topsecret"
+username = os.getenv("EMAIL")
+password = os.getenv("PASSWORD")
+reciever_email = os.getenv("RECIEVER")
+app.secret_key = os.getenv("SECRET_KEY")
 
 
 class Users(UserMixin, db.Model):
@@ -210,7 +214,7 @@ def blogs(post_id):
         db.session.add(new_comment)
         db.session.commit()
 
-        return redirect(url_for("blogs"))
+        return redirect(url_for("blogs", post_id=blog_post.id))
 
     current_year = datetime.now().year
     current_month = datetime.now().strftime("%B")
@@ -312,6 +316,25 @@ def delete_post(post_id):
     db.session.delete(post)
     db.session.commit()
     return redirect(url_for("home"))
+
+
+@app.route("/delete_comment/<int:post_id>/<int:comment_id>", methods=["POST"])
+@login_required
+def delete_comment(comment_id, post_id):
+    comment = db.session.execute(
+        db.select(Comments).where(Comments.id == comment_id)
+    ).scalar()
+
+    if not comment:
+        abort(404)
+
+    if current_user.id != comment.user_id and current_user.id != 1:
+        abort(403)
+
+    db.session.delete(comment)
+    db.session.commit()
+
+    return redirect(url_for("blogs", post_id=post_id))
 
 
 if __name__ == "__main__":
