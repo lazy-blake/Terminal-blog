@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Blake's Terminal Blog</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{url_for('static', filename='assets/favicon.ico')}}"
+    />
+    <script
+      src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!-- Monospace font for terminal look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="{{url_for('static', filename='css/styles.css')}}"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Animated Background -->
+    <div class="bg-grid"></div>
+
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <div class="main-wrapper">
+      {% include "header.html"%}
+
+      <section class="hero-section">
+        <div class="terminal-window">
+          <div class="terminal-header">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">root@blog:~$</span>
+          </div>
+          <div class="terminal-content">
+            <h1 class="glitch-title">WELCOME_TO_TERMINAL</h1>
+            <p class="typing-text" id="typingText">
+              <span id="dynamicText"></span><span class="typing-cursor"></span>
+            </p>
+            <p
+              style="
+                color: var(--terminal-text-dim);
+                max-width: 600px;
+                margin: 0 auto;
+              "
+            >
+              A cyberpunk-themed developer blog where code meets creativity.
+              Explore cutting-edge tutorials, insights, and tech adventures.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Posts Section -->
+      <section class="posts-section">
+        <h2 class="section-title">Recent Posts</h2>
+
+        <div class="posts-grid">
+          {% for i in posts %}
+          <article class="post-card">
+            <div class="post-header">
+              <span class="post-icon">▸</span>
+              <span>FEATURED POST</span>
+            </div>
+            <h3 class="post-title">{{i.title}}</h3>
+            <p class="post-excerpt">{{i.subtitle}}</p>
+            <div class="post-meta">
+              <span class="post-author">{{i.author.name}}@terminal</span>
+              <span class="post-date">{{year}}-{{month}}-{{date}}</span>
+            </div>
+            <a href="{{url_for('blogs', post_id=i.id)}}" class="read-more"
+              >Read More →</a
+            >
+          </article>
+
+          {% endfor %} {% if current_user.id == 1%}
+          <div class="d-flex justify-content-end mb-4 mt-5">
+            <a
+              class="btn btn-primary text-uppercase"
+              href="{{url_for('new_post')}}"
+              >Create a New Post →</a
+            >
+          </div>
+          {% endif %}
+        </div>
+      </section>
+
+      {% include "footer.html"%}
+    </div>
+    <script>
+      // Create floating particles
+      function createParticles() {
+        const particlesContainer = document.getElementById("particles");
+        const particleCount = 30;
+
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement("div");
+          particle.className = "particle";
+          particle.style.left = Math.random() * 100 + "%";
+          particle.style.animationDelay = Math.random() * 10 + "s";
+          particle.style.animationDuration = Math.random() * 10 + 10 + "s";
+          particlesContainer.appendChild(particle);
+        }
+      }
+
+      // Typing animation
+      const phrases = [
+        "Innovating through code...",
+        "Breaking barriers with tech...",
+        "Exploring the digital frontier...",
+        "Where ideas become reality...",
+      ];
+
+      let phraseIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+
+      function typeText() {
+        const dynamicText = document.getElementById("dynamicText");
+        const currentPhrase = phrases[phraseIndex];
+
+        if (!isDeleting && charIndex < currentPhrase.length) {
+          dynamicText.textContent += currentPhrase.charAt(charIndex);
+          charIndex++;
+          setTimeout(typeText, 100);
+        } else if (isDeleting && charIndex > 0) {
+          dynamicText.textContent = currentPhrase.substring(0, charIndex - 1);
+          charIndex--;
+          setTimeout(typeText, 50);
+        } else {
+          isDeleting = !isDeleting;
+          if (!isDeleting) {
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+          }
+          setTimeout(typeText, isDeleting ? 1000 : 2000);
+        }
+      }
+
+      // Initialize animations
+      createParticles();
+      typeText();
+
+      // Add smooth scroll
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{url_for('static', filename='js/scripts.js')}}"></script>
+  </body>
+</html>

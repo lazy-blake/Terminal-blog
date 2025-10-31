@@ -1,0 +1,777 @@
+{% from 'bootstrap5/form.html' import render_form %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>{{posts.title}} - Terminal Blog</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{url_for('static', filename='assets/favicon.ico')}}"
+    />
+    <script
+      src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="{{url_for('static', filename='css/styles.css')}}"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Animated Background -->
+    <div class="bg-grid"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- Navigation -->
+    {% include "header.html"%}
+
+    <!-- Clean Modern Header -->
+    <header class="post-header-clean">
+      <!-- Featured Image Section -->
+      <div class="featured-image-wrapper">
+        <div
+          class="featured-image"
+          style='background-image: url("{{posts.img_url}}")'
+        >
+          <div class="image-overlay"></div>
+        </div>
+      </div>
+
+      <!-- Post Info Section -->
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="post-header-content">
+              <!-- Category Badge -->
+              <span class="post-category">
+                <i class="fas fa-terminal"></i> BLOG POST
+              </span>
+
+              <!-- Title -->
+              <h1 class="post-title-clean">{{posts.title}}</h1>
+
+              <!-- Subtitle -->
+              <p class="post-subtitle-clean">{{posts.subtitle}}</p>
+
+              <!-- Meta Info -->
+              <div class="post-meta-clean">
+                <a href="{{url_for('get_about')}}" class="meta-author">
+                  <i class="fas fa-user"></i>
+                  {{posts.author.name}}
+                </a>
+                <span class="meta-divider">•</span>
+                <span class="meta-date">
+                  <i class="far fa-calendar"></i>
+                  {{month}} {{date}}, {{year}}
+                </span>
+                <span class="meta-divider">•</span>
+                <span class="meta-read">
+                  <i class="far fa-clock"></i>
+                  5 min read
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="main-wrapper">
+      <!-- Post Content -->
+      <article class="mb-5">
+        <div class="container px-4 px-lg-5">
+          <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+              <div class="post-content">{{posts.body|safe}}</div>
+
+              {% if current_user.id == 1 %}
+              <div class="post-actions">
+                <a
+                  class="btn btn-primary"
+                  href="{{url_for('edit_post', post_id=posts.id)}}"
+                >
+                  <i class="fas fa-edit"></i> Edit Post
+                </a>
+                <a
+                  class="btn btn-danger"
+                  href="{{url_for('delete_post', post_id=posts.id)}}"
+                >
+                  <i class="fas fa-trash"></i> Delete Post
+                </a>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Comments Section -->
+      <section class="comments-section">
+        <div class="container px-4 px-lg-5">
+          <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+              <!-- Section Header -->
+              <div class="section-header">
+                <h3>
+                  <i class="fas fa-comments"></i>
+                  Comments {% if comments %}
+                  <span class="comment-count">{{comments|length}}</span>
+                  {% endif %}
+                </h3>
+              </div>
+
+              <!-- Comment Form -->
+              <div class="terminal-window comment-box">
+                <div class="terminal-header">
+                  <div class="terminal-dots">
+                    <div class="terminal-dot red"></div>
+                    <div class="terminal-dot yellow"></div>
+                    <div class="terminal-dot green"></div>
+                  </div>
+                  <span class="terminal-title">
+                    <i class="fas fa-plus-circle"></i> Add Comment
+                  </span>
+                </div>
+                <div class="terminal-content">
+                  <form
+                    action="{{url_for('blogs', post_id=posts.id)}}"
+                    method="POST"
+                    class="comment-form"
+                  >
+                    {{render_form(form)}}
+                  </form>
+                </div>
+              </div>
+
+              <!-- Comments List -->
+              {% if comments %} {% for comment in comments %}
+              <div class="comment-card">
+                <div class="comment-header">
+                  <div class="author-info">
+                    <img
+                      class="author-avatar"
+                      src="{{ gravatar_url(comment.user.email, 50) }}"
+                      alt="{{ comment.user.name }}"
+                    />
+                    <div class="author-details">
+                      <strong>{{comment.user.name}}</strong>
+                      <span class="comment-time">Just now</span>
+                    </div>
+                  </div>
+                  {% if current_user.is_authenticated and (current_user.id ==
+                  comment.user_id or current_user.id == 1) %}
+                  <a
+                    href="#"
+                    class="btn-delete-comment"
+                    onclick="return confirm('Are you sure you want to delete this comment?');"
+                    title="Delete comment"
+                  >
+                    <i class="fas fa-trash-alt"></i>
+                  </a>
+                  {% endif %}
+                </div>
+                <div class="comment-text">{{comment.text|safe}}</div>
+              </div>
+              {% endfor %} {% else %}
+              <div class="no-comments">
+                <i class="fas fa-comment-slash"></i>
+                <p>No comments yet. Be the first to comment!</p>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer -->
+    {% include "footer.html"%}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{url_for('static', filename='js/scripts.js')}}"></script>
+    {{ckeditor.load()}} {{ckeditor.config()}}
+
+    <style>
+      /* Clean Post Header */
+      .post-header-clean {
+        margin-bottom: 3rem;
+      }
+
+      /* Featured Image */
+      .featured-image-wrapper {
+        width: 100%;
+        height: 450px;
+        overflow: hidden;
+        position: relative;
+        border-bottom: 3px solid var(--terminal-cyan);
+      }
+
+      .featured-image {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+      }
+
+      .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.3) 0%,
+          rgba(0, 0, 0, 0.6) 100%
+        );
+      }
+
+      /* Post Header Content */
+      .post-header-content {
+        padding: 3rem 0 2rem;
+      }
+
+      .post-category {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(0, 255, 65, 0.1);
+        border: 1px solid var(--terminal-green);
+        color: var(--terminal-green);
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+      }
+
+      .post-title-clean {
+        color: var(--terminal-green);
+        font-size: 2.8rem;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+      }
+
+      .post-subtitle-clean {
+        color: var(--terminal-cyan);
+        font-size: 1.4rem;
+        font-weight: 400;
+        line-height: 1.5;
+        margin-bottom: 2rem;
+        opacity: 0.95;
+      }
+
+      .post-meta-clean {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        color: var(--terminal-text-dim);
+        font-size: 0.95rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--terminal-border);
+      }
+
+      .meta-author {
+        color: var(--terminal-green);
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .meta-author:hover {
+        color: var(--terminal-cyan);
+      }
+
+      .meta-author i,
+      .meta-date i,
+      .meta-read i {
+        opacity: 0.7;
+      }
+
+      .meta-divider {
+        color: var(--terminal-border);
+      }
+
+      .meta-date,
+      .meta-read {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      /* Post Content */
+      .post-content {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: var(--terminal-text);
+        margin-top: 3rem;
+      }
+
+      .post-content p {
+        margin-bottom: 1.5rem;
+      }
+
+      .post-content h2,
+      .post-content h3 {
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--terminal-green);
+      }
+
+      .post-actions {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 2px solid var(--terminal-border);
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      /* Comments Section */
+      .comments-section {
+        padding: 3rem 0;
+        margin-top: 2rem;
+      }
+
+      .section-header {
+        margin-bottom: 2rem;
+      }
+
+      .section-header h3 {
+        color: var(--terminal-green);
+        font-size: 1.8rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin: 0;
+      }
+
+      .section-header i {
+        color: var(--terminal-cyan);
+      }
+
+      .comment-count {
+        background: rgba(0, 217, 255, 0.2);
+        color: var(--terminal-cyan);
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        border: 1px solid var(--terminal-cyan);
+      }
+
+      /* Comment Box */
+      .comment-box {
+        margin-bottom: 2.5rem;
+        box-shadow: 0 10px 40px rgba(0, 255, 65, 0.15);
+      }
+
+      .comment-form .form-label {
+        color: var(--terminal-green) !important;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .comment-form .form-control,
+      .comment-form textarea {
+        background: rgba(0, 0, 0, 0.3) !important;
+        border: 2px solid var(--terminal-border) !important;
+        color: var(--terminal-text) !important;
+        border-radius: 6px !important;
+        transition: all 0.3s ease;
+      }
+
+      .comment-form .form-control:focus,
+      .comment-form textarea:focus {
+        border-color: var(--terminal-cyan) !important;
+        box-shadow: 0 0 20px rgba(0, 217, 255, 0.3) !important;
+      }
+
+      .comment-form .btn-primary {
+        margin-top: 1rem;
+      }
+
+      /* CKEditor Dark Theme */
+      .ck.ck-editor__main > .ck-editor__editable {
+        background: rgba(0, 0, 0, 0.4) !important;
+        color: var(--terminal-text) !important;
+        border: none !important;
+        min-height: 200px;
+      }
+
+      .ck.ck-editor__main > .ck-editor__editable:focus {
+        background: rgba(0, 0, 0, 0.5) !important;
+        box-shadow: none !important;
+      }
+
+      .ck.ck-toolbar {
+        background: rgba(0, 0, 0, 0.5) !important;
+        border: none !important;
+        border-bottom: 1px solid var(--terminal-border) !important;
+      }
+
+      .ck.ck-button,
+      .ck.ck-dropdown__button {
+        color: var(--terminal-text) !important;
+        background: transparent !important;
+      }
+
+      .ck.ck-button:hover,
+      .ck.ck-dropdown__button:hover {
+        background: rgba(0, 255, 65, 0.2) !important;
+      }
+
+      .ck.ck-button.ck-on,
+      .ck.ck-button.ck-on:hover {
+        background: rgba(0, 217, 255, 0.3) !important;
+        color: var(--terminal-cyan) !important;
+      }
+
+      .ck.ck-dropdown__panel {
+        background: var(--terminal-bg-light) !important;
+        border: 1px solid var(--terminal-border) !important;
+      }
+
+      .ck.ck-list__item {
+        background: transparent !important;
+        color: var(--terminal-text) !important;
+      }
+
+      .ck.ck-list__item:hover {
+        background: rgba(0, 255, 65, 0.2) !important;
+      }
+
+      .ck.ck-list__item_active {
+        background: rgba(0, 217, 255, 0.3) !important;
+      }
+
+      .ck.ck-icon {
+        color: var(--terminal-text) !important;
+      }
+
+      .ck.ck-button:hover .ck-icon,
+      .ck.ck-button.ck-on .ck-icon {
+        color: var(--terminal-cyan) !important;
+      }
+
+      .ck.ck-editor__editable .ck-placeholder::before {
+        color: var(--terminal-text-dim) !important;
+      }
+
+      .ck.ck-editor__editable::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .ck.ck-editor__editable::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.3);
+      }
+
+      .ck.ck-editor__editable::-webkit-scrollbar-thumb {
+        background: var(--terminal-cyan);
+        border-radius: 4px;
+      }
+
+      .ck.ck-editor__editable::-webkit-scrollbar-thumb:hover {
+        background: var(--terminal-green);
+      }
+
+      /* Comment Card */
+      .comment-card {
+        background: var(--terminal-bg-light);
+        border: 1px solid var(--terminal-border);
+        border-left: 3px solid var(--terminal-cyan);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .comment-card:hover {
+        border-left-color: var(--terminal-green);
+        transform: translateX(3px);
+        box-shadow: 0 5px 20px rgba(0, 255, 65, 0.1);
+      }
+
+      .comment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--terminal-border);
+      }
+
+      .author-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .author-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 2px solid var(--terminal-green);
+        object-fit: cover;
+        background-color: #1a1a1a;
+        flex-shrink: 0;
+      }
+
+      .author-details {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .author-details strong {
+        color: var(--terminal-green);
+        font-size: 0.95rem;
+      }
+
+      .comment-time {
+        color: var(--terminal-text-dim);
+        font-size: 0.8rem;
+      }
+
+      .btn-delete-comment {
+        background: transparent;
+        border: 1px solid rgba(255, 65, 54, 0.3);
+        color: #ff4136;
+        padding: 0.4rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .btn-delete-comment:hover {
+        background: rgba(255, 65, 54, 0.1);
+        border-color: #ff4136;
+        color: #ff6b63;
+        transform: translateY(-2px);
+      }
+
+      .comment-text {
+        color: var(--terminal-text);
+        line-height: 1.7;
+      }
+
+      .comment-text p {
+        margin-bottom: 0.5rem;
+      }
+
+      .comment-text p:last-child {
+        margin-bottom: 0;
+      }
+
+      /* No Comments */
+      .no-comments {
+        text-align: center;
+        padding: 3rem 2rem;
+        background: rgba(0, 0, 0, 0.1);
+        border: 1px dashed var(--terminal-border);
+        border-radius: 8px;
+        color: var(--terminal-text-dim);
+      }
+
+      .no-comments i {
+        font-size: 3rem;
+        opacity: 0.3;
+        margin-bottom: 1rem;
+        display: block;
+      }
+
+      .no-comments p {
+        margin: 0;
+        font-size: 1rem;
+      }
+
+      /* Animations */
+      .comment-card {
+        animation: fadeInUp 0.5s ease;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .featured-image-wrapper {
+          height: 300px;
+        }
+
+        .post-header-content {
+          padding: 2rem 0 1.5rem;
+        }
+
+        .post-title-clean {
+          font-size: 2rem;
+        }
+
+        .post-subtitle-clean {
+          font-size: 1.1rem;
+        }
+
+        .post-meta-clean {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.5rem;
+        }
+
+        .meta-divider {
+          display: none;
+        }
+
+        .comments-section {
+          padding: 2rem 0;
+        }
+
+        .section-header h3 {
+          font-size: 1.5rem;
+        }
+
+        .comment-card {
+          padding: 1.25rem;
+        }
+
+        .comment-header {
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .btn-delete-comment {
+          align-self: flex-end;
+        }
+
+        .post-actions {
+          flex-direction: column;
+        }
+
+        .post-actions .btn {
+          width: 100%;
+        }
+      }
+    </style>
+
+    <script>
+      // Create particles
+      function createParticles() {
+        const particlesContainer = document.getElementById("particles");
+        if (!particlesContainer) return;
+
+        const particleCount = 30;
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement("div");
+          particle.className = "particle";
+          particle.style.left = Math.random() * 100 + "%";
+          particle.style.animationDelay = Math.random() * 10 + "s";
+          particle.style.animationDuration = Math.random() * 10 + 10 + "s";
+          particlesContainer.appendChild(particle);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        createParticles();
+
+        // Force CKEditor Dark Theme
+        setTimeout(function () {
+          const ckEditors = document.querySelectorAll(".ck-editor__editable");
+          ckEditors.forEach((editor) => {
+            editor.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
+            editor.style.color = "#e0e6f0";
+          });
+
+          const ckToolbars = document.querySelectorAll(".ck-toolbar");
+          ckToolbars.forEach((toolbar) => {
+            toolbar.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+            toolbar.style.borderColor = "#2a3441";
+          });
+
+          const ckButtons = document.querySelectorAll(
+            ".ck-button, .ck-dropdown__button",
+          );
+          ckButtons.forEach((button) => {
+            button.style.color = "#e0e6f0";
+          });
+        }, 500);
+
+        // Watch for CKEditor initialization
+        const observer = new MutationObserver(function (mutations) {
+          mutations.forEach(function (mutation) {
+            if (mutation.addedNodes.length) {
+              const ckEditors = document.querySelectorAll(
+                ".ck-editor__editable",
+              );
+              ckEditors.forEach((editor) => {
+                editor.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
+                editor.style.color = "#e0e6f0";
+              });
+            }
+          });
+        });
+
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true,
+        });
+
+        // Form submission feedback
+        const commentForm = document.querySelector(".comment-form");
+        if (commentForm) {
+          commentForm.addEventListener("submit", function (e) {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            if (submitBtn) {
+              const originalText = submitBtn.innerHTML;
+              submitBtn.innerHTML =
+                '<i class="fas fa-spinner fa-spin"></i> Posting...';
+              submitBtn.disabled = true;
+            }
+          });
+        }
+
+        console.log(
+          "%c[POST]%c Page loaded successfully",
+          "color: #00ff41; font-weight: bold;",
+          "color: #00d9ff;",
+        );
+      });
+    </script>
+  </body>
+</html>

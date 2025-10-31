@@ -1,0 +1,1157 @@
+{% extends 'base.html' %} {% from "bootstrap5/form.html" import render_form %}
+{% block content %}
+
+<!-- Animated Background (same as index) -->
+<div class="bg-grid"></div>
+<div class="particles" id="particles"></div>
+
+{% include "header.html" %}
+
+<!-- Hero Header -->
+<section class="login-hero-section">
+  <div class="container">
+    <div class="terminal-window hero-terminal-compact">
+      <div class="terminal-header">
+        <div class="terminal-dots">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+        </div>
+        <span class="terminal-title">
+          <i class="fas fa-lock"></i> authentication.sh
+        </span>
+      </div>
+      <div class="terminal-content text-center">
+        <h1 class="glitch-title login-glitch">ACCESS_TERMINAL</h1>
+        <p class="login-subtitle">
+          <span id="loginTyping"></span><span class="typing-cursor"></span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="mb-5 login-main main-wrapper">
+  <div class="container">
+    <!-- Flash Messages (Full Width Above) -->
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <div class="row">
+      <div class="col-12">
+        <div class="terminal-window flash-message-panel">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <div class="terminal-dot red"></div>
+              <div class="terminal-dot yellow"></div>
+              <div class="terminal-dot green"></div>
+            </div>
+            <span class="terminal-title">
+              <i class="fas fa-info-circle"></i> system_message
+            </span>
+          </div>
+          <div class="terminal-content">
+            {% for message in messages %}
+            <div class="flash-message">
+              <i class="fas fa-exclamation-triangle"></i>
+              <span>{{ message }}</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %} {% endwith %}
+
+    <!-- Side by Side Layout -->
+    <div class="row justify-content-center align-items-start">
+      <!-- LEFT SIDE: Security Info -->
+      <div class="col-lg-4 col-md-5 mb-4 mb-lg-0">
+        <div class="terminal-window security-info">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <div class="terminal-dot red"></div>
+              <div class="terminal-dot yellow"></div>
+              <div class="terminal-dot green"></div>
+            </div>
+            <span class="terminal-title">
+              <i class="fas fa-shield-alt"></i> security.log
+            </span>
+          </div>
+          <div class="terminal-content security-content">
+            <div class="security-header">
+              <i class="fas fa-server"></i>
+              <span>SYSTEM STATUS</span>
+            </div>
+
+            <div class="security-item">
+              <i class="fas fa-lock"></i>
+              <div class="security-text">
+                <strong>256-bit SSL</strong>
+                <span>End-to-end encryption</span>
+              </div>
+            </div>
+
+            <div class="security-item">
+              <i class="fas fa-user-shield"></i>
+              <div class="security-text">
+                <strong>Secure Auth</strong>
+                <span>Protected credentials</span>
+              </div>
+            </div>
+
+            <div class="security-item">
+              <i class="fas fa-network-wired"></i>
+              <div class="security-text">
+                <strong>Firewall Active</strong>
+                <span>Threat protection enabled</span>
+              </div>
+            </div>
+
+            <div class="security-item">
+              <i class="fas fa-database"></i>
+              <div class="security-text">
+                <strong>Data Privacy</strong>
+                <span>GDPR compliant</span>
+              </div>
+            </div>
+
+            <div class="security-divider"></div>
+
+            <div class="security-stats">
+              <div class="stat-item">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                  <strong>99.9%</strong>
+                  <span>Uptime</span>
+                </div>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-users"></i>
+                <div>
+                  <strong>10K+</strong>
+                  <span>Active Users</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="security-footer">
+              <i
+                class="fas fa-circle status-pulse"
+                style="font-size: 0.6rem"
+              ></i>
+              <span>All systems operational</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE: Login Form -->
+      <div class="col-lg-6 col-md-7">
+        <div class="terminal-window login-terminal">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <div class="terminal-dot red"></div>
+              <div class="terminal-dot yellow"></div>
+              <div class="terminal-dot green"></div>
+            </div>
+            <span class="terminal-title">
+              <i class="fas fa-sign-in-alt"></i> login.sh
+            </span>
+            <div class="terminal-actions">
+              <span class="terminal-status">
+                <i class="fas fa-circle status-pulse"></i>
+                READY
+              </span>
+            </div>
+          </div>
+
+          <div class="terminal-content login-content">
+            <!-- Command Prompt -->
+            <div class="command-prompt-box">
+              <div class="prompt-line-login">
+                <span class="prompt-user">root@blog</span>
+                <span class="prompt-separator">:</span>
+                <span class="prompt-path">~/auth</span>
+                <span class="prompt-symbol">$</span>
+                <span class="prompt-command">./login.sh --secure</span>
+              </div>
+              <div class="prompt-output-login">
+                <span style="color: var(--terminal-cyan)">[AUTH]</span>
+                Initializing secure authentication protocol...
+              </div>
+            </div>
+
+            <!-- Login Form -->
+            <form action="{{url_for('login')}}" method="POST" id="loginForm">
+              {{ form.csrf_token }}
+
+              <!-- Email Field -->
+              <div class="login-field-group">
+                <div class="field-label-login">
+                  <span class="field-icon-login">▸</span>
+                  <label for="{{ form.email.id }}">EMAIL_ADDRESS</label>
+                </div>
+                <div class="input-wrapper-login">
+                  <i class="fas fa-envelope input-icon-left"></i>
+                  {{ form.email(class="form-control login-input",
+                  placeholder="user@terminal.dev", autocomplete="email") }}
+                  <div class="input-border-glow"></div>
+                </div>
+                {% if form.email.errors %}
+                <div class="field-error-login">
+                  <i class="fas fa-times-circle"></i>
+                  {% for error in form.email.errors %} {{ error }} {% endfor %}
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- Password Field -->
+              <div class="login-field-group">
+                <div class="field-label-login">
+                  <span class="field-icon-login">▸</span>
+                  <label for="{{ form.password.id }}">PASSWORD</label>
+                </div>
+                <div class="input-wrapper-login">
+                  <i class="fas fa-lock input-icon-left"></i>
+                  {{ form.password(class="form-control login-input",
+                  placeholder="••••••••", autocomplete="current-password") }}
+                  <button
+                    type="button"
+                    class="toggle-password"
+                    id="togglePassword"
+                  >
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <div class="input-border-glow"></div>
+                </div>
+                {% if form.password.errors %}
+                <div class="field-error-login">
+                  <i class="fas fa-times-circle"></i>
+                  {% for error in form.password.errors %} {{ error }} {% endfor
+                  %}
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- Remember Me -->
+              {% if form.remember %}
+              <div class="login-field-group remember-group">
+                <label class="remember-label">
+                  {{ form.remember(class="remember-checkbox") }}
+                  <span class="remember-text">
+                    <i class="fas fa-save"></i>
+                    Remember this session
+                  </span>
+                </label>
+              </div>
+              {% endif %}
+
+              <!-- Action Bar -->
+              <div class="login-action-bar">
+                <div class="terminal-prompt-mini">
+                  <span style="color: var(--terminal-yellow)">$</span>
+                  <span id="loginStatus">Ready for authentication</span>
+                </div>
+                <button type="submit" class="btn-login-primary" id="loginBtn">
+                  <i class="fas fa-terminal"></i>
+                  <span>Execute Login</span>
+                  <div class="btn-glow"></div>
+                </button>
+              </div>
+
+              <!-- Alternative Actions -->
+              <div class="alt-actions">
+                <a href="#" class="alt-link">
+                  <i class="fas fa-key"></i>
+                  Forgot password?
+                </a>
+                <span class="alt-separator">•</span>
+                <a href="{{ url_for('register') }}" class="alt-link">
+                  <i class="fas fa-user-plus"></i>
+                  Create account
+                </a>
+              </div>
+            </form>
+
+            <!-- Loading Indicator -->
+            <div id="loginLoading" class="login-loading">
+              <div class="loading-spinner"></div>
+              <div class="loading-text">
+                <span id="loadingStage">Authenticating...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+{% include "footer.html" %} {% endblock %} {% block scripts %} {{ super() }}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Create floating particles (same as index)
+    function createParticles() {
+      const particlesContainer = document.getElementById("particles");
+      if (!particlesContainer) return;
+
+      const particleCount = 30;
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement("div");
+        particle.className = "particle";
+        particle.style.left = Math.random() * 100 + "%";
+        particle.style.animationDelay = Math.random() * 10 + "s";
+        particle.style.animationDuration = Math.random() * 10 + 10 + "s";
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    createParticles();
+
+    // Typing animation
+    const loginPhrases = [
+      "Welcome back, developer...",
+      "Enter your credentials...",
+      "Secure access required...",
+      "Authentication protocol active...",
+    ];
+
+    let phraseIdx = 0;
+    let charIdx = 0;
+    let isDeleting = false;
+
+    function typeLoginText() {
+      const elem = document.getElementById("loginTyping");
+      if (!elem) return;
+
+      const current = loginPhrases[phraseIdx];
+
+      if (!isDeleting && charIdx < current.length) {
+        elem.textContent += current.charAt(charIdx);
+        charIdx++;
+        setTimeout(typeLoginText, 80);
+      } else if (isDeleting && charIdx > 0) {
+        elem.textContent = current.substring(0, charIdx - 1);
+        charIdx--;
+        setTimeout(typeLoginText, 40);
+      } else {
+        isDeleting = !isDeleting;
+        if (!isDeleting) {
+          phraseIdx = (phraseIdx + 1) % loginPhrases.length;
+        }
+        setTimeout(typeLoginText, isDeleting ? 1000 : 2000);
+      }
+    }
+
+    typeLoginText();
+
+    // Toggle password visibility
+    const toggleBtn = document.getElementById("togglePassword");
+    const passwordField = document.querySelector('input[type="password"]');
+
+    if (toggleBtn && passwordField) {
+      toggleBtn.addEventListener("click", function () {
+        const type = passwordField.type === "password" ? "text" : "password";
+        passwordField.type = type;
+
+        const icon = this.querySelector("i");
+        if (type === "password") {
+          icon.classList.remove("fa-eye-slash");
+          icon.classList.add("fa-eye");
+        } else {
+          icon.classList.remove("fa-eye");
+          icon.classList.add("fa-eye-slash");
+        }
+      });
+    }
+
+    // Form submission
+    const form = document.getElementById("loginForm");
+    const loginBtn = document.getElementById("loginBtn");
+    const loginLoading = document.getElementById("loginLoading");
+    const loginStatus = document.getElementById("loginStatus");
+    const loadingStage = document.getElementById("loadingStage");
+
+    if (form && loginBtn && loginLoading) {
+      form.addEventListener("submit", function (e) {
+        loginLoading.style.display = "flex";
+        loginBtn.disabled = true;
+        loginStatus.innerHTML =
+          '<span style="color: var(--terminal-green);">$</span> Executing authentication...';
+
+        // Simulated stages
+        const stages = [
+          "Verifying credentials...",
+          "Establishing secure session...",
+          "Granting access...",
+        ];
+
+        let stage = 0;
+        const interval = setInterval(() => {
+          if (stage < stages.length) {
+            loadingStage.textContent = stages[stage];
+            stage++;
+          } else {
+            clearInterval(interval);
+          }
+        }, 600);
+      });
+    }
+
+    // Input focus effects
+    const inputs = document.querySelectorAll(".login-input");
+    inputs.forEach((input) => {
+      input.addEventListener("focus", function () {
+        this.closest(".input-wrapper-login").classList.add("focused");
+      });
+
+      input.addEventListener("blur", function () {
+        this.closest(".input-wrapper-login").classList.remove("focused");
+      });
+    });
+
+    // Keyboard shortcut - Enter to submit
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" && document.activeElement.tagName === "INPUT") {
+        e.preventDefault();
+        form.submit();
+      }
+    });
+
+    console.log(
+      "%c[AUTH]%c Login system initialized",
+      "color: #00ff41; font-weight: bold;",
+      "color: #00d9ff;",
+    );
+  });
+</script>
+
+<style>
+  .login-hero-section {
+    padding: 2.5rem 0 1.5rem;
+  }
+
+  .hero-terminal-compact {
+    box-shadow: 0 10px 40px rgba(0, 255, 65, 0.25);
+    animation: heroFloat 6s ease-in-out infinite;
+  }
+
+  @keyframes heroFloat {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  .login-glitch {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .login-subtitle {
+    font-size: 1rem;
+    min-height: 1.5rem;
+    color: var(--terminal-text-dim);
+  }
+
+  .login-main {
+    padding: 2rem 0;
+  }
+
+  /* Flash Messages */
+  .flash-message-panel {
+    margin-bottom: 1.5rem;
+    animation: slideDown 0.5s ease;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .flash-message {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: rgba(255, 107, 0, 0.1);
+    border-left: 3px solid var(--terminal-red);
+    color: var(--terminal-red);
+    border-radius: 4px;
+  }
+
+  .flash-message i {
+    font-size: 1.2rem;
+  }
+
+  /* Security Info - LEFT SIDE */
+  .security-info {
+    animation: fadeInLeft 0.6s ease;
+    box-shadow: 0 10px 40px rgba(0, 255, 65, 0.2);
+    position: sticky;
+    top: 100px;
+  }
+
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .security-content {
+    padding: 1.5rem;
+  }
+
+  .security-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: rgba(0, 255, 65, 0.1);
+    border: 1px solid var(--terminal-green);
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    color: var(--terminal-green);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .security-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--terminal-border);
+    border-left: 3px solid var(--terminal-cyan);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+  }
+
+  .security-item:hover {
+    transform: translateX(5px);
+    border-left-color: var(--terminal-green);
+    background: rgba(0, 255, 65, 0.05);
+  }
+
+  .security-item i {
+    color: var(--terminal-cyan);
+    font-size: 1.2rem;
+    width: 24px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .security-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .security-text strong {
+    color: var(--terminal-text);
+    font-size: 0.9rem;
+  }
+
+  .security-text span {
+    color: var(--terminal-text-dim);
+    font-size: 0.8rem;
+  }
+
+  .security-divider {
+    height: 2px;
+    background: var(--terminal-border);
+    margin: 1.5rem 0;
+    opacity: 0.5;
+  }
+
+  .security-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: rgba(0, 217, 255, 0.1);
+    border: 1px solid var(--terminal-cyan);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+  }
+
+  .stat-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--glow-cyan);
+  }
+
+  .stat-item i {
+    color: var(--terminal-cyan);
+    font-size: 1.5rem;
+  }
+
+  .stat-item div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-item strong {
+    color: var(--terminal-green);
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  .stat-item span {
+    color: var(--terminal-text-dim);
+    font-size: 0.75rem;
+  }
+
+  .security-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    padding: 0.75rem;
+    background: rgba(0, 255, 65, 0.05);
+    border-radius: 6px;
+    color: var(--terminal-text-dim);
+    font-size: 0.85rem;
+  }
+
+  .status-pulse {
+    animation: pulse 2s infinite;
+    color: var(--terminal-green);
+  }
+
+  /* Login Terminal - RIGHT SIDE */
+  .login-terminal {
+    box-shadow: 0 10px 50px rgba(0, 217, 255, 0.3);
+    animation: fadeInRight 0.6s ease;
+  }
+
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .login-content {
+    padding: 2rem;
+  }
+
+  /* Command Prompt Box */
+  .command-prompt-box {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--terminal-border);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.85rem;
+  }
+
+  .prompt-line-login {
+    margin-bottom: 0.5rem;
+  }
+
+  .prompt-user {
+    color: var(--terminal-green);
+  }
+  .prompt-separator {
+    color: var(--terminal-text-dim);
+  }
+  .prompt-path {
+    color: var(--terminal-cyan);
+  }
+  .prompt-symbol {
+    color: var(--terminal-text-dim);
+  }
+  .prompt-command {
+    color: var(--terminal-yellow);
+  }
+
+  .prompt-output-login {
+    font-size: 0.8rem;
+    color: var(--terminal-text-dim);
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--terminal-border);
+    margin-top: 0.5rem;
+  }
+
+  /* Login Fields */
+  .login-field-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .field-label-login {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .field-icon-login {
+    color: var(--terminal-yellow);
+  }
+
+  .field-label-login label {
+    color: var(--terminal-green);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    margin: 0;
+  }
+
+  .input-wrapper-login {
+    position: relative;
+  }
+
+  .input-icon-left {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--terminal-text-dim);
+    z-index: 1;
+    transition: all 0.3s ease;
+  }
+
+  .login-input {
+    background: rgba(0, 0, 0, 0.3) !important;
+    border: 2px solid var(--terminal-border) !important;
+    color: var(--terminal-text) !important;
+    padding: 0.75rem 1rem 0.75rem 2.75rem !important;
+    border-radius: 8px !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 0.9rem !important;
+    transition: all 0.3s ease !important;
+    width: 100%;
+  }
+
+  .login-input:focus {
+    border-color: var(--terminal-cyan) !important;
+    box-shadow: 0 0 25px rgba(0, 217, 255, 0.4) !important;
+    outline: none !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .input-wrapper-login.focused .input-icon-left {
+    color: var(--terminal-cyan);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .input-wrapper-login.focused .input-border-glow {
+    opacity: 1;
+  }
+
+  .input-border-glow {
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(
+      45deg,
+      var(--terminal-cyan),
+      var(--terminal-green)
+    );
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: -1;
+    filter: blur(8px);
+  }
+
+  /* Toggle Password Button */
+  .toggle-password {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--terminal-text-dim);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1;
+  }
+
+  .toggle-password:hover {
+    color: var(--terminal-cyan);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  /* Remember Me */
+  .remember-group {
+    margin: 1.5rem 0;
+  }
+
+  .remember-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    padding: 0.75rem;
+    background: rgba(0, 217, 255, 0.05);
+    border: 1px solid var(--terminal-border);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    margin: 0;
+  }
+
+  .remember-label:hover {
+    background: rgba(0, 217, 255, 0.1);
+    border-color: var(--terminal-cyan);
+  }
+
+  .remember-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--terminal-cyan);
+    cursor: pointer;
+  }
+
+  .remember-text {
+    color: var(--terminal-text-dim);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Field Errors */
+  .field-error-login {
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 107, 0, 0.1);
+    border-left: 3px solid var(--terminal-red);
+    color: var(--terminal-red);
+    font-size: 0.85rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: shake 0.5s ease;
+  }
+
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-8px);
+    }
+    75% {
+      transform: translateX(8px);
+    }
+  }
+
+  /* Action Bar */
+  .login-action-bar {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--terminal-border);
+  }
+
+  .terminal-prompt-mini {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8rem;
+    color: var(--terminal-text-dim);
+    margin-bottom: 1rem;
+  }
+
+  .btn-login-primary {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(
+      135deg,
+      var(--terminal-cyan),
+      var(--terminal-green)
+    );
+    color: #0a0e27;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-login-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 255, 65, 0.5);
+  }
+
+  .btn-login-primary:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  .btn-login-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .btn-glow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transform: translateX(-100%);
+  }
+
+  .btn-login-primary:hover:not(:disabled) .btn-glow {
+    animation: btnGlowSlide 1.5s ease infinite;
+  }
+
+  @keyframes btnGlowSlide {
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Alternative Actions */
+  .alt-actions {
+    margin-top: 1.5rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .alt-link {
+    color: var(--terminal-cyan);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .alt-link:hover {
+    color: var(--terminal-green);
+    text-decoration: underline;
+  }
+
+  .alt-separator {
+    color: var(--terminal-text-dim);
+  }
+
+  /* Loading Indicator */
+  .login-loading {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding: 2rem;
+    background: rgba(0, 217, 255, 0.05);
+    border: 2px solid var(--terminal-cyan);
+    border-radius: 8px;
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--terminal-border);
+    border-top-color: var(--terminal-cyan);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .loading-text {
+    color: var(--terminal-cyan);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 991px) {
+    .security-info {
+      position: relative;
+      top: 0;
+    }
+
+    .row.justify-content-center.align-items-start {
+      flex-direction: column-reverse;
+    }
+
+    .col-lg-4,
+    .col-lg-6 {
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .login-glitch {
+      font-size: 1.8rem;
+    }
+
+    .login-content {
+      padding: 1.5rem;
+    }
+
+    .login-input {
+      font-size: 16px !important; /* Prevent zoom on iOS */
+    }
+
+    .alt-actions {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .alt-separator {
+      display: none;
+    }
+
+    .security-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .command-prompt-box {
+      font-size: 0.75rem;
+      padding: 0.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .login-hero-section {
+      padding: 2rem 0 1rem;
+    }
+
+    .hero-terminal-compact .terminal-content {
+      padding: 1.5rem;
+    }
+
+    .login-glitch {
+      font-size: 1.5rem;
+    }
+
+    .security-item {
+      padding: 0.75rem;
+    }
+
+    .security-text strong {
+      font-size: 0.85rem;
+    }
+
+    .stat-item {
+      padding: 0.75rem;
+    }
+
+    .stat-item strong {
+      font-size: 1rem;
+    }
+  }
+
+  /* Smooth animations */
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  /* Terminal dots styling */
+  .terminal-dots {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .terminal-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .terminal-dot.red {
+    background: #ff5f57;
+  }
+
+  .terminal-dot.yellow {
+    background: #febc2e;
+  }
+
+  .terminal-dot.green {
+    background: #28c840;
+  }
+
+  /* Terminal actions */
+  .terminal-actions {
+    margin-left: auto;
+  }
+
+  .terminal-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--terminal-green);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  /* Additional hover effects */
+  .terminal-window {
+    transition: all 0.3s ease;
+  }
+
+  .terminal-window:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Focus visible for accessibility */
+  *:focus-visible {
+    outline: 2px solid var(--terminal-cyan);
+    outline-offset: 2px;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+</style>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+<!-- Navigation-->
+<nav class="navbar">
+  <div class="navbar-container">
+    <a href="{{url_for('home')}}" class="navbar-brand">TERMINAL.BLOG</a>
+    <ul class="nav-menu">
+      <li><a href="{{url_for('home')}}" class="nav-link">Home</a></li>
+      <li><a href="{{url_for('get_about')}}" class="nav-link">About</a></li>
+      <li><a href="{{url_for('get_contact')}}" class="nav-link">Contact</a></li>
+      {% if not current_user.is_authenticated %}
+      <li><a href="{{url_for('login')}}" class="nav-link">LogIn</a></li>
+      <li><a href="{{url_for('register')}}" class="nav-link">Register</a></li>
+      {% else %}
+      <li><a href="{{url_for('logout')}}" class="nav-link">LogOut</a></li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>

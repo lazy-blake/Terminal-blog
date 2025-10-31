@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>About - Terminal Blog</title>
+    <link rel="icon" type="image/x-icon" href="static/assets/favicon.ico" />
+    <script
+      src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link href="static/css/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- Animated Background -->
+    <div class="bg-grid"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- Navigation-->
+    {% include "header.html"%}
+
+    <!-- Animated Hero Header -->
+    <section class="about-hero-section">
+      <div class="container">
+        <div class="terminal-window hero-terminal-about">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <div class="terminal-dot red"></div>
+              <div class="terminal-dot yellow"></div>
+              <div class="terminal-dot green"></div>
+            </div>
+            <span class="terminal-title">
+              <i class="fas fa-user-circle"></i> whoami.sh
+            </span>
+          </div>
+          <div class="terminal-content text-center">
+            <div class="hero-command-line">
+              <span style="color: var(--terminal-green)">root@blog</span>
+              <span style="color: var(--terminal-text-dim)">:</span>
+              <span style="color: var(--terminal-cyan)">~</span>
+              <span style="color: var(--terminal-text-dim)">#</span>
+              <span style="color: var(--terminal-yellow)"> ./whoami.sh</span>
+            </div>
+            <p><h1 class="glitch-title about-glitch">ABOUT_ME</h1></p>
+            <p class="about-subtitle">
+              <span id="aboutTyping"></span><span class="typing-cursor"></span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content-->
+    <main class="mb-4 about-main main-wrapper">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <!-- Profile Terminal -->
+            <div class="terminal-window profile-window">
+              <div class="terminal-header">
+                <div class="terminal-dots">
+                  <div class="terminal-dot red"></div>
+                  <div class="terminal-dot yellow"></div>
+                  <div class="terminal-dot green"></div>
+                </div>
+                <span class="terminal-title">
+                  <i class="fas fa-user-circle"></i> profile.sh
+                </span>
+              </div>
+              <div class="terminal-content">
+                <div class="about-prompt">
+                  <span class="prompt-user">visitor@blog</span>
+                  <span class="prompt-separator">:</span>
+                  <span class="prompt-path">~/about</span>
+                  <span class="prompt-symbol">$</span>
+                  <span class="prompt-command">cat profile.txt</span>
+                </div>
+
+                <div class="about-content-text">
+                  <p>
+                    Hey there! I'm a passionate developer who loves turning
+                    complex problems into elegant solutions. My journey in tech
+                    started with a curiosity about how things work under the
+                    hood, and that curiosity has evolved into a deep passion for
+                    building innovative software that makes a difference.
+                  </p>
+                  <p>
+                    I specialize in advanced python development with a focus on
+                    Flask, and modern web technologies. Whether it's crafting
+                    automated stuffs, designing robust backend systems, or
+                    optimizing database queries, I'm always eager to learn and
+                    push the boundaries of what's possible.
+                  </p>
+                  <p>
+                    When I'm not coding, you'll find me exploring new
+                    technologies, contributing to open-source projects, or
+                    sharing knowledge with the developer community. This blog is
+                    my space to document my journey, share insights, and connect
+                    with fellow developers.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Skills Terminal -->
+            <div class="terminal-window skills-window">
+              <div class="terminal-header">
+                <div class="terminal-dots">
+                  <div class="terminal-dot red"></div>
+                  <div class="terminal-dot yellow"></div>
+                  <div class="terminal-dot green"></div>
+                </div>
+                <span class="terminal-title">
+                  <i class="fas fa-code"></i> skills.log
+                </span>
+              </div>
+              <div class="terminal-content">
+                <div class="about-prompt">
+                  <span class="prompt-user">visitor@blog</span>
+                  <span class="prompt-separator">:</span>
+                  <span class="prompt-path">~/skills</span>
+                  <span class="prompt-symbol">$</span>
+                  <span class="prompt-command">ls -la</span>
+                </div>
+
+                <div class="skills-grid">
+                  <div class="skill-item">
+                    <div class="skill-icon">
+                      <i class="fab fa-python"></i>
+                    </div>
+                    <div class="skill-info">
+                      <span class="skill-name">Python</span>
+                      <div class="skill-bar">
+                        <div class="skill-progress" style="width: 95%"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="skill-item">
+                    <div class="skill-icon">
+                      <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="skill-info">
+                      <span class="skill-name">Flask</span>
+                      <div class="skill-bar">
+                        <div class="skill-progress" style="width: 90%"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="skill-item">
+                    <div class="skill-icon">
+                      <i class="fas fa-database"></i>
+                    </div>
+                    <div class="skill-info">
+                      <span class="skill-name">SQLite & PostgreSQL</span>
+                      <div class="skill-bar">
+                        <div class="skill-progress" style="width: 85%"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="skill-item">
+                    <div class="skill-icon">
+                      <i class="fab fa-docker"></i>
+                    </div>
+                    <div class="skill-info">
+                      <span class="skill-name">Docker</span>
+                      <div class="skill-bar">
+                        <div class="skill-progress" style="width: 70%"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stats Terminal -->
+            <div class="terminal-window stats-window">
+              <div class="terminal-header">
+                <div class="terminal-dots">
+                  <div class="terminal-dot red"></div>
+                  <div class="terminal-dot yellow"></div>
+                  <div class="terminal-dot green"></div>
+                </div>
+                <span class="terminal-title">
+                  <i class="fas fa-chart-bar"></i> stats.json
+                </span>
+              </div>
+              <div class="terminal-content">
+                <div class="stats-grid">
+                  <div class="stat-card">
+                    <div class="stat-icon">
+                      <i class="fas fa-file-code"></i>
+                    </div>
+                    <div class="stat-value">50+</div>
+                    <div class="stat-label">Projects</div>
+                  </div>
+
+                  <div class="stat-card">
+                    <div class="stat-icon">
+                      <i class="fas fa-coffee"></i>
+                    </div>
+                    <div class="stat-value">1000+</div>
+                    <div class="stat-label">Cups of Coffee</div>
+                  </div>
+
+                  <div class="stat-card">
+                    <div class="stat-icon">
+                      <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-value">5+</div>
+                    <div class="stat-label">Years Coding</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Contact Info Terminal -->
+            <div class="terminal-window contact-window">
+              <div class="terminal-header">
+                <div class="terminal-dots">
+                  <div class="terminal-dot red"></div>
+                  <div class="terminal-dot yellow"></div>
+                  <div class="terminal-dot green"></div>
+                </div>
+                <span class="terminal-title">
+                  <i class="fas fa-address-card"></i> contact.info
+                </span>
+              </div>
+              <div class="terminal-content">
+                <div class="contact-grid">
+                  <a href="https://github.com/lazy-blake" class="contact-link">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                  </a>
+                  <a href="#" class="contact-link">
+                    <i class="fab fa-twitter"></i>
+                    <span>Twitter</span>
+                  </a>
+                  <a href="#" class="contact-link">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer-->
+    {% include "footer.html"%}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/scripts.js"></script>
+
+    <style>
+      /* Hero Section Styles */
+      .about-hero-section {
+        padding: 2.5rem 0 1.5rem;
+        position: relative;
+        z-index: 10;
+      }
+
+      .hero-terminal-about {
+        box-shadow: 0 10px 40px rgba(0, 255, 65, 0.25);
+        animation: heroFloat 6s ease-in-out infinite;
+      }
+
+      @keyframes heroFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      .hero-command-line {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+        padding: 0.75rem 1rem;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 6px;
+        display: inline-block;
+      }
+
+      .about-glitch {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .about-subtitle {
+        font-size: 1rem;
+        min-height: 1.5rem;
+        color: var(--terminal-text-dim);
+      }
+
+      /* About Page Styles */
+      .about-main {
+        padding: 3rem 0;
+      }
+
+      .terminal-window {
+        margin-bottom: 2rem;
+        animation: slideInUp 0.6s ease both;
+      }
+
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .profile-window {
+        animation-delay: 0.1s;
+      }
+      .skills-window {
+        animation-delay: 0.2s;
+      }
+      .stats-window {
+        animation-delay: 0.3s;
+      }
+      .contact-window {
+        animation-delay: 0.4s;
+      }
+
+      /* About Prompt */
+      .about-prompt {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
+        padding: 0.75rem 1rem;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 6px;
+        border-left: 3px solid var(--terminal-green);
+      }
+
+      .about-prompt .prompt-user {
+        color: var(--terminal-green);
+        font-weight: bold;
+      }
+      .about-prompt .prompt-separator {
+        color: var(--terminal-text-dim);
+      }
+      .about-prompt .prompt-path {
+        color: var(--terminal-cyan);
+      }
+      .about-prompt .prompt-symbol {
+        color: var(--terminal-text-dim);
+        margin: 0 0.5rem;
+      }
+      .about-prompt .prompt-command {
+        color: var(--terminal-yellow);
+      }
+
+      /* About Content Text */
+      .about-content-text {
+        color: var(--terminal-text);
+        line-height: 1.8;
+      }
+
+      .about-content-text p {
+        margin-bottom: 1.5rem;
+        font-size: 1.05rem;
+      }
+
+      .about-content-text p:last-child {
+        margin-bottom: 0;
+      }
+
+      /* Skills Grid */
+      .skills-grid {
+        display: grid;
+        gap: 1.5rem;
+      }
+
+      .skill-item {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--terminal-border);
+        border-left: 3px solid var(--terminal-cyan);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .skill-item:hover {
+        border-left-color: var(--terminal-green);
+        transform: translateX(10px);
+        background: rgba(0, 255, 65, 0.05);
+        box-shadow: 0 5px 20px rgba(0, 255, 65, 0.1);
+      }
+
+      .skill-icon {
+        font-size: 2rem;
+        color: var(--terminal-cyan);
+        width: 50px;
+        text-align: center;
+        flex-shrink: 0;
+      }
+
+      .skill-info {
+        flex: 1;
+      }
+
+      .skill-name {
+        display: block;
+        color: var(--terminal-green);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+      }
+
+      .skill-bar {
+        width: 100%;
+        height: 8px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .skill-progress {
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          var(--terminal-cyan),
+          var(--terminal-green)
+        );
+        border-radius: 4px;
+        transition: width 1s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .skill-progress::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        animation: shimmer 2s infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      /* Stats Grid */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .stat-card {
+        text-align: center;
+        padding: 1.5rem;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--terminal-border);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px) scale(1.05);
+        border-color: var(--terminal-cyan);
+        box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2);
+        background: rgba(0, 217, 255, 0.05);
+      }
+
+      .stat-icon {
+        font-size: 2.5rem;
+        color: var(--terminal-cyan);
+        margin-bottom: 1rem;
+      }
+
+      .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--terminal-green);
+        margin-bottom: 0.5rem;
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      .stat-label {
+        font-size: 0.85rem;
+        color: var(--terminal-text-dim);
+      }
+
+      /* Contact Grid */
+      .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+      }
+
+      .contact-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1.5rem 1rem;
+        background: rgba(0, 0, 0, 0.2);
+        border: 2px solid var(--terminal-border);
+        border-radius: 8px;
+        color: var(--terminal-text);
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .contact-link:hover {
+        border-color: var(--terminal-green);
+        background: rgba(0, 255, 65, 0.1);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 255, 65, 0.2);
+      }
+
+      .contact-link i {
+        font-size: 2rem;
+        color: var(--terminal-cyan);
+        transition: all 0.3s ease;
+      }
+
+      .contact-link:hover i {
+        color: var(--terminal-green);
+        transform: scale(1.2);
+      }
+
+      .contact-link span {
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .about-hero-section {
+          padding: 2rem 0 1rem;
+        }
+        .about-glitch {
+          font-size: 2rem;
+        }
+        .about-main {
+          padding: 2rem 0;
+        }
+
+        .skill-item {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .skill-icon {
+          width: auto;
+        }
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .contact-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .about-prompt {
+          font-size: 0.75rem;
+        }
+        .stat-value {
+          font-size: 1.5rem;
+        }
+        .hero-command-line {
+          font-size: 0.75rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .about-glitch {
+          font-size: 1.7rem;
+        }
+        .stats-grid,
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+
+    <script>
+      // Create particles
+      function createParticles() {
+        const particlesContainer = document.getElementById("particles");
+        if (!particlesContainer) return;
+
+        const particleCount = 30;
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement("div");
+          particle.className = "particle";
+          particle.style.left = Math.random() * 100 + "%";
+          particle.style.animationDelay = Math.random() * 10 + "s";
+          particle.style.animationDuration = Math.random() * 10 + 10 + "s";
+          particlesContainer.appendChild(particle);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        createParticles();
+
+        // Typing animation
+        const aboutPhrases = [
+          "Developer • Designer • Creator",
+          "Building the future, one line at a time",
+          "Code enthusiast & problem solver",
+          "Turning coffee into code since 2018",
+        ];
+
+        let phraseIdx = 0;
+        let charIdx = 0;
+        let isDeleting = false;
+
+        function typeAboutText() {
+          const elem = document.getElementById("aboutTyping");
+          if (!elem) return;
+
+          const current = aboutPhrases[phraseIdx];
+
+          if (!isDeleting && charIdx < current.length) {
+            elem.textContent += current.charAt(charIdx);
+            charIdx++;
+            setTimeout(typeAboutText, 80);
+          } else if (isDeleting && charIdx > 0) {
+            elem.textContent = current.substring(0, charIdx - 1);
+            charIdx--;
+            setTimeout(typeAboutText, 40);
+          } else {
+            isDeleting = !isDeleting;
+            if (!isDeleting) {
+              phraseIdx = (phraseIdx + 1) % aboutPhrases.length;
+            }
+            setTimeout(typeAboutText, isDeleting ? 1000 : 2000);
+          }
+        }
+
+        typeAboutText();
+
+        // Animate skill bars on scroll
+        const skillBars = document.querySelectorAll(".skill-progress");
+        const observerOptions = { threshold: 0.5 };
+
+        const observer = new IntersectionObserver(function (entries) {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const width = entry.target.style.width;
+              entry.target.style.width = "0%";
+              setTimeout(() => {
+                entry.target.style.width = width;
+              }, 100);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, observerOptions);
+
+        skillBars.forEach((bar) => observer.observe(bar));
+
+        // Animate stat values
+        const statValues = document.querySelectorAll(".stat-value");
+        statValues.forEach((stat) => {
+          const finalValue = stat.textContent;
+          stat.textContent = "0";
+
+          setTimeout(() => {
+            animateValue(stat, 0, parseInt(finalValue), 1500);
+          }, 500);
+        });
+
+        function animateValue(element, start, end, duration) {
+          const range = end - start;
+          const increment = range / (duration / 16);
+          let current = start;
+
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= end) {
+              element.textContent = end + "+";
+              clearInterval(timer);
+            } else {
+              element.textContent = Math.floor(current) + "+";
+            }
+          }, 16);
+        }
+
+        console.log(
+          "%c[ABOUT]%c Page initialized",
+          "color: #00ff41; font-weight: bold;",
+          "color: #00d9ff;",
+        );
+      });
+    </script>
+  </body>
+</html>

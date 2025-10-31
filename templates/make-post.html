@@ -1,0 +1,1476 @@
+{% extends "base.html" %} {% from 'bootstrap5/form.html' import render_form %}
+{% block content %} {% include "header.html" %}
+
+<!-- Hero Section -->
+<section class="editor-hero-section">
+  <div class="container">
+    <div class="terminal-window hero-terminal">
+      <div class="terminal-header">
+        <div class="terminal-dots">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+        </div>
+        <span class="terminal-title">
+          <i class="fas fa-terminal"></i> post_editor.sh
+        </span>
+      </div>
+      <div class="terminal-content text-center">
+        <h1 class="glitch-title editor-glitch">
+          {% if name == 'Edit Post' %} EDIT_MODE_ACTIVATED {% else %}
+          CREATE_NEW_POST {% endif %}
+        </h1>
+        <p class="typing-text editor-typing">
+          <span id="editorTypingText"></span><span class="typing-cursor"></span>
+        </p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-icon"><i class="fas fa-file-code"></i></div>
+            <div class="stat-value">Rich Editor</div>
+            <div class="stat-label">Full Formatting</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon"><i class="fas fa-bolt"></i></div>
+            <div class="stat-value">Instant</div>
+            <div class="stat-label">Live Preview</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon"><i class="fas fa-rocket"></i></div>
+            <div class="stat-value">Fast</div>
+            <div class="stat-label">Quick Publish</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="mb-4 main-wrapper editor-main">
+  <div class="container">
+    <div class="row">
+      <!-- Left Sidebar -->
+      <div class="col-lg-3 mb-4">
+        <!-- System Status -->
+        <div class="terminal-window sidebar-panel">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <div class="terminal-dot red"></div>
+              <div class="terminal-dot yellow"></div>
+              <div class="terminal-dot green"></div>
+            </div>
+            <span class="terminal-title">
+              <i class="fas fa-chart-line"></i> system.log
+            </span>
+          </div>
+          <div class="terminal-content sidebar-content">
+            <div class="status-item">
+              <span class="status-label">Editor Status</span>
+              <span class="status-value online">
+                <i class="fas fa-circle"></i> ONLINE
+              </span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Mode</span>
+              <span class="status-value">
+                {% if name == 'Edit Post' %}
+                <i class="fas fa-edit"></i> EDIT {% else %}
+                <i class="fas fa-plus"></i> CREATE {% endif %}
+              </span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Database</span>
+              <span class="status-value online">
+                <i class="fas fa-database"></i> CONNECTED
+              </span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Validation</span>
+              <span class="status-value online">
+                <i class="fas fa-shield-alt"></i> ACTIVE
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyboard Shortcuts -->
+        <div class="terminal-window sidebar-panel">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <div class="terminal-dot red"></div>
+              <div class="terminal-dot yellow"></div>
+              <div class="terminal-dot green"></div>
+            </div>
+            <span class="terminal-title">
+              <i class="fas fa-keyboard"></i> shortcuts
+            </span>
+          </div>
+          <div class="terminal-content sidebar-content">
+            <div class="shortcut-item">
+              <kbd>Ctrl</kbd> + <kbd>S</kbd>
+              <span>Save Post</span>
+            </div>
+            <div class="shortcut-item">
+              <kbd>Ctrl</kbd> + <kbd>B</kbd>
+              <span>Bold Text</span>
+            </div>
+            <div class="shortcut-item">
+              <kbd>Ctrl</kbd> + <kbd>I</kbd>
+              <span>Italic Text</span>
+            </div>
+            <div class="shortcut-item">
+              <kbd>Esc</kbd>
+              <span>Cancel</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="col-lg-6 mb-4">
+        <!-- Main Terminal Window -->
+        <div class="terminal-window editor-terminal">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <div class="terminal-dot red"></div>
+              <div class="terminal-dot yellow"></div>
+              <div class="terminal-dot green"></div>
+            </div>
+            <span class="terminal-title">
+              {% if name == 'Edit Post' %}
+              <i class="fas fa-edit"></i> edit_post.sh {% else %}
+              <i class="fas fa-plus-circle"></i> create_post.sh {% endif %}
+            </span>
+            <div class="terminal-actions">
+              <span class="terminal-status">
+                <i class="fas fa-circle pulse-dot"></i>
+                ACTIVE
+              </span>
+            </div>
+          </div>
+
+          <div class="terminal-content editor-content">
+            <!-- Command Prompt -->
+            <div class="command-prompt-header">
+              <div class="prompt-line">
+                <span class="prompt-user">root@blog</span>
+                <span class="prompt-separator">:</span>
+                <span class="prompt-path">~/posts</span>
+                <span class="prompt-symbol">$</span>
+                <span class="prompt-command">
+                  ./{% if name == 'Edit Post' %}edit{% else %}create{% endif
+                  %}_post.sh --interactive
+                </span>
+              </div>
+              <div class="prompt-output">
+                <span style="color: var(--terminal-cyan)">[INFO]</span>
+                {% if name == 'Edit Post' %} Post editor initialized. Modifying
+                existing entry... {% else %} Post creator initialized. Ready for
+                new entry... {% endif %}
+              </div>
+            </div>
+
+            <!-- Form -->
+            <form method="POST" novalidate id="postForm">
+              {{ form.csrf_token }}
+
+              <!-- Title Field -->
+              <div class="editor-field-group">
+                <div class="field-label">
+                  <span class="field-icon">▸</span>
+                  <label for="title">POST_TITLE</label>
+                </div>
+                <div class="field-input-wrapper">
+                  {{ form.title(class="form-control editor-input",
+                  placeholder="Enter an engaging title for your post...",
+                  id="title") }}
+                  <div class="field-counter" id="titleCounter">0/250</div>
+                </div>
+                {% if form.title.errors %}
+                <div class="field-error">
+                  <i class="fas fa-exclamation-triangle"></i>
+                  {% for error in form.title.errors %} {{ error }} {% endfor %}
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- Subtitle Field -->
+              <div class="editor-field-group">
+                <div class="field-label">
+                  <span class="field-icon">▸</span>
+                  <label for="subtitle">SUBTITLE</label>
+                </div>
+                <div class="field-input-wrapper">
+                  {{ form.subtitle(class="form-control editor-input",
+                  placeholder="A compelling subtitle to hook your readers...",
+                  id="subtitle") }}
+                  <div class="field-counter" id="subtitleCounter">0/120</div>
+                </div>
+                {% if form.subtitle.errors %}
+                <div class="field-error">
+                  <i class="fas fa-exclamation-triangle"></i>
+                  {% for error in form.subtitle.errors %} {{ error }} {% endfor
+                  %}
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- Author Field -->
+              <div class="editor-field-group">
+                <div class="field-label">
+                  <span class="field-icon">▸</span>
+                  <label for="author_name">AUTHOR_NAME</label>
+                </div>
+                <div class="field-input-wrapper">
+                  {{ form.author_name(class="form-control editor-input",
+                  placeholder="Your name or pseudonym...", id="author_name") }}
+                </div>
+                {% if form.author_name.errors %}
+                <div class="field-error">
+                  <i class="fas fa-exclamation-triangle"></i>
+                  {% for error in form.author_name.errors %} {{ error }} {%
+                  endfor %}
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- Image URL Field -->
+              <div class="editor-field-group">
+                <div class="field-label">
+                  <span class="field-icon">▸</span>
+                  <label for="img_url">HEADER_IMAGE_URL</label>
+                </div>
+                <div class="field-input-wrapper">
+                  {{ form.img_url(class="form-control editor-input",
+                  placeholder="https://example.com/header-image.jpg",
+                  id="img_url") }}
+                  <button
+                    type="button"
+                    class="field-action-btn"
+                    id="previewImageBtn"
+                  >
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+                {% if form.img_url.errors %}
+                <div class="field-error">
+                  <i class="fas fa-exclamation-triangle"></i>
+                  {% for error in form.img_url.errors %} {{ error }} {% endfor
+                  %}
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- Content Editor -->
+              <div class="editor-field-group editor-rich-text">
+                <div class="field-label">
+                  <span class="field-icon">▸</span>
+                  <label for="blog_content">POST_CONTENT</label>
+                </div>
+                <div class="ckeditor-container">
+                  {{ form.blog_content(class="form-control", id="blog_content")
+                  }}
+                </div>
+                {% if form.blog_content.errors %}
+                <div class="field-error">
+                  <i class="fas fa-exclamation-triangle"></i>
+                  {% for error in form.blog_content.errors %} {{ error }} {%
+                  endfor %}
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- Action Bar -->
+              <div class="editor-action-bar">
+                <div class="action-bar-left">
+                  <div class="terminal-prompt-small">
+                    <span style="color: var(--terminal-yellow)">$</span>
+                    <span id="statusText">Ready to publish</span>
+                  </div>
+                </div>
+                <div class="action-bar-right">
+                  <a
+                    href="{{ url_for('home') }}"
+                    class="btn-editor btn-editor-secondary"
+                  >
+                    <i class="fas fa-times"></i>
+                    Cancel
+                  </a>
+                  {{ form.submit(class="btn-editor btn-editor-primary",
+                  id="submitBtn") }}
+                </div>
+              </div>
+            </form>
+
+            <!-- Processing Indicator -->
+            <div id="processingIndicator" class="processing-indicator">
+              <div class="processing-content">
+                <div class="spinner-wrapper">
+                  <div class="terminal-spinner"></div>
+                </div>
+                <div class="processing-text">
+                  <span class="processing-stage" id="processingStage"
+                    >Validating post data...</span
+                  >
+                  <div class="processing-progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Sidebar -->
+      <div class="col-lg-3 mb-4">
+        <!-- Image Preview Panel -->
+        <div class="terminal-window sidebar-panel" id="imagePreviewPanel">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <div class="terminal-dot red"></div>
+              <div class="terminal-dot yellow"></div>
+              <div class="terminal-dot green"></div>
+            </div>
+            <span class="terminal-title">
+              <i class="fas fa-image"></i> preview.jpg
+            </span>
+          </div>
+          <div class="terminal-content sidebar-content">
+            <div id="imagePreview" class="image-preview-sidebar">
+              <div class="preview-placeholder">
+                <i class="fas fa-image"></i>
+                <p>Enter an image URL and click preview</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="terminal-window sidebar-panel">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <div class="terminal-dot red"></div>
+              <div class="terminal-dot yellow"></div>
+              <div class="terminal-dot green"></div>
+            </div>
+            <span class="terminal-title">
+              <i class="fas fa-history"></i> activity.log
+            </span>
+          </div>
+          <div class="terminal-content sidebar-content">
+            <div class="activity-item">
+              <span class="activity-time"
+                >[{{ year }}-{{ month }}-{{ date }}]</span
+              >
+              <span class="activity-text">Editor session started</span>
+            </div>
+            <div class="activity-item">
+              <span class="activity-time">[SYSTEM]</span>
+              <span class="activity-text">Database connection established</span>
+            </div>
+            <div class="activity-item">
+              <span class="activity-time">[READY]</span>
+              <span class="activity-text">Waiting for user input...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+{% include "footer.html" %} {% endblock %} {% block scripts %} {{
+bootstrap.load_js() }} {{ ckeditor.load() }} {{ ckeditor.config() }}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+
+    // Typing animation for hero
+    const editorPhrases = [
+      {% if name == 'Edit Post' %}
+        "Refining your thoughts...",
+        "Updating your masterpiece...",
+        "Perfecting every word...",
+        "Making it even better..."
+      {% else %}
+        "Your ideas, our platform...",
+        "Transform thoughts into words...",
+        "Create something amazing...",
+        "Share your story with the world..."
+      {% endif %}
+    ];
+
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function typeEditorText() {
+      const dynamicText = document.getElementById('editorTypingText');
+      if (!dynamicText) return;
+
+      const currentPhrase = editorPhrases[phraseIndex];
+
+      if (!isDeleting && charIndex < currentPhrase.length) {
+        dynamicText.textContent += currentPhrase.charAt(charIndex);
+        charIndex++;
+        setTimeout(typeEditorText, 80);
+      } else if (isDeleting && charIndex > 0) {
+        dynamicText.textContent = currentPhrase.substring(0, charIndex - 1);
+        charIndex--;
+        setTimeout(typeEditorText, 40);
+      } else {
+        isDeleting = !isDeleting;
+        if (!isDeleting) {
+          phraseIndex = (phraseIndex + 1) % editorPhrases.length;
+        }
+        setTimeout(typeEditorText, isDeleting ? 1000 : 2000);
+      }
+    }
+
+    typeEditorText();
+
+    // Character Counters
+    function setupCounter(inputId, counterId, maxLength) {
+      const input = document.getElementById(inputId);
+      const counter = document.getElementById(counterId);
+
+      if (input && counter) {
+        function updateCounter() {
+          const length = input.value.length;
+          counter.textContent = `${length}/${maxLength}`;
+
+          if (length > maxLength * 0.9) {
+            counter.style.color = 'var(--terminal-red)';
+          } else if (length > maxLength * 0.7) {
+            counter.style.color = 'var(--terminal-yellow)';
+          } else {
+            counter.style.color = 'var(--terminal-text-dim)';
+          }
+        }
+
+        input.addEventListener('input', updateCounter);
+        updateCounter();
+      }
+    }
+
+    setupCounter('title', 'titleCounter', 250);
+    setupCounter('subtitle', 'subtitleCounter', 120);
+
+    // Image Preview
+    const imgUrlInput = document.getElementById('img_url');
+    const previewBtn = document.getElementById('previewImageBtn');
+    const imagePreview = document.getElementById('imagePreview');
+
+    if (previewBtn && imgUrlInput && imagePreview) {
+      previewBtn.addEventListener('click', function() {
+        const url = imgUrlInput.value.trim();
+
+        if (url) {
+          imagePreview.innerHTML = `
+            <div class="preview-loading">
+              <div class="terminal-spinner-small"></div>
+              <span>Loading...</span>
+            </div>
+          `;
+
+          const img = new Image();
+          img.onload = function() {
+            imagePreview.innerHTML = `
+              <div class="preview-success">
+                <img src="${url}" alt="Preview">
+                <div class="preview-info">
+                  <i class="fas fa-check-circle"></i>
+                  <span>${img.width}x${img.height}</span>
+                </div>
+              </div>
+            `;
+          };
+          img.onerror = function() {
+            imagePreview.innerHTML = `
+              <div class="preview-error">
+                <i class="fas fa-times-circle"></i>
+                <span>Failed to load</span>
+              </div>
+            `;
+          };
+          img.src = url;
+        } else {
+          imagePreview.innerHTML = `
+            <div class="preview-placeholder">
+              <i class="fas fa-image"></i>
+              <p>Enter URL first</p>
+            </div>
+          `;
+        }
+      });
+    }
+
+    // Reset Form Button
+    const resetBtn = document.getElementById('resetFormBtn');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to reset the form? All unsaved changes will be lost.')) {
+          document.getElementById('postForm').reset();
+          if (imagePreview) {
+            imagePreview.innerHTML = `
+              <div class="preview-placeholder">
+                <i class="fas fa-image"></i>
+                <p>Enter an image URL and click preview</p>
+              </div>
+            `;
+          }
+        }
+      });
+    }
+
+    // Form Submission
+    const form = document.getElementById('postForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const processingIndicator = document.getElementById('processingIndicator');
+    const statusText = document.getElementById('statusText');
+    const processingStage = document.getElementById('processingStage');
+    const progressBar = document.getElementById('progressBar');
+
+    if (form && submitBtn && processingIndicator) {
+      form.addEventListener('submit', function(e) {
+        processingIndicator.style.display = 'flex';
+        submitBtn.disabled = true;
+
+        const stages = [
+          'Validating post data...',
+          'Sanitizing content...',
+          'Uploading to database...',
+          'Finalizing post...'
+        ];
+
+        let stage = 0;
+        let progress = 0;
+
+        const interval = setInterval(() => {
+          progress += 5;
+          progressBar.style.width = progress + '%';
+
+          if (progress % 25 === 0 && stage < stages.length) {
+            processingStage.textContent = stages[stage];
+            stage++;
+          }
+
+          if (progress >= 100) {
+            clearInterval(interval);
+          }
+        }, 50);
+
+        statusText.innerHTML = '<span style="color: var(--terminal-green);">$</span> Executing post_submit.sh...';
+      });
+    }
+
+    // Focus animations
+    const inputs = document.querySelectorAll('.editor-input');
+    inputs.forEach(input => {
+      input.addEventListener('focus', function() {
+        this.parentElement.classList.add('focused');
+      });
+
+      input.addEventListener('blur', function() {
+        this.parentElement.classList.remove('focused');
+      });
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        if (submitBtn && !submitBtn.disabled) {
+          form.submit();
+        }
+      }
+
+      if (e.key === 'Escape') {
+        window.location.href = "{{ url_for('home') }}";
+      }
+    });
+
+    console.log('%c[EDITOR]%c System initialized successfully',
+      'color: #00ff41; font-weight: bold;',
+      'color: #00d9ff;');
+  });
+</script>
+
+<style>
+  /* ============================================
+   HERO SECTION
+   ============================================ */
+
+  .editor-hero-section {
+    padding: 3rem 0 2rem;
+  }
+
+  .hero-terminal {
+    box-shadow: 0 10px 50px rgba(0, 255, 65, 0.3);
+    animation: heroFloat 6s ease-in-out infinite;
+  }
+
+  @keyframes heroFloat {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .editor-glitch {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .editor-typing {
+    font-size: 1.1rem;
+    min-height: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--terminal-border);
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-icon {
+    font-size: 2rem;
+    color: var(--terminal-cyan);
+    margin-bottom: 0.75rem;
+  }
+
+  .stat-value {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--terminal-text);
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    color: var(--terminal-text-dim);
+  }
+
+  /* ============================================
+   SIDEBAR STYLES
+   ============================================ */
+
+  .sidebar-panel {
+    margin-bottom: 1.5rem;
+    background: rgba(10, 14, 39, 0.8);
+  }
+
+  .sidebar-content {
+    padding: 1rem;
+  }
+
+  .status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    margin-bottom: 0.75rem;
+    border-left: 3px solid var(--terminal-border);
+    transition: all 0.3s ease;
+  }
+
+  .status-item:hover {
+    border-left-color: var(--terminal-cyan);
+    background: rgba(0, 217, 255, 0.05);
+  }
+
+  .status-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .status-label {
+    color: var(--terminal-text-dim);
+    font-size: 0.85rem;
+  }
+
+  .status-value {
+    color: var(--terminal-text);
+    font-size: 0.85rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .status-value.online {
+    color: var(--terminal-green);
+  }
+
+  .pulse-dot {
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+
+  /* Sidebar Actions */
+  .sidebar-action {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--terminal-border);
+    border-radius: 6px;
+    color: var(--terminal-text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    font-size: 0.9rem;
+  }
+
+  .sidebar-action:hover {
+    background: rgba(0, 217, 255, 0.1);
+    border-color: var(--terminal-cyan);
+    color: var(--terminal-cyan);
+    transform: translateX(5px);
+  }
+
+  .sidebar-action:last-child {
+    margin-bottom: 0;
+  }
+
+  .sidebar-action i {
+    width: 20px;
+    text-align: center;
+  }
+
+  /* Keyboard Shortcuts */
+  .shortcut-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--terminal-text-dim);
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .shortcut-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .shortcut-item kbd {
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--terminal-cyan);
+    color: var(--terminal-cyan);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-family: "JetBrains Mono", monospace;
+    font-weight: bold;
+  }
+
+  .shortcut-item span {
+    margin-left: auto;
+  }
+
+  /* Image Preview Sidebar */
+  .image-preview-sidebar {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .preview-placeholder {
+    text-align: center;
+    color: var(--terminal-text-dim);
+  }
+
+  .preview-placeholder i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.3;
+  }
+
+  .preview-placeholder p {
+    margin: 0;
+    font-size: 0.85rem;
+  }
+
+  .preview-loading {
+    text-align: center;
+    color: var(--terminal-cyan);
+  }
+
+  .terminal-spinner-small {
+    width: 30px;
+    height: 30px;
+    border: 3px solid var(--terminal-border);
+    border-top-color: var(--terminal-cyan);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 0.5rem;
+  }
+
+  .preview-success img {
+    width: 100%;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    border: 2px solid var(--terminal-green);
+  }
+
+  .preview-info {
+    text-align: center;
+    color: var(--terminal-green);
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .preview-error {
+    text-align: center;
+    color: var(--terminal-red);
+    font-size: 0.85rem;
+  }
+
+  .preview-error i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Tips Compact */
+  .tip-item-compact {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--terminal-text-dim);
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .tip-item-compact:hover {
+    color: var(--terminal-text);
+    transform: translateX(5px);
+  }
+
+  .tip-item-compact:last-child {
+    margin-bottom: 0;
+  }
+
+  .tip-item-compact i {
+    color: var(--terminal-green);
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+
+  /* Activity Log */
+  .activity-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    margin-bottom: 0.75rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    border-left: 2px solid var(--terminal-cyan);
+  }
+
+  .activity-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .activity-time {
+    font-size: 0.7rem;
+    color: var(--terminal-yellow);
+    font-family: "JetBrains Mono", monospace;
+  }
+
+  .activity-text {
+    font-size: 0.85rem;
+    color: var(--terminal-text-dim);
+  }
+
+  /* ============================================
+   MAIN EDITOR STYLES
+   ============================================ */
+
+  .editor-main {
+    padding: 2rem 0;
+  }
+
+  .editor-terminal {
+    box-shadow: 0 10px 40px rgba(0, 255, 65, 0.2);
+  }
+
+  .terminal-dots {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .terminal-actions {
+    margin-left: auto;
+  }
+
+  .terminal-status {
+    font-size: 0.75rem;
+    color: var(--terminal-text-dim);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .editor-content {
+    padding: 2rem;
+  }
+
+  /* Command Prompt Header */
+  .command-prompt-header {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--terminal-border);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9rem;
+  }
+
+  .prompt-line {
+    margin-bottom: 0.5rem;
+  }
+
+  .prompt-user {
+    color: var(--terminal-green);
+    font-weight: bold;
+  }
+  .prompt-separator {
+    color: var(--terminal-text-dim);
+  }
+  .prompt-path {
+    color: var(--terminal-cyan);
+  }
+  .prompt-symbol {
+    color: var(--terminal-text-dim);
+    margin: 0 0.5rem;
+  }
+  .prompt-command {
+    color: var(--terminal-yellow);
+  }
+
+  .prompt-output {
+    font-size: 0.85rem;
+    color: var(--terminal-text-dim);
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--terminal-border);
+    margin-top: 0.5rem;
+  }
+
+  /* Field Groups */
+  .editor-field-group {
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.5s ease forwards;
+    opacity: 0;
+  }
+
+  .editor-field-group:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .editor-field-group:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .editor-field-group:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  .editor-field-group:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+  .editor-field-group:nth-child(5) {
+    animation-delay: 0.5s;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .field-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .field-icon {
+    color: var(--terminal-yellow);
+    font-size: 1rem;
+  }
+
+  .field-label label {
+    color: var(--terminal-green);
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    margin: 0;
+  }
+
+  .field-badge {
+    background: rgba(255, 107, 0, 0.2);
+    border: 1px solid var(--terminal-red);
+    color: var(--terminal-red);
+    padding: 0.125rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: bold;
+  }
+
+  /* Input Wrapper */
+  .field-input-wrapper {
+    position: relative;
+  }
+
+  .editor-input {
+    background: rgba(0, 0, 0, 0.3) !important;
+    border: 2px solid var(--terminal-border) !important;
+    color: var(--terminal-text) !important;
+    padding: 0.75rem 1rem !important;
+    border-radius: 8px !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 0.9rem !important;
+    transition: all 0.3s ease !important;
+    width: 100%;
+  }
+
+  .editor-input:focus {
+    border-color: var(--terminal-cyan) !important;
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.3) !important;
+    outline: none !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .field-input-wrapper.focused {
+    animation: field-glow 0.3s ease;
+  }
+
+  @keyframes field-glow {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.01);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .field-counter {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    color: var(--terminal-text-dim);
+    font-family: "JetBrains Mono", monospace;
+    pointer-events: none;
+    background: rgba(10, 14, 39, 0.8);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  .field-action-btn {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--terminal-cyan);
+    color: #0a0e27;
+    border: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .field-action-btn:hover {
+    background: var(--terminal-green);
+    transform: translateY(-50%) scale(1.05);
+  }
+
+  /* Field Errors */
+  .field-error {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 107, 0, 0.1);
+    border-left: 3px solid var(--terminal-red);
+    color: var(--terminal-red);
+    font-size: 0.85rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* CKEditor Container */
+  .ckeditor-container {
+    border: 2px solid var(--terminal-border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .ckeditor-container:focus-within {
+    border-color: var(--terminal-cyan);
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+  }
+
+  .ck.ck-editor__main > .ck-editor__editable {
+    min-height: 400px !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    color: var(--terminal-text) !important;
+    border: none !important;
+  }
+
+  .ck.ck-toolbar {
+    background: rgba(0, 0, 0, 0.5) !important;
+    border: none !important;
+    border-bottom: 1px solid var(--terminal-border) !important;
+  }
+
+  .ck.ck-button {
+    color: var(--terminal-text) !important;
+  }
+
+  .ck.ck-button:hover {
+    background: rgba(0, 255, 65, 0.2) !important;
+  }
+
+  .ck.ck-button.ck-on {
+    background: rgba(0, 217, 255, 0.3) !important;
+    color: var(--terminal-cyan) !important;
+  }
+
+  /* Action Bar */
+  .editor-action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 0 0;
+    border-top: 2px solid var(--terminal-border);
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .action-bar-left {
+    flex: 1;
+  }
+
+  .terminal-prompt-small {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.85rem;
+    color: var(--terminal-text-dim);
+  }
+
+  .action-bar-right {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .btn-editor {
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+  }
+
+  .btn-editor-primary {
+    background: linear-gradient(
+      135deg,
+      var(--terminal-cyan),
+      var(--terminal-green)
+    );
+    color: #0a0e27;
+    border: none;
+  }
+
+  .btn-editor-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 255, 65, 0.4);
+  }
+
+  .btn-editor-secondary {
+    background: transparent;
+    color: var(--terminal-text);
+    border-color: var(--terminal-border);
+  }
+
+  .btn-editor-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--terminal-text);
+  }
+
+  /* Processing Indicator */
+  .processing-indicator {
+    display: none;
+    margin-top: 2rem;
+    padding: 2rem;
+    background: rgba(0, 217, 255, 0.05);
+    border: 2px solid var(--terminal-cyan);
+    border-radius: 8px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .processing-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  .terminal-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--terminal-border);
+    border-top-color: var(--terminal-cyan);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .processing-text {
+    text-align: center;
+    width: 100%;
+  }
+
+  .processing-stage {
+    color: var(--terminal-cyan);
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .processing-progress {
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      var(--terminal-cyan),
+      var(--terminal-green)
+    );
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+
+  /* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+  @media (max-width: 991px) {
+    .editor-hero-section {
+      padding: 2rem 0 1.5rem;
+    }
+
+    .editor-glitch {
+      font-size: 2rem;
+    }
+
+    .hero-stats {
+      gap: 1.5rem;
+    }
+
+    .stat-icon {
+      font-size: 1.5rem;
+    }
+
+    .editor-content {
+      padding: 1.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .editor-glitch {
+      font-size: 1.5rem;
+    }
+
+    .hero-stats {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .editor-action-bar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .action-bar-right {
+      flex-direction: column;
+    }
+
+    .btn-editor {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .field-counter {
+      position: static;
+      transform: none;
+      margin-top: 0.5rem;
+      text-align: right;
+    }
+
+    .field-action-btn {
+      position: static;
+      transform: none;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+  }
+
+  /* ============================================
+   CUSTOM SCROLLBAR
+   ============================================ */
+
+  .ck-editor__editable::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .ck-editor__editable::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .ck-editor__editable::-webkit-scrollbar-thumb {
+    background: var(--terminal-cyan);
+    border-radius: 4px;
+  }
+
+  .ck-editor__editable::-webkit-scrollbar-thumb:hover {
+    background: var(--terminal-green);
+  }
+
+  /* ============================================
+   ADDITIONAL ANIMATIONS
+   ============================================ */
+
+  .sidebar-panel {
+    animation: slideInRight 0.6s ease forwards;
+    opacity: 0;
+  }
+
+  .sidebar-panel:nth-child(1) {
+    animation-delay: 0.2s;
+  }
+  .sidebar-panel:nth-child(2) {
+    animation-delay: 0.3s;
+  }
+  .sidebar-panel:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+  .sidebar-panel:nth-child(4) {
+    animation-delay: 0.5s;
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .editor-terminal {
+    animation: fadeIn 0.8s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Hover effects */
+  .status-item:hover,
+  .activity-item:hover {
+    transform: translateX(3px);
+  }
+
+  /* Error state animation */
+  .field-input-wrapper.has-error .editor-input {
+    border-color: var(--terminal-red) !important;
+    animation: shake 0.5s ease;
+  }
+
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-10px);
+    }
+    75% {
+      transform: translateX(10px);
+    }
+  }
+</style>
+
+{% endblock %}

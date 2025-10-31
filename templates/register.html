@@ -1,0 +1,1052 @@
+{% extends 'base.html' %} {% from "bootstrap5/form.html" import render_form %}
+{% block content %} {% include "header.html" %}
+
+<!-- Hero Header -->
+<section class="register-hero-section">
+  <div class="container">
+    <div class="terminal-window hero-terminal-register">
+      <div class="terminal-header">
+        <div class="terminal-dots">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+        </div>
+        <span class="terminal-title">
+          <i class="fas fa-user-plus"></i> register.sh
+        </span>
+      </div>
+      <div class="terminal-content text-center">
+        <h1 class="glitch-title register-glitch">CREATE_ACCOUNT</h1>
+        <p class="register-subtitle">
+          <span id="registerTyping"></span><span class="typing-cursor"></span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="mb-5 register-main">
+  <!-- Animated Grid Background -->
+  <div class="register-bg-grid"></div>
+
+  <div class="container">
+    <!-- Flash Messages (Full Width Above) -->
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <div class="row">
+      <div class="col-12">
+        <div class="terminal-window flash-message-panel">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <div class="terminal-dot red"></div>
+              <div class="terminal-dot yellow"></div>
+              <div class="terminal-dot green"></div>
+            </div>
+            <span class="terminal-title">
+              <i class="fas fa-info-circle"></i> system_message
+            </span>
+          </div>
+          <div class="terminal-content">
+            {% for message in messages %}
+            <div class="flash-message">
+              <i class="fas fa-exclamation-triangle"></i>
+              <span>{{ message }}</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %} {% endwith %}
+
+    <!-- Side by Side Layout -->
+    <div class="row justify-content-center align-items-start">
+      <!-- LEFT SIDE: Benefits Panel -->
+      <div class="col-lg-4 col-md-5 mb-4 mb-lg-0">
+        <!-- Benefits Panel -->
+        <div class="terminal-window benefits-panel">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <div class="terminal-dot red"></div>
+              <div class="terminal-dot yellow"></div>
+              <div class="terminal-dot green"></div>
+            </div>
+            <span class="terminal-title">
+              <i class="fas fa-star"></i> benefits.txt
+            </span>
+          </div>
+          <div class="terminal-content benefits-content">
+            <div class="benefits-header">
+              <i class="fas fa-rocket"></i>
+              <span>WHY JOIN US?</span>
+            </div>
+
+            <div class="benefit-item">
+              <i class="fas fa-comments"></i>
+              <div class="benefit-text">
+                <strong>Community</strong>
+                <span>Engage with developers</span>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <i class="fas fa-chart-line"></i>
+              <div class="benefit-text">
+                <strong>Analytics</strong>
+                <span>Track your content performance</span>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <i class="fas fa-code"></i>
+              <div class="benefit-text">
+                <strong>Code Sharing</strong>
+                <span>Share tutorials and snippets</span>
+              </div>
+            </div>
+
+            <div class="benefits-divider"></div>
+
+            <div class="benefits-stats">
+              <div class="stat-item-small">
+                <i class="fas fa-users"></i>
+                <div>
+                  <strong>1K+</strong>
+                  <span>Members</span>
+                </div>
+              </div>
+              <div class="stat-item-small">
+                <i class="fas fa-file-alt"></i>
+                <div>
+                  <strong>500+</strong>
+                  <span>Posts</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="benefits-footer">
+              <i class="fas fa-shield-alt"></i>
+              <span>Free forever • No credit card</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE: Registration Form -->
+      <div class="col-lg-6 col-md-7">
+        <!-- Registration Terminal Window -->
+        <div class="terminal-window register-terminal">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <div class="terminal-dot red"></div>
+              <div class="terminal-dot yellow"></div>
+              <div class="terminal-dot green"></div>
+            </div>
+            <span class="terminal-title">
+              <i class="fas fa-terminal"></i> new_user.sh
+            </span>
+            <div class="terminal-actions">
+              <span class="terminal-status">
+                <i class="fas fa-circle status-pulse"></i>
+                READY
+              </span>
+            </div>
+          </div>
+
+          <div class="terminal-content register-content">
+            <!-- Command Prompt -->
+            <div class="command-prompt-box">
+              <div class="prompt-line-register">
+                <span class="prompt-user">root@blog</span>
+                <span class="prompt-separator">:</span>
+                <span class="prompt-path">~/users</span>
+                <span class="prompt-symbol">$</span>
+                <span class="prompt-command">./create_user.sh --new</span>
+              </div>
+              <div class="prompt-output-register">
+                <span style="color: var(--terminal-cyan)">[SYSTEM]</span>
+                Initializing new user registration protocol...
+              </div>
+            </div>
+
+            <!-- Registration Form -->
+            <form
+              action="{{url_for('register')}}"
+              method="POST"
+              id="registerForm"
+            >
+              {{ form.csrf_token }}
+
+              <!-- Name Field -->
+              <div class="register-field-group">
+                <div class="field-label-register">
+                  <span class="field-icon-register">▸</span>
+                  <label for="{{ form.name.id }}">USERNAME</label>
+                </div>
+                <div class="input-wrapper-register">
+                  <i class="fas fa-user input-icon-left"></i>
+                  {{ form.name(class="form-control register-input",
+                  placeholder="johndoe", autocomplete="name") }}
+                  <div class="input-border-glow"></div>
+                </div>
+                {% if form.name.errors %}
+                <div class="field-error-register">
+                  <i class="fas fa-times-circle"></i>
+                  {% for error in form.name.errors %} {{ error }} {% endfor %}
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- Email Field -->
+              <div class="register-field-group">
+                <div class="field-label-register">
+                  <span class="field-icon-register">▸</span>
+                  <label for="{{ form.email.id }}">EMAIL_ADDRESS</label>
+                </div>
+                <div class="input-wrapper-register">
+                  <i class="fas fa-envelope input-icon-left"></i>
+                  {{ form.email(class="form-control register-input",
+                  placeholder="user@terminal.dev", autocomplete="email") }}
+                  <div class="input-border-glow"></div>
+                </div>
+                {% if form.email.errors %}
+                <div class="field-error-register">
+                  <i class="fas fa-times-circle"></i>
+                  {% for error in form.email.errors %} {{ error }} {% endfor %}
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- Password Field -->
+              <div class="register-field-group">
+                <div class="field-label-register">
+                  <span class="field-icon-register">▸</span>
+                  <label for="{{ form.password.id }}">PASSWORD</label>
+                </div>
+                <div class="input-wrapper-register">
+                  <i class="fas fa-lock input-icon-left"></i>
+                  {{ form.password(class="form-control register-input",
+                  placeholder="••••••••", autocomplete="new-password") }}
+                  <button
+                    type="button"
+                    class="toggle-password"
+                    id="togglePassword"
+                  >
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <div class="input-border-glow"></div>
+                </div>
+                <div class="password-strength" id="passwordStrength">
+                  <div class="strength-bar">
+                    <div class="strength-fill" id="strengthFill"></div>
+                  </div>
+                </div>
+                {% if form.password.errors %}
+                <div class="field-error-register">
+                  <i class="fas fa-times-circle"></i>
+                  {% for error in form.password.errors %} {{ error }} {% endfor
+                  %}
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- Action Bar -->
+              <div class="register-action-bar">
+                <div class="terminal-prompt-mini">
+                  <span style="color: var(--terminal-yellow)">$</span>
+                  <span id="registerStatus">Ready to create account</span>
+                </div>
+                <button
+                  type="submit"
+                  class="btn-register-primary"
+                  id="registerBtn"
+                >
+                  <i class="fas fa-terminal"></i>
+                  <span>Execute Registration</span>
+                  <div class="btn-glow"></div>
+                </button>
+              </div>
+
+              <!-- Alternative Actions -->
+              <div class="alt-actions">
+                <span style="color: var(--terminal-text-dim)"
+                  >Already have an account?</span
+                >
+                <a href="{{ url_for('login') }}" class="alt-link">
+                  <i class="fas fa-sign-in-alt"></i>
+                  Login here
+                </a>
+              </div>
+            </form>
+
+            <!-- Loading Indicator -->
+            <div id="registerLoading" class="register-loading">
+              <div class="loading-spinner"></div>
+              <div class="loading-text">
+                <span id="loadingStage">Creating account...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+{% include "footer.html" %} {% endblock %} {% block scripts %} {{ super() }}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Typing animation
+    const registerPhrases = [
+      "Join the community...",
+      "Start your journey...",
+      "Create your account...",
+      "Begin contributing...",
+    ];
+
+    let phraseIdx = 0;
+    let charIdx = 0;
+    let isDeleting = false;
+
+    function typeRegisterText() {
+      const elem = document.getElementById("registerTyping");
+      if (!elem) return;
+
+      const current = registerPhrases[phraseIdx];
+
+      if (!isDeleting && charIdx < current.length) {
+        elem.textContent += current.charAt(charIdx);
+        charIdx++;
+        setTimeout(typeRegisterText, 80);
+      } else if (isDeleting && charIdx > 0) {
+        elem.textContent = current.substring(0, charIdx - 1);
+        charIdx--;
+        setTimeout(typeRegisterText, 40);
+      } else {
+        isDeleting = !isDeleting;
+        if (!isDeleting) {
+          phraseIdx = (phraseIdx + 1) % registerPhrases.length;
+        }
+        setTimeout(typeRegisterText, isDeleting ? 1000 : 2000);
+      }
+    }
+
+    typeRegisterText();
+
+    // Toggle password visibility
+    const toggleBtn = document.getElementById("togglePassword");
+    const passwordField = document.querySelector('input[name="password"]');
+
+    if (toggleBtn && passwordField) {
+      toggleBtn.addEventListener("click", function () {
+        const type = passwordField.type === "password" ? "text" : "password";
+        passwordField.type = type;
+
+        const icon = this.querySelector("i");
+        if (type === "password") {
+          icon.classList.remove("fa-eye-slash");
+          icon.classList.add("fa-eye");
+        } else {
+          icon.classList.remove("fa-eye");
+          icon.classList.add("fa-eye-slash");
+        }
+      });
+    }
+
+    // Password strength meter
+    if (passwordField) {
+      const strengthFill = document.getElementById("strengthFill");
+      const strengthText = document.getElementById("strengthText");
+
+      passwordField.addEventListener("input", function () {
+        const password = this.value;
+        let strength = 0;
+
+        if (password.length >= 8) strength++;
+        if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+        if (password.match(/[0-9]/)) strength++;
+        if (password.match(/[^a-zA-Z0-9]/)) strength++;
+
+        const strengthLevels = [
+          { width: "0%", color: "transparent", text: "Enter password" },
+          { width: "25%", color: "var(--terminal-red)", text: "Weak" },
+          { width: "50%", color: "var(--terminal-yellow)", text: "Fair" },
+          { width: "75%", color: "var(--terminal-cyan)", text: "Good" },
+          { width: "100%", color: "var(--terminal-green)", text: "Strong" },
+        ];
+
+        const level = password.length === 0 ? 0 : Math.min(strength + 1, 4);
+        strengthFill.style.width = strengthLevels[level].width;
+        strengthFill.style.background = strengthLevels[level].color;
+        strengthText.textContent = strengthLevels[level].text;
+        strengthText.style.color = strengthLevels[level].color;
+      });
+    }
+
+    // Form submission
+    const form = document.getElementById("registerForm");
+    const registerBtn = document.getElementById("registerBtn");
+    const registerLoading = document.getElementById("registerLoading");
+    const registerStatus = document.getElementById("registerStatus");
+    const loadingStage = document.getElementById("loadingStage");
+
+    if (form && registerBtn && registerLoading) {
+      form.addEventListener("submit", function (e) {
+        registerLoading.style.display = "flex";
+        registerBtn.disabled = true;
+        registerStatus.innerHTML =
+          '<span style="color: var(--terminal-green);">$</span> Creating account...';
+
+        // Simulated stages
+        const stages = [
+          "Validating credentials...",
+          "Creating user profile...",
+          "Setting up permissions...",
+          "Finalizing registration...",
+        ];
+
+        let stage = 0;
+        const interval = setInterval(() => {
+          if (stage < stages.length) {
+            loadingStage.textContent = stages[stage];
+            stage++;
+          } else {
+            clearInterval(interval);
+          }
+        }, 500);
+      });
+    }
+
+    // Input focus effects
+    const inputs = document.querySelectorAll(".register-input");
+    inputs.forEach((input) => {
+      input.addEventListener("focus", function () {
+        this.closest(".input-wrapper-register").classList.add("focused");
+      });
+
+      input.addEventListener("blur", function () {
+        this.closest(".input-wrapper-register").classList.remove("focused");
+      });
+    });
+
+    console.log(
+      "%c[REGISTER]%c Registration system initialized",
+      "color: #00ff41; font-weight: bold;",
+      "color: #00d9ff;",
+    );
+  });
+</script>
+
+<style>
+  /* ============================================
+   REGISTER PAGE STYLES
+   ============================================ */
+
+  /* Animated Grid Background */
+  .register-bg-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+      linear-gradient(var(--terminal-border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--terminal-border) 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.15;
+    z-index: 0;
+    animation: gridMove 20s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes gridMove {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(50px, 50px);
+    }
+  }
+
+  .register-hero-section {
+    padding: 2.5rem 0 1.5rem;
+    position: relative;
+    z-index: 10;
+  }
+
+  .hero-terminal-register {
+    box-shadow: 0 10px 40px rgba(0, 255, 65, 0.25);
+    animation: heroFloat 6s ease-in-out infinite;
+  }
+
+  @keyframes heroFloat {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  .register-glitch {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .register-subtitle {
+    font-size: 1rem;
+    min-height: 1.5rem;
+    color: var(--terminal-text-dim);
+  }
+
+  .register-main {
+    padding: 2rem 0;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Flash Messages */
+  .flash-message-panel {
+    margin-bottom: 1.5rem;
+    animation: slideDown 0.5s ease;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .flash-message {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: rgba(255, 107, 0, 0.1);
+    border-left: 3px solid var(--terminal-red);
+    color: var(--terminal-red);
+    border-radius: 4px;
+  }
+
+  .flash-message i {
+    font-size: 1.2rem;
+  }
+
+  /* Register Terminal */
+  .register-terminal {
+    box-shadow: 0 10px 50px rgba(0, 217, 255, 0.3);
+    animation: fadeInScale 0.6s ease;
+    margin-bottom: 1.5rem;
+  }
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .status-pulse {
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .register-content {
+    padding: 2rem;
+  }
+
+  /* Command Prompt Box */
+  .command-prompt-box {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--terminal-border);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.85rem;
+  }
+
+  .prompt-line-register {
+    margin-bottom: 0.5rem;
+  }
+
+  .prompt-user {
+    color: var(--terminal-green);
+  }
+
+  .prompt-separator {
+    color: var(--terminal-text-dim);
+  }
+
+  .prompt-path {
+    color: var(--terminal-cyan);
+  }
+
+  .prompt-symbol {
+    color: var(--terminal-text-dim);
+  }
+
+  .prompt-command {
+    color: var(--terminal-yellow);
+  }
+
+  .prompt-output-register {
+    font-size: 0.8rem;
+    color: var(--terminal-text-dim);
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--terminal-border);
+    margin-top: 0.5rem;
+  }
+
+  /* Register Fields */
+  .register-field-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .field-label-register {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .field-icon-register {
+    color: var(--terminal-yellow);
+  }
+
+  .field-label-register label {
+    color: var(--terminal-green);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    margin: 0;
+  }
+
+  .input-wrapper-register {
+    position: relative;
+  }
+
+  .input-icon-left {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--terminal-text-dim);
+    z-index: 1;
+    transition: all 0.3s ease;
+  }
+
+  .register-input {
+    background: rgba(0, 0, 0, 0.3) !important;
+    border: 2px solid var(--terminal-border) !important;
+    color: var(--terminal-text) !important;
+    padding: 0.75rem 1rem 0.75rem 2.75rem !important;
+    border-radius: 8px !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 0.9rem !important;
+    transition: all 0.3s ease !important;
+    width: 100%;
+  }
+
+  .register-input:focus {
+    border-color: var(--terminal-cyan) !important;
+    box-shadow: 0 0 25px rgba(0, 217, 255, 0.4) !important;
+    outline: none !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .input-wrapper-register.focused .input-icon-left {
+    color: var(--terminal-cyan);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .input-wrapper-register.focused .input-border-glow {
+    opacity: 1;
+  }
+
+  .input-border-glow {
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(
+      45deg,
+      var(--terminal-cyan),
+      var(--terminal-green)
+    );
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: -1;
+    filter: blur(8px);
+  }
+
+  /* Toggle Password Button */
+  .toggle-password {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--terminal-text-dim);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1;
+  }
+
+  .toggle-password:hover {
+    color: var(--terminal-cyan);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  /* Password Strength Meter */
+  .password-strength {
+    margin-top: 0.75rem;
+  }
+
+  .strength-bar {
+    height: 4px;
+    background: var(--terminal-border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+
+  .strength-fill {
+    height: 100%;
+    width: 0%;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+  }
+
+  .strength-text {
+    font-size: 0.8rem;
+    color: var(--terminal-text-dim);
+    transition: color 0.3s ease;
+  }
+
+  /* Field Errors */
+  .field-error-register {
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 107, 0, 0.1);
+    border-left: 3px solid var(--terminal-red);
+    color: var(--terminal-red);
+    font-size: 0.85rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: shake 0.5s ease;
+  }
+
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-8px);
+    }
+    75% {
+      transform: translateX(8px);
+    }
+  }
+
+  /* Action Bar */
+  .register-action-bar {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--terminal-border);
+  }
+
+  .terminal-prompt-mini {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8rem;
+    color: var(--terminal-text-dim);
+    margin-bottom: 1rem;
+  }
+
+  .btn-register-primary {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(
+      135deg,
+      var(--terminal-cyan),
+      var(--terminal-green)
+    );
+    color: #0a0e27;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-register-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 255, 65, 0.5);
+  }
+
+  .btn-register-primary:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  .btn-register-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .btn-glow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transform: translateX(-100%);
+  }
+
+  .btn-register-primary:hover:not(:disabled) .btn-glow {
+    animation: btnGlowSlide 1.5s ease infinite;
+  }
+
+  @keyframes btnGlowSlide {
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Alternative Actions */
+  .alt-actions {
+    margin-top: 1.5rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .alt-link {
+    color: var(--terminal-cyan);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .alt-link:hover {
+    color: var(--terminal-green);
+    text-decoration: underline;
+  }
+
+  /* Loading Indicator */
+  .register-loading {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding: 2rem;
+    background: rgba(0, 217, 255, 0.05);
+    border: 2px solid var(--terminal-cyan);
+    border-radius: 8px;
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--terminal-border);
+    border-top-color: var(--terminal-cyan);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .loading-text {
+    color: var(--terminal-cyan);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  /* Benefits Panel */
+  .benefits-panel {
+    animation: fadeIn 0.8s ease 0.3s both;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .benefits-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    background: rgba(0, 217, 255, 0.05);
+    border: 1px solid var(--terminal-border);
+    border-left: 3px solid var(--terminal-green);
+    border-radius: 6px;
+    color: var(--terminal-text);
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+  }
+
+  .benefit-item:hover {
+    transform: translateX(5px);
+    border-left-color: var(--terminal-cyan);
+    background: rgba(0, 217, 255, 0.1);
+  }
+
+  .benefit-item i {
+    color: var(--terminal-green);
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+  }
+
+  /* Terminal styling */
+  .terminal-dots {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .terminal-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .terminal-dot.red {
+    background: #ff5f57;
+  }
+
+  .terminal-dot.yellow {
+    background: #febc2e;
+  }
+
+  .terminal-dot.green {
+    background: #28c840;
+  }
+
+  .terminal-actions {
+    margin-left: auto;
+  }
+
+  .terminal-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--terminal-green);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  /* Responsive */
+  @media (max-width: 991px) {
+    .benefits-panel {
+      position: relative;
+      top: 0;
+    }
+
+    .row.justify-content-center.align-items-start {
+      flex-direction: column-reverse;
+    }
+
+    .col-lg-4,
+    .col-lg-6 {
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .register-glitch {
+      font-size: 1.8rem;
+    }
+
+    .register-content {
+      padding: 1.5rem;
+    }
+
+    .register-input {
+      font-size: 16px !important; /* Prevent zoom on iOS */
+    }
+
+    .command-prompt-box {
+      font-size: 0.75rem;
+      padding: 0.75rem;
+    }
+
+    .benefits-stats {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .register-hero-section {
+      padding: 2rem 0 1rem;
+    }
+
+    .hero-terminal-register .terminal-content {
+      padding: 1.5rem;
+    }
+
+    .register-glitch {
+      font-size: 1.5rem;
+    }
+
+    .benefit-item {
+      padding: 0.6rem;
+      font-size: 0.85rem;
+    }
+  }
+</style>
+{% endblock %}
