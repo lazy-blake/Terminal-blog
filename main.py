@@ -40,7 +40,7 @@ class Base(DeclarativeBase):
 
 
 db = SQLAlchemy(model_class=Base)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DB_URI", "sqlite:///posts.db")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DB_URI")
 app.config["SECRET_KEY"] = os.getenv("FlASK-KEY")
 db.init_app(app)
 login_manager.init_app(app)
@@ -176,9 +176,12 @@ def logout():
     return redirect(url_for("home"))
 
 
+with app.app_context():
+    db.create_all()
+
+
 @app.route("/")
 def home():
-    db.create_all()
     current_year = datetime.now().year
     current_month = datetime.now().strftime("%B")
     current_date = datetime.now().strftime("%d")
