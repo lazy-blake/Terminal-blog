@@ -1,284 +1,169 @@
 {% extends 'base.html' %} {% from "bootstrap5/form.html" import render_form %}
 {% block content %}
 
-<!-- Animated Background (same as index) -->
+<!-- Animated Background -->
 <div class="bg-grid"></div>
 <div class="particles" id="particles"></div>
 
 {% include "header.html" %}
 
-<!-- Hero Header -->
-<section class="login-hero-section">
-  <div class="container">
-    <div class="terminal-window hero-terminal-compact">
-      <div class="terminal-header">
-        <div class="terminal-dots">
-          <div class="terminal-dot red"></div>
-          <div class="terminal-dot yellow"></div>
-          <div class="terminal-dot green"></div>
-        </div>
-        <span class="terminal-title">
-          <i class="fas fa-lock"></i> authentication.sh
-        </span>
-      </div>
-      <div class="terminal-content text-center">
-        <h1 class="glitch-title login-glitch">ACCESS_TERMINAL</h1>
-        <p class="login-subtitle">
-          <span id="loginTyping"></span><span class="typing-cursor"></span>
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<main class="mb-5 login-main main-wrapper">
-  <div class="container">
-    <!-- Flash Messages (Full Width Above) -->
+<main class="login-page-wrapper">
+  <div class="login-container">
+    <!-- Flash Messages -->
     {% with messages = get_flashed_messages() %} {% if messages %}
-    <div class="row">
-      <div class="col-12">
-        <div class="terminal-window flash-message-panel">
-          <div class="terminal-header">
-            <div class="terminal-dots">
-              <div class="terminal-dot red"></div>
-              <div class="terminal-dot yellow"></div>
-              <div class="terminal-dot green"></div>
-            </div>
-            <span class="terminal-title">
-              <i class="fas fa-info-circle"></i> system_message
-            </span>
-          </div>
-          <div class="terminal-content">
-            {% for message in messages %}
-            <div class="flash-message">
-              <i class="fas fa-exclamation-triangle"></i>
-              <span>{{ message }}</span>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
+    <div class="flash-messages">
+      {% for message in messages %}
+      <div class="flash-alert">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>{{ message }}</span>
       </div>
+      {% endfor %}
     </div>
     {% endif %} {% endwith %}
 
-    <!-- Side by Side Layout -->
-    <div class="row justify-content-center align-items-start">
-      <!-- LEFT SIDE: Security Info -->
-      <div class="col-lg-4 col-md-5 mb-4 mb-lg-0">
-        <div class="terminal-window security-info">
-          <div class="terminal-header">
-            <div class="terminal-dots">
-              <div class="terminal-dot red"></div>
-              <div class="terminal-dot yellow"></div>
-              <div class="terminal-dot green"></div>
-            </div>
-            <span class="terminal-title">
-              <i class="fas fa-shield-alt"></i> security.log
-            </span>
+    <!-- Main Login Grid -->
+    <div class="login-grid">
+      <!-- Left Side - Welcome Card -->
+      <div class="welcome-section">
+        <div class="welcome-content">
+          <div class="terminal-icon-large">
+            <i class="fas fa-terminal"></i>
           </div>
-          <div class="terminal-content security-content">
-            <div class="security-header">
-              <i class="fas fa-server"></i>
-              <span>SYSTEM STATUS</span>
-            </div>
 
+          <h1 class="welcome-heading">Welcome Back</h1>
+          <p class="welcome-description">
+            Sign in to access your terminal blog and continue sharing your
+            knowledge with the developer community.
+          </p>
+
+          <div class="security-features">
+            <div class="security-item">
+              <i class="fas fa-shield-alt"></i>
+              <span>End-to-end encryption</span>
+            </div>
             <div class="security-item">
               <i class="fas fa-lock"></i>
-              <div class="security-text">
-                <strong>256-bit SSL</strong>
-                <span>End-to-end encryption</span>
-              </div>
+              <span>Secure authentication</span>
             </div>
-
             <div class="security-item">
               <i class="fas fa-user-shield"></i>
-              <div class="security-text">
-                <strong>Secure Auth</strong>
-                <span>Protected credentials</span>
-              </div>
+              <span>Privacy first approach</span>
             </div>
+          </div>
 
-            <div class="security-item">
-              <i class="fas fa-network-wired"></i>
-              <div class="security-text">
-                <strong>Firewall Active</strong>
-                <span>Threat protection enabled</span>
-              </div>
-            </div>
-
-            <div class="security-item">
-              <i class="fas fa-database"></i>
-              <div class="security-text">
-                <strong>Data Privacy</strong>
-                <span>GDPR compliant</span>
-              </div>
-            </div>
-
-            <div class="security-divider"></div>
-
-            <div class="security-stats">
-              <div class="stat-item">
-                <i class="fas fa-check-circle"></i>
-                <div>
-                  <strong>99.9%</strong>
-                  <span>Uptime</span>
-                </div>
-              </div>
-              <div class="stat-item">
+          <div class="platform-stats">
+            <div class="stat-item">
+              <div class="stat-icon">
                 <i class="fas fa-users"></i>
-                <div>
-                  <strong>10K+</strong>
-                  <span>Active Users</span>
-                </div>
+              </div>
+              <div class="stat-details">
+                <strong>10,000+</strong>
+                <span>Active Users</span>
               </div>
             </div>
-
-            <div class="security-footer">
-              <i
-                class="fas fa-circle status-pulse"
-                style="font-size: 0.6rem"
-              ></i>
-              <span>All systems operational</span>
+            <div class="stat-item">
+              <div class="stat-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div class="stat-details">
+                <strong>99.9%</strong>
+                <span>Uptime</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- RIGHT SIDE: Login Form -->
-      <div class="col-lg-6 col-md-7">
-        <div class="terminal-window login-terminal">
-          <div class="terminal-header">
-            <div class="terminal-dots">
-              <div class="terminal-dot red"></div>
-              <div class="terminal-dot yellow"></div>
-              <div class="terminal-dot green"></div>
-            </div>
-            <span class="terminal-title">
-              <i class="fas fa-sign-in-alt"></i> login.sh
-            </span>
-            <div class="terminal-actions">
-              <span class="terminal-status">
-                <i class="fas fa-circle status-pulse"></i>
-                READY
-              </span>
-            </div>
+      <!-- Right Side - Login Form -->
+      <div class="form-section">
+        <div class="form-card">
+          <div class="form-header">
+            <h2 class="form-title">Sign In</h2>
+            <p class="form-description">Enter your credentials to continue</p>
           </div>
 
-          <div class="terminal-content login-content">
-            <!-- Command Prompt -->
-            <div class="command-prompt-box">
-              <div class="prompt-line-login">
-                <span class="prompt-user">root@blog</span>
-                <span class="prompt-separator">:</span>
-                <span class="prompt-path">~/auth</span>
-                <span class="prompt-symbol">$</span>
-                <span class="prompt-command">./login.sh --secure</span>
-              </div>
-              <div class="prompt-output-login">
-                <span style="color: var(--terminal-cyan)">[AUTH]</span>
-                Initializing secure authentication protocol...
-              </div>
-            </div>
+          <form
+            action="{{url_for('login')}}"
+            method="POST"
+            class="login-form"
+            id="loginForm"
+          >
+            {{ form.csrf_token }}
 
-            <!-- Login Form -->
-            <form action="{{url_for('login')}}" method="POST" id="loginForm">
-              {{ form.csrf_token }}
-
-              <!-- Email Field -->
-              <div class="login-field-group">
-                <div class="field-label-login">
-                  <span class="field-icon-login">▸</span>
-                  <label for="{{ form.email.id }}">EMAIL_ADDRESS</label>
-                </div>
-                <div class="input-wrapper-login">
-                  <i class="fas fa-envelope input-icon-left"></i>
-                  {{ form.email(class="form-control login-input",
-                  placeholder="user@terminal.dev", autocomplete="email") }}
-                  <div class="input-border-glow"></div>
-                </div>
-                {% if form.email.errors %}
-                <div class="field-error-login">
-                  <i class="fas fa-times-circle"></i>
-                  {% for error in form.email.errors %} {{ error }} {% endfor %}
-                </div>
-                {% endif %}
-              </div>
-
-              <!-- Password Field -->
-              <div class="login-field-group">
-                <div class="field-label-login">
-                  <span class="field-icon-login">▸</span>
-                  <label for="{{ form.password.id }}">PASSWORD</label>
-                </div>
-                <div class="input-wrapper-login">
-                  <i class="fas fa-lock input-icon-left"></i>
-                  {{ form.password(class="form-control login-input",
-                  placeholder="••••••••", autocomplete="current-password") }}
-                  <button
-                    type="button"
-                    class="toggle-password"
-                    id="togglePassword"
-                  >
-                    <i class="fas fa-eye"></i>
-                  </button>
-                  <div class="input-border-glow"></div>
-                </div>
-                {% if form.password.errors %}
-                <div class="field-error-login">
-                  <i class="fas fa-times-circle"></i>
-                  {% for error in form.password.errors %} {{ error }} {% endfor
-                  %}
-                </div>
-                {% endif %}
-              </div>
-
-              <!-- Remember Me -->
-              {% if form.remember %}
-              <div class="login-field-group remember-group">
-                <label class="remember-label">
-                  {{ form.remember(class="remember-checkbox") }}
-                  <span class="remember-text">
-                    <i class="fas fa-save"></i>
-                    Remember this session
-                  </span>
-                </label>
+            <!-- Email Field -->
+            <div class="input-group">
+              <label for="{{ form.email.id }}" class="input-label">
+                <i class="fas fa-envelope"></i>
+                Email Address
+              </label>
+              {{ form.email(class="input-field", placeholder="your@email.com",
+              autocomplete="email", id=form.email.id) }} {% if form.email.errors
+              %}
+              <div class="input-error">
+                {% for error in form.email.errors %}
+                <i class="fas fa-exclamation-circle"></i>
+                {{ error }} {% endfor %}
               </div>
               {% endif %}
+            </div>
 
-              <!-- Action Bar -->
-              <div class="login-action-bar">
-                <div class="terminal-prompt-mini">
-                  <span style="color: var(--terminal-yellow)">$</span>
-                  <span id="loginStatus">Ready for authentication</span>
-                </div>
-                <button type="submit" class="btn-login-primary" id="loginBtn">
-                  <i class="fas fa-terminal"></i>
-                  <span>Execute Login</span>
-                  <div class="btn-glow"></div>
+            <!-- Password Field -->
+            <div class="input-group">
+              <label for="{{ form.password.id }}" class="input-label">
+                <i class="fas fa-lock"></i>
+                Password
+              </label>
+              <div class="password-container">
+                {{ form.password(class="input-field password-field",
+                placeholder="Enter your password",
+                autocomplete="current-password", id=form.password.id) }}
+                <button
+                  type="button"
+                  class="password-toggle"
+                  id="togglePassword"
+                >
+                  <i class="fas fa-eye"></i>
                 </button>
               </div>
-
-              <!-- Alternative Actions -->
-              <div class="alt-actions">
-                <a href="#" class="alt-link">
-                  <i class="fas fa-key"></i>
-                  Forgot password?
-                </a>
-                <span class="alt-separator">•</span>
-                <a href="{{ url_for('register') }}" class="alt-link">
-                  <i class="fas fa-user-plus"></i>
-                  Create account
-                </a>
+              {% if form.password.errors %}
+              <div class="input-error">
+                {% for error in form.password.errors %}
+                <i class="fas fa-exclamation-circle"></i>
+                {{ error }} {% endfor %}
               </div>
-            </form>
-
-            <!-- Loading Indicator -->
-            <div id="loginLoading" class="login-loading">
-              <div class="loading-spinner"></div>
-              <div class="loading-text">
-                <span id="loadingStage">Authenticating...</span>
-              </div>
+              {% endif %}
             </div>
+
+            <!-- Remember Me & Forgot Password -->
+            <div class="form-extras">
+              {% if form.remember %}
+              <label class="remember-checkbox">
+                {{ form.remember(class="checkbox") }}
+                <span>Remember me</span>
+              </label>
+              {% endif %}
+              <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="login-button" id="loginBtn">
+              <span>Sign In</span>
+              <i class="fas fa-arrow-right"></i>
+            </button>
+
+            <!-- Register Link -->
+            <div class="form-footer">
+              <span>Don't have an account?</span>
+              <a href="{{ url_for('register') }}" class="signup-link"
+                >Create one</a
+              >
+            </div>
+          </form>
+
+          <!-- Loading State -->
+          <div class="loading-state" id="loadingState">
+            <div class="loading-spinner"></div>
+            <p>Authenticating...</p>
           </div>
         </div>
       </div>
@@ -289,7 +174,7 @@
 {% include "footer.html" %} {% endblock %} {% block scripts %} {{ super() }}
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    // Create floating particles (same as index)
+    // Create particles
     function createParticles() {
       const particlesContainer = document.getElementById("particles");
       if (!particlesContainer) return;
@@ -307,46 +192,9 @@
 
     createParticles();
 
-    // Typing animation
-    const loginPhrases = [
-      "Welcome back, developer...",
-      "Enter your credentials...",
-      "Secure access required...",
-      "Authentication protocol active...",
-    ];
-
-    let phraseIdx = 0;
-    let charIdx = 0;
-    let isDeleting = false;
-
-    function typeLoginText() {
-      const elem = document.getElementById("loginTyping");
-      if (!elem) return;
-
-      const current = loginPhrases[phraseIdx];
-
-      if (!isDeleting && charIdx < current.length) {
-        elem.textContent += current.charAt(charIdx);
-        charIdx++;
-        setTimeout(typeLoginText, 80);
-      } else if (isDeleting && charIdx > 0) {
-        elem.textContent = current.substring(0, charIdx - 1);
-        charIdx--;
-        setTimeout(typeLoginText, 40);
-      } else {
-        isDeleting = !isDeleting;
-        if (!isDeleting) {
-          phraseIdx = (phraseIdx + 1) % loginPhrases.length;
-        }
-        setTimeout(typeLoginText, isDeleting ? 1000 : 2000);
-      }
-    }
-
-    typeLoginText();
-
     // Toggle password visibility
     const toggleBtn = document.getElementById("togglePassword");
-    const passwordField = document.querySelector('input[type="password"]');
+    const passwordField = document.querySelector(".password-field");
 
     if (toggleBtn && passwordField) {
       toggleBtn.addEventListener("click", function () {
@@ -367,58 +215,17 @@
     // Form submission
     const form = document.getElementById("loginForm");
     const loginBtn = document.getElementById("loginBtn");
-    const loginLoading = document.getElementById("loginLoading");
-    const loginStatus = document.getElementById("loginStatus");
-    const loadingStage = document.getElementById("loadingStage");
+    const loadingState = document.getElementById("loadingState");
 
-    if (form && loginBtn && loginLoading) {
+    if (form && loginBtn && loadingState) {
       form.addEventListener("submit", function (e) {
-        loginLoading.style.display = "flex";
+        loadingState.style.display = "flex";
         loginBtn.disabled = true;
-        loginStatus.innerHTML =
-          '<span style="color: var(--terminal-green);">$</span> Executing authentication...';
-
-        // Simulated stages
-        const stages = [
-          "Verifying credentials...",
-          "Establishing secure session...",
-          "Granting access...",
-        ];
-
-        let stage = 0;
-        const interval = setInterval(() => {
-          if (stage < stages.length) {
-            loadingStage.textContent = stages[stage];
-            stage++;
-          } else {
-            clearInterval(interval);
-          }
-        }, 600);
       });
     }
 
-    // Input focus effects
-    const inputs = document.querySelectorAll(".login-input");
-    inputs.forEach((input) => {
-      input.addEventListener("focus", function () {
-        this.closest(".input-wrapper-login").classList.add("focused");
-      });
-
-      input.addEventListener("blur", function () {
-        this.closest(".input-wrapper-login").classList.remove("focused");
-      });
-    });
-
-    // Keyboard shortcut - Enter to submit
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" && document.activeElement.tagName === "INPUT") {
-        e.preventDefault();
-        form.submit();
-      }
-    });
-
     console.log(
-      "%c[AUTH]%c Login system initialized",
+      "%c[AUTH]%c Login page initialized",
       "color: #00ff41; font-weight: bold;",
       "color: #00d9ff;",
     );
@@ -426,43 +233,58 @@
 </script>
 
 <style>
-  .login-hero-section {
-    padding: 2.5rem 0 1.5rem;
+  /* Fix body background */
+  body {
+    background: var(--terminal-bg) !important;
+    min-height: 100vh;
   }
 
-  .hero-terminal-compact {
-    box-shadow: 0 10px 40px rgba(0, 255, 65, 0.25);
-    animation: heroFloat 6s ease-in-out infinite;
+  /* Main Wrapper - Match Index Page Background */
+  .login-page-wrapper {
+    min-height: calc(100vh - 150px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 0;
+    position: relative;
+    z-index: 10;
+    background: var(--terminal-bg); /* Match index background */
   }
 
-  @keyframes heroFloat {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-8px);
-    }
+  /* Override navbar styles to match index */
+  .navbar {
+    background: rgba(10, 14, 20, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--terminal-border) !important;
   }
 
-  .login-glitch {
-    font-size: 2.2rem;
-    margin-bottom: 1rem;
+  .navbar-brand {
+    color: var(--terminal-green) !important;
+    font-weight: 700;
   }
 
-  .login-subtitle {
-    font-size: 1rem;
-    min-height: 1.5rem;
-    color: var(--terminal-text-dim);
+  .nav-link {
+    color: var(--terminal-text) !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
   }
 
-  .login-main {
-    padding: 2rem 0;
+  .nav-link:hover {
+    color: var(--terminal-green) !important;
+  }
+
+  .login-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
   }
 
   /* Flash Messages */
-  .flash-message-panel {
-    margin-bottom: 1.5rem;
+  .flash-messages {
+    margin-bottom: 2rem;
     animation: slideDown 0.5s ease;
   }
 
@@ -477,27 +299,35 @@
     }
   }
 
-  .flash-message {
+  .flash-alert {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 1rem;
-    background: rgba(255, 107, 0, 0.1);
-    border-left: 3px solid var(--terminal-red);
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 95, 87, 0.1);
+    border: 2px solid var(--terminal-red);
+    border-left: 4px solid var(--terminal-red);
+    border-radius: 10px;
     color: var(--terminal-red);
-    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: 500;
   }
 
-  .flash-message i {
+  .flash-alert i {
     font-size: 1.2rem;
   }
 
-  /* Security Info - LEFT SIDE */
-  .security-info {
+  /* Login Grid */
+  .login-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  /* Welcome Section - Darker background like index */
+  .welcome-section {
     animation: fadeInLeft 0.6s ease;
-    box-shadow: 0 10px 40px rgba(0, 255, 65, 0.2);
-    position: sticky;
-    top: 100px;
   }
 
   @keyframes fadeInLeft {
@@ -511,138 +341,127 @@
     }
   }
 
-  .security-content {
-    padding: 1.5rem;
+  .welcome-content {
+    background: var(--terminal-bg-light); /* Use CSS variable */
+    border: 2px solid var(--terminal-border);
+    border-radius: 16px;
+    padding: 3rem;
+    box-shadow: 0 10px 40px rgba(0, 255, 65, 0.15);
   }
 
-  .security-header {
+  .terminal-icon-large {
+    width: 80px;
+    height: 80px;
+    background: rgba(0, 255, 65, 0.15);
+    border: 2px solid var(--terminal-green);
+    border-radius: 16px;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem;
-    background: rgba(0, 255, 65, 0.1);
-    border: 1px solid var(--terminal-green);
-    border-radius: 6px;
-    margin-bottom: 1.5rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  .terminal-icon-large i {
+    font-size: 2.5rem;
     color: var(--terminal-green);
-    font-weight: 600;
-    font-size: 0.9rem;
+  }
+
+  .welcome-heading {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--terminal-green);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .welcome-description {
+    font-size: 1.05rem;
+    color: var(--terminal-text-dim);
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+
+  /* Security Features */
+  .security-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
   }
 
   .security-item {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 1rem;
-    padding: 1rem;
-    margin-bottom: 0.75rem;
-    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem 1.25rem;
+    background: rgba(0, 0, 0, 0.3); /* Darker background */
     border: 1px solid var(--terminal-border);
     border-left: 3px solid var(--terminal-cyan);
-    border-radius: 6px;
+    border-radius: 10px;
+    color: var(--terminal-text);
+    font-size: 0.95rem;
     transition: all 0.3s ease;
   }
 
   .security-item:hover {
-    transform: translateX(5px);
+    transform: translateX(8px);
     border-left-color: var(--terminal-green);
-    background: rgba(0, 255, 65, 0.05);
+    background: rgba(0, 255, 65, 0.08);
   }
 
   .security-item i {
     color: var(--terminal-cyan);
-    font-size: 1.2rem;
-    width: 24px;
-    flex-shrink: 0;
-    margin-top: 2px;
+    font-size: 1.25rem;
   }
 
-  .security-text {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .security-text strong {
-    color: var(--terminal-text);
-    font-size: 0.9rem;
-  }
-
-  .security-text span {
-    color: var(--terminal-text-dim);
-    font-size: 0.8rem;
-  }
-
-  .security-divider {
-    height: 2px;
-    background: var(--terminal-border);
-    margin: 1.5rem 0;
-    opacity: 0.5;
-  }
-
-  .security-stats {
+  /* Platform Stats */
+  .platform-stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
-    margin-bottom: 1.5rem;
   }
 
   .stat-item {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 1rem;
+    gap: 1rem;
+    padding: 1.25rem;
     background: rgba(0, 217, 255, 0.1);
-    border: 1px solid var(--terminal-cyan);
-    border-radius: 6px;
+    border: 2px solid var(--terminal-cyan);
+    border-radius: 12px;
     transition: all 0.3s ease;
   }
 
   .stat-item:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px var(--glow-cyan);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 217, 255, 0.25);
   }
 
-  .stat-item i {
+  .stat-icon {
+    font-size: 1.8rem;
     color: var(--terminal-cyan);
-    font-size: 1.5rem;
   }
 
-  .stat-item div {
+  .stat-details {
     display: flex;
     flex-direction: column;
+    gap: 0.25rem;
   }
 
-  .stat-item strong {
+  .stat-details strong {
     color: var(--terminal-green);
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    font-weight: 700;
     line-height: 1;
   }
 
-  .stat-item span {
+  .stat-details span {
     color: var(--terminal-text-dim);
-    font-size: 0.75rem;
+    font-size: 0.8rem;
   }
 
-  .security-footer {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    justify-content: center;
-    padding: 0.75rem;
-    background: rgba(0, 255, 65, 0.05);
-    border-radius: 6px;
-    color: var(--terminal-text-dim);
-    font-size: 0.85rem;
-  }
-
-  .status-pulse {
-    animation: pulse 2s infinite;
-    color: var(--terminal-green);
-  }
-
-  /* Login Terminal - RIGHT SIDE */
-  .login-terminal {
-    box-shadow: 0 10px 50px rgba(0, 217, 255, 0.3);
+  /* Form Section */
+  .form-section {
     animation: fadeInRight 0.6s ease;
   }
 
@@ -657,133 +476,93 @@
     }
   }
 
-  .login-content {
-    padding: 2rem;
-  }
-
-  /* Command Prompt Box */
-  .command-prompt-box {
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid var(--terminal-border);
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 2rem;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 0.85rem;
-  }
-
-  .prompt-line-login {
-    margin-bottom: 0.5rem;
-  }
-
-  .prompt-user {
-    color: var(--terminal-green);
-  }
-  .prompt-separator {
-    color: var(--terminal-text-dim);
-  }
-  .prompt-path {
-    color: var(--terminal-cyan);
-  }
-  .prompt-symbol {
-    color: var(--terminal-text-dim);
-  }
-  .prompt-command {
-    color: var(--terminal-yellow);
-  }
-
-  .prompt-output-login {
-    font-size: 0.8rem;
-    color: var(--terminal-text-dim);
-    padding-top: 0.5rem;
-    border-top: 1px solid var(--terminal-border);
-    margin-top: 0.5rem;
-  }
-
-  /* Login Fields */
-  .login-field-group {
-    margin-bottom: 1.5rem;
-  }
-
-  .field-label-login {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .field-icon-login {
-    color: var(--terminal-yellow);
-  }
-
-  .field-label-login label {
-    color: var(--terminal-green);
-    font-weight: 600;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-    margin: 0;
-  }
-
-  .input-wrapper-login {
+  .form-card {
+    background: var(--terminal-bg-light);
+    border: 2px solid var(--terminal-border);
+    border-radius: 16px;
+    padding: 3rem;
+    box-shadow: 0 20px 60px rgba(0, 217, 255, 0.2);
     position: relative;
   }
 
-  .input-icon-left {
-    position: absolute;
-    left: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
+  .form-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .form-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--terminal-green);
+    margin-bottom: 0.5rem;
+  }
+
+  .form-description {
+    font-size: 0.95rem;
     color: var(--terminal-text-dim);
-    z-index: 1;
+    margin: 0;
+  }
+
+  /* Login Form */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .input-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--terminal-cyan);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .input-label i {
+    font-size: 1rem;
+  }
+
+  .input-field {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: rgba(0, 0, 0, 0.4); /* Darker input background */
+    border: 2px solid var(--terminal-border);
+    border-radius: 10px;
+    color: var(--terminal-text);
+    font-size: 1rem;
+    font-family: "JetBrains Mono", monospace;
     transition: all 0.3s ease;
   }
 
-  .login-input {
-    background: rgba(0, 0, 0, 0.3) !important;
-    border: 2px solid var(--terminal-border) !important;
-    color: var(--terminal-text) !important;
-    padding: 0.75rem 1rem 0.75rem 2.75rem !important;
-    border-radius: 8px !important;
-    font-family: "JetBrains Mono", monospace !important;
-    font-size: 0.9rem !important;
-    transition: all 0.3s ease !important;
-    width: 100%;
+  .input-field:focus {
+    outline: none;
+    border-color: var(--terminal-cyan);
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.25);
   }
 
-  .login-input:focus {
-    border-color: var(--terminal-cyan) !important;
-    box-shadow: 0 0 25px rgba(0, 217, 255, 0.4) !important;
-    outline: none !important;
-    background: rgba(0, 0, 0, 0.4) !important;
+  .input-field::placeholder {
+    color: var(--terminal-text-dim);
   }
 
-  .input-wrapper-login.focused .input-icon-left {
-    color: var(--terminal-cyan);
-    transform: translateY(-50%) scale(1.1);
+  /* Password Container */
+  .password-container {
+    position: relative;
   }
 
-  .input-wrapper-login.focused .input-border-glow {
-    opacity: 1;
+  .password-field {
+    padding-right: 3.5rem;
   }
 
-  .input-border-glow {
-    position: absolute;
-    inset: -2px;
-    background: linear-gradient(
-      45deg,
-      var(--terminal-cyan),
-      var(--terminal-green)
-    );
-    border-radius: 8px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    z-index: -1;
-    filter: blur(8px);
-  }
-
-  /* Toggle Password Button */
-  .toggle-password {
+  .password-toggle {
     position: absolute;
     right: 1rem;
     top: 50%;
@@ -792,133 +571,95 @@
     border: none;
     color: var(--terminal-text-dim);
     cursor: pointer;
+    font-size: 1.1rem;
     transition: all 0.3s ease;
-    z-index: 1;
+    padding: 0.5rem;
   }
 
-  .toggle-password:hover {
+  .password-toggle:hover {
     color: var(--terminal-cyan);
-    transform: translateY(-50%) scale(1.1);
   }
 
-  /* Remember Me */
-  .remember-group {
-    margin: 1.5rem 0;
-  }
-
-  .remember-label {
+  /* Input Error */
+  .input-error {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    cursor: pointer;
-    padding: 0.75rem;
-    background: rgba(0, 217, 255, 0.05);
-    border: 1px solid var(--terminal-border);
-    border-radius: 6px;
-    transition: all 0.3s ease;
-    margin: 0;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 95, 87, 0.1);
+    border-left: 3px solid var(--terminal-red);
+    border-radius: 8px;
+    color: var(--terminal-red);
+    font-size: 0.85rem;
+    font-weight: 500;
   }
 
-  .remember-label:hover {
-    background: rgba(0, 217, 255, 0.1);
-    border-color: var(--terminal-cyan);
+  /* Form Extras */
+  .form-extras {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 
   .remember-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--terminal-text);
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin: 0;
+  }
+
+  .checkbox {
     width: 18px;
     height: 18px;
     accent-color: var(--terminal-cyan);
     cursor: pointer;
   }
 
-  .remember-text {
-    color: var(--terminal-text-dim);
+  .forgot-password {
+    color: var(--terminal-cyan);
+    text-decoration: none;
     font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
   }
 
-  /* Field Errors */
-  .field-error-login {
-    margin-top: 0.5rem;
-    padding: 0.5rem 0.75rem;
-    background: rgba(255, 107, 0, 0.1);
-    border-left: 3px solid var(--terminal-red);
-    color: var(--terminal-red);
-    font-size: 0.85rem;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    animation: shake 0.5s ease;
+  .forgot-password:hover {
+    color: var(--terminal-green);
+    text-decoration: underline;
   }
 
-  @keyframes shake {
-    0%,
-    100% {
-      transform: translateX(0);
-    }
-    25% {
-      transform: translateX(-8px);
-    }
-    75% {
-      transform: translateX(8px);
-    }
-  }
-
-  /* Action Bar */
-  .login-action-bar {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 2px solid var(--terminal-border);
-  }
-
-  .terminal-prompt-mini {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 0.8rem;
-    color: var(--terminal-text-dim);
-    margin-bottom: 1rem;
-  }
-
-  .btn-login-primary {
+  /* Login Button - Match index green color */
+  .login-button {
     width: 100%;
-    padding: 1rem;
+    padding: 1.1rem;
     background: linear-gradient(
       135deg,
       var(--terminal-cyan),
       var(--terminal-green)
     );
-    color: #0a0e27;
+    color: var(--terminal-bg); /* Dark text on bright background */
     border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 1rem;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1.05rem;
     cursor: pointer;
-    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
+    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    margin-top: 0.5rem;
   }
 
-  .btn-login-primary:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 255, 65, 0.5);
-  }
-
-  .btn-login-primary:active:not(:disabled) {
-    transform: translateY(0);
-  }
-
-  .btn-login-primary:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-
-  .btn-glow {
+  .login-button::before {
+    content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(
@@ -928,65 +669,75 @@
       transparent
     );
     transform: translateX(-100%);
+    transition: transform 0.6s ease;
   }
 
-  .btn-login-primary:hover:not(:disabled) .btn-glow {
-    animation: btnGlowSlide 1.5s ease infinite;
+  .login-button:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 35px rgba(0, 255, 65, 0.5);
   }
 
-  @keyframes btnGlowSlide {
-    to {
-      transform: translateX(100%);
-    }
+  .login-button:hover:not(:disabled)::before {
+    transform: translateX(100%);
   }
 
-  /* Alternative Actions */
-  .alt-actions {
-    margin-top: 1.5rem;
+  .login-button:hover:not(:disabled) i {
+    transform: translateX(5px);
+  }
+
+  .login-button:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  .login-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .login-button i {
+    transition: transform 0.3s ease;
+  }
+
+  /* Form Footer */
+  .form-footer {
     text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
+    padding-top: 2rem;
+    border-top: 1px solid var(--terminal-border);
+    color: var(--terminal-text-dim);
+    font-size: 0.95rem;
   }
 
-  .alt-link {
+  .signup-link {
     color: var(--terminal-cyan);
     text-decoration: none;
-    font-size: 0.9rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
     transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
   }
 
-  .alt-link:hover {
+  .signup-link:hover {
     color: var(--terminal-green);
     text-decoration: underline;
   }
 
-  .alt-separator {
-    color: var(--terminal-text-dim);
-  }
-
-  /* Loading Indicator */
-  .login-loading {
+  /* Loading State */
+  .loading-state {
     display: none;
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 14, 20, 0.95);
+    border-radius: 16px;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
-    margin-top: 2rem;
-    padding: 2rem;
-    background: rgba(0, 217, 255, 0.05);
-    border: 2px solid var(--terminal-cyan);
-    border-radius: 8px;
+    justify-content: center;
+    gap: 1.5rem;
+    z-index: 20;
   }
 
   .loading-spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid var(--terminal-border);
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--terminal-border);
     border-top-color: var(--terminal-cyan);
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -998,159 +749,88 @@
     }
   }
 
-  .loading-text {
+  .loading-state p {
     color: var(--terminal-cyan);
-    font-size: 0.9rem;
-    text-align: center;
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
   }
 
   /* Responsive Design */
   @media (max-width: 991px) {
-    .security-info {
-      position: relative;
-      top: 0;
+    .login-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
     }
 
-    .row.justify-content-center.align-items-start {
-      flex-direction: column-reverse;
+    .welcome-section {
+      order: 2;
     }
 
-    .col-lg-4,
-    .col-lg-6 {
-      max-width: 100%;
+    .form-section {
+      order: 1;
     }
   }
 
   @media (max-width: 768px) {
-    .login-glitch {
-      font-size: 1.8rem;
+    .login-page-wrapper {
+      padding: 2rem 0;
     }
 
-    .login-content {
-      padding: 1.5rem;
+    .login-container {
+      padding: 0 1rem;
     }
 
-    .login-input {
-      font-size: 16px !important; /* Prevent zoom on iOS */
+    .welcome-content,
+    .form-card {
+      padding: 2rem 1.5rem;
     }
 
-    .alt-actions {
-      flex-direction: column;
-      gap: 0.5rem;
+    .welcome-heading {
+      font-size: 2rem;
     }
 
-    .alt-separator {
-      display: none;
+    .form-title {
+      font-size: 1.75rem;
     }
 
-    .security-stats {
+    .terminal-icon-large {
+      width: 70px;
+      height: 70px;
+    }
+
+    .terminal-icon-large i {
+      font-size: 2rem;
+    }
+
+    .platform-stats {
       grid-template-columns: 1fr;
     }
 
-    .command-prompt-box {
-      font-size: 0.75rem;
-      padding: 0.75rem;
+    .input-field {
+      font-size: 16px; /* Prevent zoom on iOS */
     }
   }
 
   @media (max-width: 480px) {
-    .login-hero-section {
-      padding: 2rem 0 1rem;
-    }
-
-    .hero-terminal-compact .terminal-content {
+    .welcome-content,
+    .form-card {
       padding: 1.5rem;
     }
 
-    .login-glitch {
-      font-size: 1.5rem;
+    .form-extras {
+      flex-direction: column;
+      align-items: flex-start;
     }
 
-    .security-item {
-      padding: 0.75rem;
+    .welcome-heading {
+      font-size: 1.75rem;
     }
 
-    .security-text strong {
-      font-size: 0.85rem;
+    .terminal-icon-large {
+      width: 60px;
+      height: 60px;
     }
-
-    .stat-item {
-      padding: 0.75rem;
-    }
-
-    .stat-item strong {
-      font-size: 1rem;
-    }
-  }
-
-  /* Smooth animations */
-  @keyframes pulse {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.5;
-    }
-  }
-
-  /* Terminal dots styling */
-  .terminal-dots {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .terminal-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-  }
-
-  .terminal-dot.red {
-    background: #ff5f57;
-  }
-
-  .terminal-dot.yellow {
-    background: #febc2e;
-  }
-
-  .terminal-dot.green {
-    background: #28c840;
-  }
-
-  /* Terminal actions */
-  .terminal-actions {
-    margin-left: auto;
-  }
-
-  .terminal-status {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--terminal-green);
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-
-  /* Additional hover effects */
-  .terminal-window {
-    transition: all 0.3s ease;
-  }
-
-  .terminal-window:hover {
-    transform: translateY(-2px);
-  }
-
-  /* Focus visible for accessibility */
-  *:focus-visible {
-    outline: 2px solid var(--terminal-cyan);
-    outline-offset: 2px;
-  }
-
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
   }
 </style>
 

@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% from 'bootstrap5/form.html' import render_form %}
 {% block head %} {{ super() }}
-<title>Contact | {{ config.get('BLOG_NAME', 'Clean Blog') }}</title>
+<title>Contact | {{ config.get('BLOG_NAME', 'Terminal Blog') }}</title>
 <link
   rel="icon"
   type="image/x-icon"
@@ -27,42 +27,272 @@
 
 {% endblock %} {% block content %} {% include "header.html" %}
 
-<!-- Page Header -->
-<header
-  class="masthead terminal-header"
-  style="background-image: url(&quot;static/assets/img/contact-bg.jpg&quot;)"
->
-  <div class="overlay"></div>
-  <div class="container position-relative px-4 px-lg-5">
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-      <div class="col-md-10 col-lg-8 col-xl-7 text-center">
+<!-- Hero Header -->
+<section class="contact-hero-section">
+  <div class="container">
+    <div class="terminal-window hero-terminal-contact">
+      <div class="terminal-header">
+        <div class="terminal-dots">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+        </div>
+        <span class="terminal-title">
+          <i class="fas fa-envelope"></i> contact.sh
+        </span>
+      </div>
+      <div class="terminal-content text-center">
+        <div class="hero-command-line">
+          <span style="color: var(--terminal-green)">root@blog</span>
+          <span style="color: var(--terminal-text-dim)">:</span>
+          <span style="color: var(--terminal-cyan)">~</span>
+          <span style="color: var(--terminal-text-dim)">#</span>
+          <span style="color: var(--terminal-yellow)"> ./send_message.sh</span>
+        </div>
         {% if success %}
-        <h1 class="terminal-title text-glow">&gt; Successfully Sent Message</h1>
-        {% else %}
-        <h1 class="terminal-title text-glow">&gt; Contact Me</h1>
-        {% endif %}
-        <p class="terminal-subtitle mt-3">
-          <span class="terminal-dollar">$</span>
-          <span class="terminal-italic">Have questions? I have answers.</span>
+        <h1 class="glitch-title contact-glitch success-glitch">MESSAGE_SENT</h1>
+        <p class="contact-subtitle success-subtitle">
+          <i class="fas fa-check-circle"></i>
+          <span>Your message has been delivered successfully!</span>
         </p>
+        {% else %}
+        <p><h1 class="glitch-title contact-glitch">GET_IN_TOUCH</h1></p>
+        <p class="contact-subtitle">
+          <span id="contactTyping"></span><span class="typing-cursor"></span>
+        </p>
+        {% endif %}
       </div>
     </div>
   </div>
-</header>
+</section>
 
 <!-- Main Content -->
-<main class="mb-5 mt-4">
-  <div class="container px-4 px-lg-5">
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-      <div class="col-md-10 col-lg-8 col-xl-7">
-        <div class="contact-card">
-          <p>
-            Want to get in touch? Fill out the form below and I’ll reply as soon
-            as possible!
-          </p>
-          <form action="{{ url_for('get_contact') }}" method="POST" novalidate>
-            {{ form.csrf_token }} {{ render_form(form) }}
-          </form>
+<main class="mb-5 contact-main">
+  <div class="container">
+    <!-- Side by Side Layout -->
+    <div class="row justify-content-center align-items-start">
+      <!-- LEFT SIDE: Contact Info Panel -->
+      <div class="col-lg-4 col-md-5 mb-4 mb-lg-0">
+        <div class="terminal-window contact-info-panel">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <div class="terminal-dot red"></div>
+              <div class="terminal-dot yellow"></div>
+              <div class="terminal-dot green"></div>
+            </div>
+            <span class="terminal-title">
+              <i class="fas fa-info-circle"></i> contact_info.txt
+            </span>
+          </div>
+          <div class="terminal-content info-content">
+            <div class="info-header">
+              <i class="fas fa-address-book"></i>
+              <span>CONTACT INFO</span>
+            </div>
+
+            <div class="info-item">
+              <i class="fas fa-clock"></i>
+              <div class="info-text">
+                <strong>Response Time</strong>
+                <span>Usually within 24-48 hours</span>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <i class="fas fa-shield-alt"></i>
+              <div class="info-text">
+                <strong>Privacy Protected</strong>
+                <span>Your information is secure</span>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <i class="fas fa-check-circle"></i>
+              <div class="info-text">
+                <strong>Spam-Free</strong>
+                <span>No automated responses</span>
+              </div>
+            </div>
+
+            <div class="info-divider"></div>
+
+            <div class="info-item">
+              <i class="fas fa-envelope"></i>
+              <div class="info-text">
+                <strong>Direct Email</strong>
+                <span>contact@blog.dev</span>
+              </div>
+            </div>
+
+            <div class="info-footer">
+              <i
+                class="fas fa-circle status-pulse"
+                style="font-size: 0.6rem"
+              ></i>
+              <span>Available to respond</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE: Contact Form -->
+      <div class="col-lg-7 col-md-7">
+        <div class="terminal-window contact-terminal">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <div class="terminal-dot red"></div>
+              <div class="terminal-dot yellow"></div>
+              <div class="terminal-dot green"></div>
+            </div>
+            <span class="terminal-title">
+              <i class="fas fa-paper-plane"></i> message_form.sh
+            </span>
+            <div class="terminal-actions">
+              <span class="terminal-status">
+                <i class="fas fa-circle status-pulse"></i>
+                READY
+              </span>
+            </div>
+          </div>
+
+          <div class="terminal-content contact-content">
+            <!-- Command Prompt -->
+            <div class="command-prompt-box">
+              <div class="prompt-line-contact">
+                <span class="prompt-user">visitor@blog</span>
+                <span class="prompt-separator">:</span>
+                <span class="prompt-path">~/contact</span>
+                <span class="prompt-symbol">$</span>
+                <span class="prompt-command">./compose_message.sh</span>
+              </div>
+              <div class="prompt-output-contact">
+                <span style="color: var(--terminal-cyan)">[INFO]</span>
+                Ready to receive your message. All fields are required.
+              </div>
+            </div>
+
+            <!-- Contact Form -->
+            <form
+              action="{{ url_for('get_contact') }}"
+              method="POST"
+              novalidate
+              id="contactForm"
+            >
+              {{ form.csrf_token }}
+
+              <!-- Name Field -->
+              <div class="contact-field-group">
+                <div class="field-label-contact">
+                  <span class="field-icon-contact">▸</span>
+                  <label for="{{ form.name.id }}">YOUR_NAME</label>
+                </div>
+                <div class="input-wrapper-contact">
+                  <i class="fas fa-user input-icon-left"></i>
+                  {{ form.name(class="form-control contact-input",
+                  placeholder="John Doe") }}
+                  <div class="input-border-glow"></div>
+                </div>
+                {% if form.name.errors %}
+                <div class="field-error-contact">
+                  <i class="fas fa-times-circle"></i>
+                  {% for error in form.name.errors %} {{ error }} {% endfor %}
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- Email Field -->
+              <div class="contact-field-group">
+                <div class="field-label-contact">
+                  <span class="field-icon-contact">▸</span>
+                  <label for="{{ form.email.id }}">EMAIL_ADDRESS</label>
+                </div>
+                <div class="input-wrapper-contact">
+                  <i class="fas fa-envelope input-icon-left"></i>
+                  {{ form.email(class="form-control contact-input",
+                  placeholder="your@email.com", autocomplete="email") }}
+                  <div class="input-border-glow"></div>
+                </div>
+                {% if form.email.errors %}
+                <div class="field-error-contact">
+                  <i class="fas fa-times-circle"></i>
+                  {% for error in form.email.errors %} {{ error }} {% endfor %}
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- Phone Field -->
+              <div class="contact-field-group">
+                <div class="field-label-contact">
+                  <span class="field-icon-contact">▸</span>
+                  <label for="{{ form.phone.id }}">PHONE_NUMBER</label>
+                </div>
+                <div class="input-wrapper-contact">
+                  <i class="fas fa-phone input-icon-left"></i>
+                  {{ form.phone(class="form-control contact-input",
+                  placeholder="+1 (555) 123-4567", autocomplete="tel") }}
+                  <div class="input-border-glow"></div>
+                </div>
+                {% if form.phone.errors %}
+                <div class="field-error-contact">
+                  <i class="fas fa-times-circle"></i>
+                  {% for error in form.phone.errors %} {{ error }} {% endfor %}
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- Message Field -->
+              <div class="contact-field-group">
+                <div class="field-label-contact">
+                  <span class="field-icon-contact">▸</span>
+                  <label for="{{ form.message.id }}">MESSAGE</label>
+                </div>
+                <div class="input-wrapper-contact">
+                  <i
+                    class="fas fa-comment-alt input-icon-left textarea-icon"
+                  ></i>
+                  {{ form.message(class="form-control contact-input
+                  contact-textarea", placeholder="   Type your message here...",
+                  rows="6") }}
+                  <div class="input-border-glow"></div>
+                </div>
+                <div class="char-counter">
+                  <span id="charCount">0</span> / 500 characters
+                </div>
+                {% if form.message.errors %}
+                <div class="field-error-contact">
+                  <i class="fas fa-times-circle"></i>
+                  {% for error in form.message.errors %} {{ error }} {% endfor
+                  %}
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- Action Bar -->
+              <div class="contact-action-bar">
+                <div class="terminal-prompt-mini">
+                  <span style="color: var(--terminal-yellow)">$</span>
+                  <span id="contactStatus">Ready to send message</span>
+                </div>
+                <button
+                  type="submit"
+                  class="btn-contact-primary"
+                  id="contactBtn"
+                >
+                  <i class="fas fa-paper-plane"></i>
+                  <span>Send Message</span>
+                  <div class="btn-glow"></div>
+                </button>
+              </div>
+            </form>
+
+            <!-- Loading Indicator -->
+            <div id="contactLoading" class="contact-loading">
+              <div class="loading-spinner"></div>
+              <div class="loading-text">
+                <span id="loadingStage">Sending message...</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -70,148 +300,586 @@
 </main>
 
 {% include "footer.html" %}
+
 <!-- Contact Page Styling -->
 <style>
-  /* Hero header update */
-  header.masthead {
-    background-image: url('{{ url_for("static", filename="assets/img/contact-bg.jpg") }}');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+  /* Hero Section */
+  .contact-hero-section {
+    padding: 2.5rem 0 1.5rem;
+    position: relative;
+    z-index: 10;
+  }
+
+  .hero-terminal-contact {
+    box-shadow: 0 10px 40px rgba(0, 255, 65, 0.25);
+    animation: heroFloat 6s ease-in-out infinite;
+  }
+
+  @keyframes heroFloat {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  .hero-command-line {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    display: inline-block;
+  }
+
+  .contact-glitch {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .success-glitch {
+    color: var(--terminal-green);
+  }
+
+  .contact-subtitle {
+    font-size: 1rem;
+    min-height: 1.5rem;
+    color: var(--terminal-text-dim);
+  }
+
+  .success-subtitle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    color: var(--terminal-green);
+    font-size: 1.1rem;
+  }
+
+  .success-subtitle i {
+    font-size: 1.5rem;
+    animation: successPulse 2s infinite;
+  }
+
+  @keyframes successPulse {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 0.8;
+    }
+  }
+
+  /* Main Content */
+  .contact-main {
+    padding: 2rem 0;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Contact Terminal */
+  .contact-terminal {
+    box-shadow: 0 10px 50px rgba(0, 217, 255, 0.3);
+    animation: fadeInScale 0.6s ease;
+    margin-bottom: 1.5rem;
+  }
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .status-pulse {
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .contact-content {
+    padding: 2rem;
+  }
+
+  /* Command Prompt Box */
+  .command-prompt-box {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--terminal-border);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.85rem;
+  }
+
+  .prompt-line-contact {
+    margin-bottom: 0.5rem;
+  }
+
+  .prompt-user {
+    color: var(--terminal-green);
+  }
+
+  .prompt-separator {
+    color: var(--terminal-text-dim);
+  }
+
+  .prompt-path {
+    color: var(--terminal-cyan);
+  }
+
+  .prompt-symbol {
+    color: var(--terminal-text-dim);
+    margin: 0 0.5rem;
+  }
+
+  .prompt-command {
+    color: var(--terminal-yellow);
+  }
+
+  .prompt-output-contact {
+    font-size: 0.8rem;
+    color: var(--terminal-text-dim);
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--terminal-border);
+    margin-top: 0.5rem;
+  }
+
+  /* Contact Intro */
+  .contact-intro {
+    background: rgba(0, 217, 255, 0.1);
+    border-left: 4px solid var(--terminal-cyan);
+    padding: 1rem 1.5rem;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+  }
+
+  .contact-intro p {
+    color: var(--terminal-text);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .contact-intro i {
+    color: var(--terminal-cyan);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  /* Contact Fields */
+  .contact-field-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .field-label-contact {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .field-icon-contact {
+    color: var(--terminal-yellow);
+  }
+
+  .field-label-contact label {
+    color: var(--terminal-green);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    margin: 0;
+  }
+
+  .input-wrapper-contact {
     position: relative;
   }
 
-  header.masthead::before {
-    content: "";
+  .input-icon-left {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--terminal-text-dim);
+    z-index: 1;
+    transition: all 0.3s ease;
+  }
+
+  .textarea-icon {
+    top: 1rem;
+    transform: none;
+  }
+
+  .contact-input {
+    background: rgba(0, 0, 0, 0.3) !important;
+    border: 2px solid var(--terminal-border) !important;
+    color: var(--terminal-text) !important;
+    padding: 0.75rem 1rem 0.75rem 2.75rem !important;
+    border-radius: 8px !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 0.9rem !important;
+    transition: all 0.3s ease !important;
+    width: 100%;
+  }
+
+  .contact-textarea {
+    resize: vertical;
+    min-height: 150px;
+  }
+
+  .contact-input:focus {
+    border-color: var(--terminal-cyan) !important;
+    box-shadow: 0 0 25px rgba(0, 217, 255, 0.4) !important;
+    outline: none !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .input-wrapper-contact:has(.contact-input:focus) .input-icon-left {
+    color: var(--terminal-cyan);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .input-wrapper-contact:has(.contact-textarea:focus) .textarea-icon {
+    color: var(--terminal-cyan);
+    transform: scale(1.1);
+  }
+
+  .input-border-glow {
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(
+      45deg,
+      var(--terminal-cyan),
+      var(--terminal-green)
+    );
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: -1;
+    filter: blur(8px);
+  }
+
+  .input-wrapper-contact:has(.contact-input:focus) .input-border-glow {
+    opacity: 1;
+  }
+
+  /* Character Counter */
+  .char-counter {
+    text-align: right;
+    font-size: 0.8rem;
+    color: var(--terminal-text-dim);
+    margin-top: 0.5rem;
+  }
+
+  /* Field Errors */
+  .field-error-contact {
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 107, 0, 0.1);
+    border-left: 3px solid var(--terminal-red);
+    color: var(--terminal-red);
+    font-size: 0.85rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: shake 0.5s ease;
+  }
+
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-8px);
+    }
+    75% {
+      transform: translateX(8px);
+    }
+  }
+
+  /* Action Bar */
+  .contact-action-bar {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--terminal-border);
+  }
+
+  .terminal-prompt-mini {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8rem;
+    color: var(--terminal-text-dim);
+    margin-bottom: 1rem;
+  }
+
+  .btn-contact-primary {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(
+      135deg,
+      var(--terminal-cyan),
+      var(--terminal-green)
+    );
+    color: #0a0e27;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-contact-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 255, 65, 0.5);
+  }
+
+  .btn-contact-primary:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  .btn-contact-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .btn-glow {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(3px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transform: translateX(-100%);
   }
 
-  .page-heading {
-    position: relative;
-    z-index: 2;
+  .btn-contact-primary:hover:not(:disabled) .btn-glow {
+    animation: btnGlowSlide 1.5s ease infinite;
+  }
+
+  @keyframes btnGlowSlide {
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Loading Indicator */
+  .contact-loading {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding: 2rem;
+    background: rgba(0, 217, 255, 0.05);
+    border: 2px solid var(--terminal-cyan);
+    border-radius: 8px;
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--terminal-border);
+    border-top-color: var(--terminal-cyan);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .loading-text {
+    color: var(--terminal-cyan);
+    font-size: 0.9rem;
     text-align: center;
-    color: #fff;
-    padding: 5rem 0 3rem 0;
   }
 
-  .page-heading h1 {
-    font-family: "Lora", serif;
-    font-size: 3rem;
-    font-weight: 700;
-    color: var(--terminal-green, #00ff88);
-    text-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+  /* Contact Info Panel */
+  .contact-info-panel {
+    animation: fadeIn 0.8s ease 0.3s both;
   }
 
-  .page-heading .subheading {
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .info-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--terminal-border);
+    border-left: 3px solid var(--terminal-cyan);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+  }
+
+  .info-item:hover {
+    transform: translateX(5px);
+    border-left-color: var(--terminal-green);
+    background: rgba(0, 255, 65, 0.05);
+  }
+
+  .info-item i {
+    color: var(--terminal-cyan);
     font-size: 1.2rem;
-    color: #d1d1d1;
-    font-style: italic;
+    width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+    margin-top: 2px;
   }
 
-  /* Contact form card */
-  .contact-card {
-    background: rgba(20, 20, 20, 0.85);
-    border: 1px solid rgba(0, 255, 136, 0.15);
-    border-radius: 15px;
-    padding: 2.5rem;
-    box-shadow: 0 0 25px rgba(0, 255, 136, 0.1);
-    backdrop-filter: blur(8px);
-    transition: box-shadow 0.3s ease;
+  .info-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
   }
 
-  .contact-card:hover {
-    box-shadow: 0 0 40px rgba(0, 255, 136, 0.25);
+  .info-text strong {
+    color: var(--terminal-text);
+    font-size: 0.9rem;
   }
 
-  .contact-card p {
-    color: #aaa;
+  .info-text span {
+    color: var(--terminal-text-dim);
+    font-size: 0.8rem;
   }
 
-  /* Form customization */
-  .contact-card .form-control {
-    background-color: #101010;
-    color: #fff;
-    border: 1px solid rgba(0, 255, 136, 0.2);
-    border-radius: 10px;
-    padding: 0.9rem 1.1rem;
-    transition: all 0.2s ease;
+  /* Terminal styling */
+  .terminal-dots {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
-  .contact-card .form-control:focus {
-    border-color: var(--terminal-green, #00ff88);
-    box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
-    background-color: #0d0d0d;
+  .terminal-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
   }
 
-  .contact-card label {
-    color: #ccc;
-    margin-bottom: 0.3rem;
-    font-weight: 500;
+  .terminal-dot.red {
+    background: #ff5f57;
   }
 
-  .contact-card button {
-    background-color: var(--terminal-green, #00ff88);
-    color: #000;
-    font-weight: 700;
-    border: none;
-    border-radius: 10px;
-    padding: 0.9rem 1.5rem;
-    transition:
-      transform 0.2s ease,
-      box-shadow 0.2s ease;
+  .terminal-dot.yellow {
+    background: #febc2e;
   }
 
-  .contact-card button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
-  }
-  .terminal-header {
-    padding-top: 8rem;
-    padding-bottom: 6rem;
-    position: relative;
+  .terminal-dot.green {
+    background: #28c840;
   }
 
-  .terminal-title {
-    color: #00ff80;
-    font-size: 3rem;
-    font-weight: 700;
-    text-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
+  .terminal-actions {
+    margin-left: auto;
   }
 
-  .terminal-subtitle {
-    color: #00bfff;
-    font-size: 1.2rem;
-    font-family: "Fira Code", monospace;
+  .terminal-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--terminal-green);
+    font-size: 0.75rem;
+    font-weight: 600;
   }
 
-  .terminal-dollar {
-    color: #ffb400;
-    font-weight: bold;
-    margin-right: 0.3rem;
-  }
+  /* Responsive */
+  @media (max-width: 991px) {
+    .contact-info-panel {
+      position: relative;
+      top: 0;
+    }
 
-  .text-glow {
-    text-shadow:
-      0 0 10px #00ff80,
-      0 0 20px #00ff80;
-  }
+    .row.justify-content-center.align-items-start {
+      flex-direction: column-reverse;
+    }
 
-  /* Add background overlay for consistency */
-  header.masthead .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    .col-lg-4,
+    .col-lg-7 {
+      max-width: 100%;
+    }
   }
 
   @media (max-width: 768px) {
-    .page-heading h1 {
-      font-size: 2.2rem;
+    .contact-hero-section {
+      padding: 2rem 0 1rem;
+    }
+
+    .contact-glitch {
+      font-size: 2rem;
+    }
+
+    .contact-content {
+      padding: 1.5rem;
+    }
+
+    .contact-input {
+      font-size: 16px !important; /* Prevent zoom on iOS */
+    }
+
+    .command-prompt-box {
+      font-size: 0.75rem;
+      padding: 0.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-terminal-contact .terminal-content {
+      padding: 1.5rem;
+    }
+
+    .contact-glitch {
+      font-size: 1.7rem;
+    }
+
+    .info-item {
+      padding: 0.75rem;
     }
   }
 </style>
@@ -219,4 +887,117 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Typing animation
+    const contactPhrases = [
+      "Questions? I have answers...",
+      "Let's start a conversation...",
+      "Drop me a message...",
+      "I'd love to hear from you...",
+    ];
+
+    let phraseIdx = 0;
+    let charIdx = 0;
+    let isDeleting = false;
+
+    function typeContactText() {
+      const elem = document.getElementById("contactTyping");
+      if (!elem) return;
+
+      const current = contactPhrases[phraseIdx];
+
+      if (!isDeleting && charIdx < current.length) {
+        elem.textContent += current.charAt(charIdx);
+        charIdx++;
+        setTimeout(typeContactText, 80);
+      } else if (isDeleting && charIdx > 0) {
+        elem.textContent = current.substring(0, charIdx - 1);
+        charIdx--;
+        setTimeout(typeContactText, 40);
+      } else {
+        isDeleting = !isDeleting;
+        if (!isDeleting) {
+          phraseIdx = (phraseIdx + 1) % contactPhrases.length;
+        }
+        setTimeout(typeContactText, isDeleting ? 1000 : 2000);
+      }
+    }
+
+    typeContactText();
+
+    // Character counter
+    const messageField = document.querySelector('textarea[name="message"]');
+    const charCount = document.getElementById("charCount");
+
+    if (messageField && charCount) {
+      messageField.addEventListener("input", function () {
+        const count = this.value.length;
+        charCount.textContent = count;
+
+        if (count > 450) {
+          charCount.style.color = "var(--terminal-yellow)";
+        } else if (count > 500) {
+          charCount.style.color = "var(--terminal-red)";
+        } else {
+          charCount.style.color = "var(--terminal-text-dim)";
+        }
+      });
+    }
+
+    // Form submission
+    const form = document.getElementById("contactForm");
+    const contactBtn = document.getElementById("contactBtn");
+    const contactLoading = document.getElementById("contactLoading");
+    const contactStatus = document.getElementById("contactStatus");
+    const loadingStage = document.getElementById("loadingStage");
+
+    if (form && contactBtn && contactLoading) {
+      form.addEventListener("submit", function (e) {
+        contactLoading.style.display = "flex";
+        contactBtn.disabled = true;
+        contactStatus.innerHTML =
+          '<span style="color: var(--terminal-green);">$</span> Sending message...';
+
+        // Simulated stages
+        const stages = [
+          "Validating form data...",
+          "Encrypting message...",
+          "Sending to server...",
+          "Processing request...",
+        ];
+
+        let stage = 0;
+        const interval = setInterval(() => {
+          if (stage < stages.length) {
+            loadingStage.textContent = stages[stage];
+            stage++;
+          } else {
+            clearInterval(interval);
+          }
+        }, 500);
+      });
+    }
+
+    // Input focus effects
+    const inputs = document.querySelectorAll(".contact-input");
+    inputs.forEach((input) => {
+      input.addEventListener("focus", function () {
+        this.closest(".input-wrapper-contact").classList.add("focused");
+      });
+
+      input.addEventListener("blur", function () {
+        this.closest(".input-wrapper-contact").classList.remove("focused");
+      });
+    });
+
+    console.log(
+      "%c[CONTACT]%c Contact form initialized",
+      "color: #00ff41; font-weight: bold;",
+      "color: #00d9ff;",
+    );
+  });
+</script>
+
 {% endblock %}
