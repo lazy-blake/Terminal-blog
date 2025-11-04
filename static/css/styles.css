@@ -1291,3 +1291,552 @@ body {
     border: 1px solid #ccc;
   }
 }
+
+/* ====================================
+   MOBILE RESPONSIVE IMPROVEMENTS
+   Add these to your existing CSS
+   ==================================== */
+
+/* Enhanced Mobile Navigation */
+@media (max-width: 991px) {
+  .navbar-container {
+    padding: 0 1rem;
+  }
+
+  .nav-menu {
+    gap: 1rem;
+  }
+
+  .nav-link {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Navbar becomes full-width stacked */
+  .navbar {
+    padding: 0.75rem 0;
+  }
+
+  .navbar-container {
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+
+  .navbar-brand::before {
+    font-size: 1.5rem;
+  }
+
+  .nav-menu {
+    width: 100%;
+    padding: 1rem 0;
+    gap: 0.5rem;
+  }
+
+  .nav-link {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--terminal-border);
+    border-radius: 6px;
+    background: rgba(0, 255, 65, 0.02);
+  }
+
+  .nav-link:hover {
+    background: rgba(0, 255, 65, 0.08);
+  }
+
+  /* Hero Section Mobile */
+  .hero-section {
+    padding: 2rem 0 3rem;
+  }
+
+  .terminal-window {
+    margin: 0 0.5rem;
+  }
+
+  .terminal-header {
+    padding: 0.75rem 1rem;
+  }
+
+  .terminal-dot {
+    width: 12px;
+    height: 12px;
+  }
+
+  .terminal-title {
+    font-size: 0.75rem;
+    margin-left: 0.5rem;
+  }
+
+  .terminal-content {
+    padding: 2rem 1rem;
+  }
+
+  .glitch-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .typing-text {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Posts Grid Mobile */
+  .posts-section {
+    padding: 2rem 0;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-title::before {
+    font-size: 0.75rem;
+  }
+
+  .posts-grid {
+    gap: 1.5rem;
+    padding: 0 0.5rem;
+  }
+
+  .post-card {
+    padding: 1.5rem;
+  }
+
+  .post-card:hover {
+    transform: translateY(-3px) translateX(3px);
+  }
+
+  .post-title {
+    font-size: 1.3rem;
+  }
+
+  .post-excerpt {
+    font-size: 0.9rem;
+  }
+
+  .post-meta {
+    font-size: 0.8rem;
+    gap: 0.75rem;
+  }
+
+  .read-more {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.8rem;
+  }
+
+  /* Masthead/Header Mobile */
+  header.masthead {
+    padding: 4rem 1rem 3rem;
+  }
+
+  header.masthead .site-heading h1,
+  header.masthead .page-heading h1 {
+    font-size: 2rem;
+  }
+
+  header.masthead .subheading {
+    font-size: 1rem;
+  }
+
+  header.masthead .post-heading h1 {
+    font-size: 1.75rem;
+  }
+
+  header.masthead .post-heading .subheading {
+    font-size: 1.1rem;
+  }
+
+  /* Article Content Mobile */
+  article {
+    padding: 1.5rem;
+    margin: 0 0.5rem 2rem;
+  }
+
+  article h1 {
+    font-size: 1.75rem;
+  }
+
+  article h2 {
+    font-size: 1.5rem;
+  }
+
+  article h3 {
+    font-size: 1.3rem;
+  }
+
+  article p {
+    font-size: 1rem;
+  }
+
+  article img {
+    margin: 1.5rem 0;
+  }
+
+  /* Forms Mobile */
+  .contact-form-wrapper,
+  .ckeditor-wrapper,
+  .about-content {
+    padding: 1.5rem;
+    margin: 0 0.5rem 2rem;
+  }
+
+  .form-control,
+  .form-select,
+  textarea.form-control {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  /* Buttons Mobile */
+  .btn {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.85rem;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .d-flex.justify-content-end {
+    justify-content: center !important;
+  }
+
+  /* Footer Mobile */
+  .footer {
+    padding: 2rem 1rem;
+    margin-top: 3rem;
+  }
+
+  .footer-content {
+    padding: 0 1rem;
+  }
+
+  .social-links {
+    gap: 1.25rem;
+  }
+
+  .social-link {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small devices */
+  body {
+    font-size: 14px;
+  }
+
+  .main-wrapper {
+    padding: 0 0.5rem;
+  }
+
+  /* Navbar Extra Small */
+  .navbar {
+    padding: 0.5rem 0;
+  }
+
+  .navbar-container {
+    padding: 0 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+
+  .nav-menu {
+    gap: 0.4rem;
+  }
+
+  .nav-link {
+    font-size: 0.8rem;
+    padding: 0.6rem 0.8rem;
+  }
+
+  /* Hero Extra Small */
+  .hero-section {
+    padding: 1.5rem 0 2rem;
+  }
+
+  .terminal-header {
+    padding: 0.6rem 0.75rem;
+  }
+
+  .terminal-dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  .terminal-title {
+    font-size: 0.7rem;
+    margin-left: 0.5rem;
+  }
+
+  .terminal-content {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .glitch-title {
+    font-size: 1.75rem;
+    word-break: break-word;
+  }
+
+  .typing-text {
+    font-size: 0.9rem;
+    min-height: 30px;
+  }
+
+  .typing-cursor {
+    width: 2px;
+    height: 1em;
+  }
+
+  /* Posts Extra Small */
+  .posts-section {
+    padding: 1.5rem 0;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title::before {
+    font-size: 0.7rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .posts-grid {
+    gap: 1.25rem;
+  }
+
+  .post-card {
+    padding: 1.25rem;
+  }
+
+  .post-header {
+    font-size: 0.75rem;
+  }
+
+  .post-title {
+    font-size: 1.2rem;
+  }
+
+  .post-excerpt {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .post-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .read-more {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  /* Content Extra Small */
+  header.masthead {
+    padding: 3rem 0.75rem 2rem;
+  }
+
+  header.masthead .site-heading h1,
+  header.masthead .page-heading h1 {
+    font-size: 1.75rem;
+  }
+
+  header.masthead .subheading {
+    font-size: 0.9rem;
+  }
+
+  article {
+    padding: 1.25rem;
+  }
+
+  article h1 {
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  article h2 {
+    font-size: 1.3rem;
+    margin-top: 1.5rem;
+  }
+
+  article h3 {
+    font-size: 1.15rem;
+  }
+
+  article p {
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+  }
+
+  article ul,
+  article ol {
+    padding-left: 1.5rem;
+  }
+
+  /* Forms Extra Small */
+  .contact-form-wrapper,
+  .ckeditor-wrapper,
+  .about-content {
+    padding: 1.25rem;
+  }
+
+  .btn {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.8rem;
+  }
+
+  /* Footer Extra Small */
+  .footer {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .footer-text {
+    font-size: 0.85rem;
+  }
+
+  .social-links {
+    gap: 1rem;
+  }
+
+  .social-link {
+    font-size: 1.2rem;
+  }
+}
+
+/* Landscape orientation fixes for mobile */
+@media (max-height: 600px) and (orientation: landscape) {
+  .hero-section {
+    padding: 1rem 0 2rem;
+  }
+
+  .terminal-content {
+    padding: 1.5rem 1rem;
+  }
+
+  header.masthead {
+    padding: 2rem 1rem;
+  }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+  /* Larger touch targets */
+  .nav-link,
+  .btn,
+  .read-more,
+  .social-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Remove hover effects on touch devices */
+  .post-card:hover {
+    transform: none;
+  }
+
+  .post-card:active {
+    transform: translateY(-3px);
+  }
+
+  /* Better tap feedback */
+  .nav-link:active,
+  .btn:active,
+  .read-more:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Fix for very wide screens */
+@media (min-width: 1600px) {
+  .main-wrapper {
+    max-width: 1600px;
+  }
+
+  .posts-grid {
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  }
+}
+
+/* Tablet landscape optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .posts-grid {
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.75rem;
+  }
+
+  .terminal-content {
+    padding: 2.5rem 1.5rem;
+  }
+}
+
+/* Prevent horizontal scroll */
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+.main-wrapper,
+.navbar-container,
+.footer-content {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Images responsive by default */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent text overflow */
+.glitch-title,
+.post-title,
+.section-title {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Better code block handling on mobile */
+@media (max-width: 768px) {
+  pre {
+    padding: 1rem;
+    font-size: 0.85rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  code {
+    font-size: 0.85rem;
+  }
+}
+
+/* Accessibility improvements for mobile */
+@media (max-width: 768px) {
+  /* Larger focus indicators on mobile */
+  *:focus-visible {
+    outline: 3px solid var(--terminal-green);
+    outline-offset: 3px;
+  }
+
+  /* Better spacing for readability */
+  p,
+  li {
+    line-height: 1.7;
+  }
+}
