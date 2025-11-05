@@ -1812,6 +1812,304 @@ img {
   hyphens: auto;
 }
 
+/* Hamburger Button - Hidden on desktop */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+  position: relative;
+}
+
+.hamburger span {
+  width: 100%;
+  height: 3px;
+  background: var(--terminal-green);
+  border-radius: 3px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px var(--glow-green);
+}
+
+/* Hamburger animation when open */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(8px, -8px);
+}
+
+/* Mobile Sidebar Menu */
+.mobile-menu-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+  opacity: 1;
+}
+
+.mobile-sidebar {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 280px;
+  max-width: 80vw;
+  height: 100%;
+  background: var(--terminal-bg);
+  border-left: 2px solid var(--terminal-green);
+  box-shadow: -5px 0 30px rgba(0, 255, 65, 0.3);
+  z-index: 1002; /* Higher than navbar */
+  transition: right 0.3s ease;
+  overflow-y: auto;
+  padding: 2rem 0;
+}
+
+.mobile-sidebar.active {
+  right: 0;
+}
+
+/* Mobile Menu Header */
+.mobile-menu-header {
+  padding: 0 1.5rem 2rem;
+  border-bottom: 2px solid var(--terminal-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1003; /* Even higher */
+}
+
+.mobile-menu-title {
+  font-size: 1.2rem;
+  color: var(--terminal-green);
+  font-weight: 700;
+}
+
+.mobile-menu-title::before {
+  content: "> ";
+  color: var(--terminal-cyan);
+}
+
+.close-menu {
+  background: transparent;
+  border: 2px solid var(--terminal-green) !important; /* Change to green */
+  color: var(--terminal-green) !important; /* Change to green */
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 2rem;
+  transition: all 0.3s ease;
+  padding: 0;
+  line-height: 1;
+  position: relative;
+  z-index: 1004;
+}
+
+.close-menu:hover {
+  background: var(--terminal-green) !important;
+  color: var(--terminal-bg) !important;
+  box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+  transform: scale(1.1);
+}
+
+.close-menu:active {
+  transform: scale(0.95);
+}
+/* Mobile Menu Links */
+.mobile-nav-menu {
+  list-style: none;
+  padding: 2rem 0 0;
+  margin: 0;
+}
+
+.mobile-nav-menu li {
+  margin: 0;
+}
+
+.mobile-nav-menu .nav-link {
+  display: block;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  color: var(--terminal-text);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: none;
+  border-left: 4px solid transparent;
+  background: transparent;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.mobile-nav-menu .nav-link::before {
+  content: "▸ ";
+  color: var(--terminal-cyan);
+  opacity: 0;
+  transition: all 0.3s ease;
+  margin-right: 0.5rem;
+}
+
+.mobile-nav-menu .nav-link:hover,
+.mobile-nav-menu .nav-link:active {
+  background: rgba(0, 255, 65, 0.1);
+  border-left-color: var(--terminal-green);
+  color: var(--terminal-green);
+  padding-left: 2rem;
+}
+
+.mobile-nav-menu .nav-link:hover::before {
+  opacity: 1;
+}
+
+/* Desktop navbar adjustments */
+@media (min-width: 769px) {
+  .hamburger,
+  .mobile-menu-overlay,
+  .mobile-sidebar {
+    display: none !important;
+  }
+}
+
+/* Mobile navbar adjustments */
+@media (max-width: 768px) {
+  /* Show hamburger on mobile */
+  .hamburger {
+    display: flex;
+  }
+
+  /* Hide desktop menu, show hamburger */
+  .nav-menu {
+    display: none !important;
+  }
+
+  /* Adjust navbar layout */
+  .navbar-container {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0;
+    padding: 0 1rem;
+  }
+
+  .navbar-brand {
+    flex: 1;
+  }
+
+  /* Show mobile menu when active */
+  .mobile-menu-overlay.active {
+    display: block;
+  }
+}
+
+/* Prevent body scroll when menu is open */
+body.menu-open {
+  overflow: hidden;
+}
+
+/* Smooth scroll for mobile menu */
+.mobile-sidebar {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile menu animations */
+@keyframes slideInRight {
+  from {
+    right: -100%;
+  }
+  to {
+    right: 0;
+  }
+}
+
+.mobile-sidebar.active {
+  animation: slideInRight 0.3s ease;
+}
+@media (max-width: 768px) {
+  .navbar-container > .close-menu,
+  .navbar-container > button:not(.hamburger) {
+    display: none !important;
+  }
+}
+
+/* ====================================
+   MINOR FIXES
+   ==================================== */
+
+/* Fix text breaking on mobile */
+@media (max-width: 480px) {
+  .glitch-title {
+    font-size: 1.6rem;
+    line-height: 1.2;
+  }
+
+  /* Fix terminal title overflow */
+  .terminal-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Better spacing for posts */
+  .post-card {
+    margin: 0 0.25rem;
+  }
+}
+
+/* Fix navbar z-index */
+.navbar {
+  z-index: 1001;
+}
+
+/* Ensure particles don't interfere with clicks */
+.particles,
+.bg-grid {
+  pointer-events: none;
+}
+
+/* Better button sizing on mobile */
+@media (max-width: 768px) {
+  .btn {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Fix form inputs on mobile */
+@media (max-width: 768px) {
+  .form-control,
+  .form-select,
+  textarea.form-control {
+    font-size: 16px !important; /* Prevents iOS zoom */
+    min-height: 44px;
+  }
+}
+
 /* Better code block handling on mobile */
 @media (max-width: 768px) {
   pre {

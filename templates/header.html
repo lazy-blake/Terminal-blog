@@ -2,6 +2,8 @@
 <nav class="navbar">
   <div class="navbar-container">
     <a href="{{url_for('home')}}" class="navbar-brand">TERMINAL.BLOG</a>
+
+    <!-- Desktop Menu -->
     <ul class="nav-menu">
       <li><a href="{{url_for('home')}}" class="nav-link">Home</a></li>
       <li><a href="{{url_for('get_about')}}" class="nav-link">About</a></li>
@@ -13,5 +15,34 @@
       <li><a href="{{url_for('logout')}}" class="nav-link">LogOut</a></li>
       {% endif %}
     </ul>
+
+    <!-- Hamburger Button (Mobile Only) -->
+    <button class="hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- REMOVE ANY CLOSE BUTTON HERE IF IT EXISTS -->
   </div>
 </nav>
+
+<!-- Mobile Menu Overlay & Sidebar -->
+<div class="mobile-menu-overlay"></div>
+<div class="mobile-sidebar">
+  <div class="mobile-menu-header">
+    <span class="mobile-menu-title">MENU</span>
+    <button class="close-menu" aria-label="Close menu">×</button>
+  </div>
+  <ul class="mobile-nav-menu">
+    <li><a href="{{url_for('home')}}" class="nav-link">Home</a></li>
+    <li><a href="{{url_for('get_about')}}" class="nav-link">About</a></li>
+    <li><a href="{{url_for('get_contact')}}" class="nav-link">Contact</a></li>
+    {% if not current_user.is_authenticated %}
+    <li><a href="{{url_for('login')}}" class="nav-link">LogIn</a></li>
+    <li><a href="{{url_for('register')}}" class="nav-link">Register</a></li>
+    {% else %}
+    <li><a href="{{url_for('logout')}}" class="nav-link">LogOut</a></li>
+    {% endif %}
+  </ul>
+</div>
