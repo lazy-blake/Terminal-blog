@@ -113,6 +113,23 @@ def gravatar_url(email, size=200, default="identicon", rating="g"):
 
 app.jinja_env.globals["gravatar_url"] = gravatar_url
 
+MONTHS = {
+    "01": "January",
+    "02": "February",
+    "03": "March",
+    "04": "April",
+    "05": "May",
+    "06": "June",
+    "07": "July",
+    "08": "August",
+    "09": "September",
+    "10": "October",
+    "11": "November",
+    "12": "December",
+}
+
+app.jinja_env.globals["MONTHS"] = MONTHS
+
 
 def admin_only(func):
     @wraps(func)
@@ -182,19 +199,10 @@ with app.app_context():
 
 @app.route("/")
 def home():
-    current_year = datetime.now().year
-    current_month = datetime.now().strftime("%B")
-    current_date = datetime.now().strftime("%d")
-
-    # response = requests.get(URL)
-    # blog_posts = response.json()
     blog_posts = db.session.execute(db.select(BlogPost)).scalars().all()
     return render_template(
         "index.html",
         posts=blog_posts,
-        year=current_year,
-        month=current_month,
-        date=current_date,
     )
 
 
@@ -205,6 +213,7 @@ def blogs(post_id):
         db.select(BlogPost).where(BlogPost.id == post_id)
     ).scalar()
     comments = blog_post.comments
+    current_date = blog_post.date.split(" ")[0]
 
     if form.validate_on_submit():
         if not current_user.is_authenticated:
@@ -219,15 +228,9 @@ def blogs(post_id):
 
         return redirect(url_for("blogs", post_id=blog_post.id))
 
-    current_year = datetime.now().year
-    current_month = datetime.now().strftime("%B")
-    current_date = datetime.now().strftime("%d")
-
     return render_template(
         "post.html",
         posts=blog_post,
-        year=current_year,
-        month=current_month,
         date=current_date,
         form=form,
         comments=comments,

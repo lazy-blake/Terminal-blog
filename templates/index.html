@@ -100,7 +100,11 @@
             <p class="post-excerpt">{{i.subtitle}}</p>
             <div class="post-meta">
               <span class="post-author">{{i.author.name}}@terminal</span>
-              <span class="post-date">{{year}}-{{month}}-{{date}}</span>
+              <span class="post-date"
+                >{{MONTHS[i.date.split('-')[1]] }} {{
+                i.date.split('-')[2].split(' ')[0] }}, {{
+                i.date.split('-')[0]}}</span
+              >
             </div>
             <a href="{{url_for('blogs', post_id=i.id)}}" class="read-more"
               >Read More →</a
