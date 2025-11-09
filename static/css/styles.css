@@ -2140,103 +2140,179 @@ body.menu-open {
 }
 
 /* ====================================
-   BLOG POST PAGE - MOBILE RESPONSIVE
+   POST PAGE - MOBILE FIXES
    ==================================== */
 
+/* Remove all unwanted offsets and padding on mobile */
 @media (max-width: 768px) {
-  /* Post Hero */
+  /* Container fixes */
+  .post-article .container,
+  .post-info-bar .container,
+  .comments-modern .container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  /* Row fixes - remove negative margins */
+  .post-article .row,
+  .post-info-bar .row,
+  .comments-modern .row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* Column fixes */
+  .post-article .col-md-10,
+  .post-article .col-lg-8,
+  .post-article .col-xl-7,
+  .post-info-bar .col-md-10,
+  .post-info-bar .col-lg-8,
+  .post-info-bar .col-xl-7,
+  .comments-modern .col-md-10,
+  .comments-modern .col-lg-8,
+  .comments-modern .col-xl-7 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Article content - fix the main issue */
+  .article-content {
+    padding: 2rem 1.5rem !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    font-size: 1.0625rem !important;
+    line-height: 1.8 !important;
+  }
+
+  /* Ensure all child elements respect the container */
+  .article-content > *,
+  .article-content p,
+  .article-content h2,
+  .article-content h3,
+  .article-content h4,
+  .article-content ul,
+  .article-content ol,
+  .article-content blockquote,
+  .article-content pre {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Code blocks and blockquotes need some left padding for style */
+  .article-content pre,
+  .article-content blockquote {
+    padding-left: 1rem !important;
+  }
+
+  /* Lists need indent */
+  .article-content ul,
+  .article-content ol {
+    padding-left: 1.5rem !important;
+  }
+
+  /* Hero Section Mobile */
   .post-hero {
-    height: 45vh !important;
-    min-height: 350px !important;
+    height: 50vh !important;
+    min-height: 400px !important;
   }
 
   .hero-content {
-    padding: 1.5rem 0 !important;
+    padding: 2rem 1rem !important;
+  }
+
+  .hero-content .container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .hero-content .row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .hero-content .col-md-10,
+  .hero-content .col-lg-8,
+  .hero-content .col-xl-7 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   .hero-title {
     font-size: 1.75rem !important;
+    line-height: 1.3 !important;
   }
 
-  /* Post Info Bar */
+  .hero-badge {
+    font-size: 0.8rem !important;
+    padding: 0.35rem 0.85rem !important;
+  }
+
+  /* Post Info Bar Mobile */
   .post-info-bar {
     padding: 1.5rem 0 !important;
   }
 
   .post-subtitle-modern {
     font-size: 1.05rem !important;
+    line-height: 1.65 !important;
     margin-bottom: 1.25rem !important;
   }
 
-  /* Article Content - Better spacing */
+  .post-meta-modern {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+    padding-top: 1rem !important;
+  }
+
+  .meta-left {
+    font-size: 0.9rem !important;
+  }
+
+  .reading-time {
+    font-size: 0.85rem !important;
+  }
+
+  /* Post Article Mobile */
   .post-article {
     padding: 2rem 0 !important;
   }
 
-  .article-content {
-    padding: 1.5rem 1.25rem !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    font-size: 1.05rem !important;
-    line-height: 1.75 !important;
-  }
-
-  .article-content > * {
-    margin-left: 0 !important;
-    padding-left: 0 !important;
-  }
-
-  .article-content p {
-    margin-bottom: 1.5rem !important;
-    font-size: 1.05rem !important;
-    line-height: 1.75 !important;
-  }
-
   .article-content h2 {
-    font-size: 1.5rem !important;
+    font-size: 1.625rem !important;
     margin-top: 2.5rem !important;
     margin-bottom: 1.25rem !important;
+    line-height: 1.3 !important;
   }
 
   .article-content h3 {
-    font-size: 1.3rem !important;
+    font-size: 1.375rem !important;
     margin-top: 2rem !important;
     margin-bottom: 1rem !important;
+    line-height: 1.3 !important;
+  }
+
+  .article-content h4 {
+    font-size: 1.15rem !important;
+  }
+
+  .article-content p {
+    margin-bottom: 1.75rem !important;
+    font-size: 1.0625rem !important;
+    line-height: 1.8 !important;
   }
 
   .article-content img {
-    margin: 2rem 0 !important;
-    border-radius: 8px !important;
-  }
-
-  .article-content pre,
-  .article-content blockquote {
     margin: 1.5rem 0 !important;
-    padding: 1rem 1.25rem !important;
-    border-left: 3px solid var(--terminal-green) !important;
+    border-radius: 8px !important;
+    width: 100% !important;
+    height: auto !important;
   }
 
-  /* Comments Section */
-  .comments-modern {
-    padding: 2.5rem 0 !important;
-  }
-
-  .add-comment-card {
-    padding: 1.5rem 1.25rem !important;
-    margin-bottom: 2rem !important;
-  }
-
-  .comment-item {
-    padding: 1.25rem 1rem !important;
-    gap: 0.75rem !important;
-  }
-
-  .comment-avatar-img {
-    width: 50px !important;
-    height: 50px !important;
-  }
-
-  /* Admin Actions */
+  /* Admin Actions Mobile */
   .admin-actions {
     flex-direction: column !important;
     gap: 0.75rem !important;
@@ -2247,14 +2323,95 @@ body.menu-open {
   .action-btn {
     width: 100% !important;
     justify-content: center !important;
-    padding: 0.75rem 1.5rem !important;
+    padding: 0.85rem 1.5rem !important;
+  }
+
+  /* Comments Section Mobile */
+  .comments-modern {
+    padding: 2.5rem 0 !important;
+  }
+
+  .comments-header {
+    margin-bottom: 2rem !important;
+  }
+
+  .comments-header h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .comment-badge {
+    min-width: 2rem !important;
+    height: 2rem !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* Add Comment Card Mobile */
+  .add-comment-card {
+    padding: 1.5rem 1rem !important;
+    margin-bottom: 2rem !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .form-title {
+    font-size: 1.1rem !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  /* Comment Items Mobile */
+  .comment-item {
+    padding: 1.25rem 1rem !important;
+    gap: 1rem !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .comment-avatar-img {
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  .comment-author strong {
+    font-size: 1rem !important;
+  }
+
+  .comment-date {
+    font-size: 0.8rem !important;
+  }
+
+  .comment-content {
+    font-size: 0.95rem !important;
+  }
+
+  /* No Comments State Mobile */
+  .no-comments-modern {
+    padding: 3rem 1.5rem !important;
+  }
+
+  .no-comments-icon {
+    font-size: 3rem !important;
+  }
+
+  .no-comments-modern h4 {
+    font-size: 1.25rem !important;
   }
 }
 
+/* Extra Small Devices (480px and below) */
 @media (max-width: 480px) {
+  /* Hero Section */
   .post-hero {
     height: 40vh !important;
-    min-height: 300px !important;
+    min-height: 320px !important;
+  }
+
+  .hero-content {
+    padding: 1.5rem 0.75rem !important;
+  }
+
+  .hero-title {
+    font-size: 1.5rem !important;
+    line-height: 1.25 !important;
   }
 
   .hero-badge {
@@ -2263,34 +2420,109 @@ body.menu-open {
     margin-bottom: 1rem !important;
   }
 
-  .hero-title {
-    font-size: 1.5rem !important;
+  /* Post Info */
+  .post-info-bar {
+    padding: 1.25rem 0 !important;
   }
 
-  .article-content {
-    padding: 1.25rem 1rem !important;
+  .post-subtitle-modern {
     font-size: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .meta-left {
+    font-size: 0.85rem !important;
+    flex-wrap: wrap !important;
+  }
+
+  /* Article Content */
+  .article-content {
+    padding: 1.5rem 1.25rem !important;
+    font-size: 1.0625rem !important;
+    line-height: 1.8 !important;
   }
 
   .article-content p {
-    font-size: 1rem !important;
-    margin-bottom: 1.25rem !important;
+    font-size: 1.0625rem !important;
+    margin-bottom: 1.5rem !important;
+    line-height: 1.8 !important;
   }
 
   .article-content h2 {
     font-size: 1.35rem !important;
+    margin-top: 1.75rem !important;
   }
 
   .article-content h3 {
     font-size: 1.2rem !important;
+    margin-top: 1.5rem !important;
+  }
+
+  .article-content ul,
+  .article-content ol {
+    padding-left: 1.25rem !important;
+  }
+
+  /* Comments */
+  .comments-modern {
+    padding: 2rem 0 !important;
+  }
+
+  .comments-header h2 {
+    font-size: 1.35rem !important;
+  }
+
+  .add-comment-card {
+    padding: 1.25rem 0.85rem !important;
+  }
+
+  .form-title {
+    font-size: 1rem !important;
   }
 
   .comment-item {
+    padding: 1rem 0.85rem !important;
     flex-direction: column !important;
+    align-items: flex-start !important;
   }
 
   .comment-avatar-img {
     width: 45px !important;
     height: 45px !important;
   }
+
+  .comment-top {
+    width: 100% !important;
+  }
+
+  .no-comments-modern {
+    padding: 2.5rem 1rem !important;
+  }
+
+  .no-comments-icon {
+    font-size: 2.5rem !important;
+  }
+}
+
+/* Landscape Mode Fixes */
+@media (max-height: 600px) and (orientation: landscape) {
+  .post-hero {
+    height: 70vh !important;
+    min-height: 350px !important;
+  }
+
+  .hero-content {
+    padding: 1.5rem 1rem !important;
+  }
+}
+
+/* Prevent horizontal scroll */
+.post-hero,
+.hero-content,
+.article-content,
+.comments-modern,
+.add-comment-card,
+.comment-item {
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
 }
