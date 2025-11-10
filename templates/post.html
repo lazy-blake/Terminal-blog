@@ -747,70 +747,176 @@
         box-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
       }
 
-      /* Responsive Design */
+      /* MOBILE FIX - MATCH REFERENCE SITE EXACTLY */
+      /* Add this at the END of <style> in post.html */
+
       @media (max-width: 768px) {
-        .post-hero {
-          height: 50vh;
-          min-height: 400px;
+        /* Remove the dark box background on mobile */
+        .article-content {
+          background: transparent !important;
+          box-shadow: none !important;
+          border: none !important;
+          border-radius: 0 !important;
+          padding: 0 24px 40px 24px !important;
+          margin: 0 !important;
         }
 
-        .hero-content {
-          padding: 2rem 0;
+        /* Fix Bootstrap grid pushing content */
+        .post-article .container {
+          padding: 0 !important;
+          margin: 0 !important;
+          max-width: 100% !important;
         }
 
-        .post-info-bar {
-          padding: 1.5rem 0;
+        .post-article .row {
+          margin: 0 !important;
         }
 
-        .post-meta-modern {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 0.75rem;
+        .post-article [class*="col-"] {
+          padding: 0 !important;
         }
 
+        /* Set font size exactly like reference */
+        .article-content,
+        .article-content p {
+          font-size: 17px !important;
+          line-height: 1.75 !important;
+          color: rgba(224, 230, 240, 0.95) !important;
+        }
+
+        /* BIG gaps between paragraphs - like reference */
+        .article-content p {
+          margin-bottom: 32px !important;
+        }
+
+        /* Remove any left/right margins on all elements */
+        .article-content * {
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+        }
+
+        /* Headings - bigger and more space */
+        .article-content h1,
+        .article-content h2,
+        .article-content h3 {
+          margin-left: 0 !important;
+          padding-left: 0 !important;
+        }
+
+        .article-content h1 {
+          font-size: 28px !important;
+          margin-top: 48px !important;
+          margin-bottom: 20px !important;
+        }
+
+        .article-content h2 {
+          font-size: 26px !important;
+          margin-top: 48px !important;
+          margin-bottom: 20px !important;
+        }
+
+        .article-content h3 {
+          font-size: 22px !important;
+          margin-top: 40px !important;
+          margin-bottom: 16px !important;
+        }
+
+        /* First element no top margin */
+        .article-content > *:first-child {
+          margin-top: 0 !important;
+        }
+
+        /* Lists need some indent */
+        .article-content ul,
+        .article-content ol {
+          padding-left: 28px !important;
+          margin: 24px 0 !important;
+        }
+
+        .article-content li {
+          margin-bottom: 12px !important;
+          line-height: 1.7 !important;
+        }
+
+        /* Code blocks and quotes need left padding */
+        .article-content pre {
+          padding: 20px !important;
+          margin: 32px 0 !important;
+          overflow-x: auto !important;
+        }
+
+        .article-content blockquote {
+          padding: 20px !important;
+          padding-left: 24px !important;
+          margin: 32px 0 !important;
+        }
+
+        /* Images full width with space */
+        .article-content img {
+          margin: 32px 0 !important;
+          width: 100% !important;
+          height: auto !important;
+        }
+
+        /* Hero section */
+        .hero-content .container {
+          padding: 0 24px !important;
+        }
+
+        .hero-content .row {
+          margin: 0 !important;
+        }
+
+        .hero-content [class*="col-"] {
+          padding: 0 !important;
+        }
+
+        /* Post info bar */
+        .post-info-bar .container {
+          padding: 0 24px !important;
+        }
+
+        .post-info-bar .row {
+          margin: 0 !important;
+        }
+
+        .post-info-bar [class*="col-"] {
+          padding: 0 !important;
+        }
+
+        /* Article section padding from top */
         .post-article {
-          padding: 3rem 0 2rem;
-        }
-
-        .admin-actions {
-          flex-direction: column;
-        }
-
-        .action-btn {
-          width: 100%;
-          justify-content: center;
-        }
-
-        .comments-modern {
-          padding: 3rem 0;
-        }
-
-        .add-comment-card {
-          padding: 1.5rem;
-        }
-
-        .comment-item {
-          padding: 1.25rem;
-        }
-
-        .comment-avatar-icon {
-          font-size: 2.5rem;
+          padding: 32px 0 !important;
         }
       }
 
       @media (max-width: 480px) {
-        .hero-badge {
-          font-size: 0.75rem;
-          padding: 0.3rem 0.75rem;
+        .article-content {
+          padding: 0 20px 32px 20px !important;
         }
 
-        .comment-item {
-          flex-direction: column;
-          align-items: flex-start;
+        .hero-content .container,
+        .post-info-bar .container {
+          padding: 0 20px !important;
         }
 
-        .comment-avatar-icon {
-          font-size: 2rem;
+        .article-content,
+        .article-content p {
+          font-size: 16px !important;
+        }
+
+        .article-content p {
+          margin-bottom: 28px !important;
+        }
+
+        .article-content h2 {
+          font-size: 24px !important;
+        }
+
+        .article-content h3 {
+          font-size: 20px !important;
         }
       }
     </style>
