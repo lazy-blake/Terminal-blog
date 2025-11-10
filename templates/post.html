@@ -747,11 +747,9 @@
         box-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
       }
 
-      /* MOBILE FIX - MATCH REFERENCE SITE EXACTLY */
-      /* Add this at the END of <style> in post.html */
+      /* MOBILE RESPONSIVE */
 
       @media (max-width: 768px) {
-        /* Remove the dark box background on mobile */
         .article-content {
           background: transparent !important;
           box-shadow: none !important;
@@ -761,7 +759,6 @@
           margin: 0 !important;
         }
 
-        /* Fix Bootstrap grid pushing content */
         .post-article .container {
           padding: 0 !important;
           margin: 0 !important;
@@ -776,7 +773,6 @@
           padding: 0 !important;
         }
 
-        /* Set font size exactly like reference */
         .article-content,
         .article-content p {
           font-size: 17px !important;
@@ -784,7 +780,6 @@
           color: rgba(224, 230, 240, 0.95) !important;
         }
 
-        /* BIG gaps between paragraphs - like reference */
         .article-content p {
           margin-bottom: 32px !important;
         }
@@ -797,7 +792,6 @@
           padding-right: 0 !important;
         }
 
-        /* Headings - bigger and more space */
         .article-content h1,
         .article-content h2,
         .article-content h3 {
@@ -840,7 +834,6 @@
           line-height: 1.7 !important;
         }
 
-        /* Code blocks and quotes need left padding */
         .article-content pre {
           padding: 20px !important;
           margin: 32px 0 !important;
