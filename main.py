@@ -131,6 +131,12 @@ MONTHS = {
 app.jinja_env.globals["MONTHS"] = MONTHS
 
 
+def calculate_reading_time(text):
+    words = len(text.split())
+    minutes = words / 200  # Average reading speed
+    return max(1, round(minutes))
+
+
 def admin_only(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -214,6 +220,7 @@ def blogs(post_id):
     ).scalar()
     comments = blog_post.comments
     current_date = blog_post.date.split(" ")[0]
+    reading_time = calculate_reading_time(blog_post.body)
 
     if form.validate_on_submit():
         if not current_user.is_authenticated:
@@ -234,6 +241,7 @@ def blogs(post_id):
         date=current_date,
         form=form,
         comments=comments,
+        reading_time=reading_time,
     )
 
 

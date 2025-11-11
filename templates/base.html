@@ -30,6 +30,16 @@
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
     ></script>
+
+    <script>
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "j") scrollBy(0, 100); // Scroll down
+        if (e.key === "k") scrollBy(0, -100); // Scroll up
+        if (e.key === "g" && e.key === "g") scrollTo(0, 0); // Top
+        if (e.key === "G") scrollTo(0, document.height); // Bottom
+        if (e.key === "/") document.getElementById("search").focus();
+      });
+    </script>
     <!-- Google fonts-->
     <link
       href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"

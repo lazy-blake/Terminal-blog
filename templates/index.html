@@ -188,6 +188,15 @@
           }
         });
       });
+
+      // nvim keybinds
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "j") scrollBy(0, 100); // Scroll down
+        if (e.key === "k") scrollBy(0, -100); // Scroll up
+        if (e.key === "g" && e.key === "g") scrollTo(0, 0); // Top
+        if (e.key === "G") scrollTo(0, document.height); // Bottom
+        if (e.key === "/") document.getElementById("search").focus();
+      });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

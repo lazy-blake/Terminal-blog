@@ -9,6 +9,9 @@
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
+    <meta property="og:title" content="{{posts.title}}" />
+    <meta property="og:description" content="{{posts.subtitle}}" />
+    <meta property="og:image" content="{{posts.img_url}}" />
     <title>{{posts.title}} - Terminal Blog</title>
     <link
       rel="icon"
@@ -36,6 +39,8 @@
     />
   </head>
   <body>
+    <!-- Reading Progress Bar -->
+    <div id="progressBar"></div>
     <!-- Animated Background -->
     <div class="bg-grid"></div>
     <div class="particles" id="particles"></div>
@@ -88,7 +93,7 @@
               <div class="meta-right">
                 <span class="reading-time">
                   <i class="fas fa-book-open"></i>
-                  5 min read
+                  {{reading_time}} min read
                 </span>
               </div>
             </div>
@@ -746,6 +751,22 @@
         transform: scale(1.05);
         box-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
       }
+      /* Reading Progress Bar */
+      #progressBar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--terminal-cyan),
+          var(--terminal-green)
+        );
+        z-index: 9999;
+        transition: width 0.25s ease;
+        box-shadow: 0 0 10px var(--glow-green);
+      }
 
       /* MOBILE RESPONSIVE */
 
@@ -972,6 +993,20 @@
           "color: #00ff41; font-weight: bold;",
           "color: #00d9ff;",
         );
+      });
+      window.addEventListener("scroll", () => {
+        const winScroll = document.documentElement.scrollTop;
+        const height =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById("progressBar").style.width = scrolled + "%";
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "j") scrollBy(0, 100); // Scroll down
+        if (e.key === "k") scrollBy(0, -100); // Scroll up
+        if (e.key === "g" && e.key === "g") scrollTo(0, 0); // Top
+        if (e.key === "G") scrollTo(0, document.height); // Bottom
+        if (e.key === "/") document.getElementById("search").focus();
       });
     </script>
   </body>
