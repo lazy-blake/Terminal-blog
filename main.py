@@ -4,8 +4,18 @@ from datetime import datetime
 from functools import wraps
 from smtplib import SMTP
 
+import requests
 from dotenv import load_dotenv
-from flask import Flask, abort, flash, redirect, render_template, request, url_for
+from flask import (
+    Flask,
+    abort,
+    flash,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
 from flask_login import (
@@ -349,6 +359,82 @@ def delete_comment(comment_id, post_id):
     db.session.commit()
 
     return redirect(url_for("blogs", post_id=post_id))
+
+
+# api for the ls command in terminal
+@app.route("/api/posts")
+def api_posts():
+    posts = db.session.execute(db.select(BlogPost).limit(10)).scalars().all()
+    posts_data = [
+        {
+            "id": post.id,
+            "title": post.title,
+            "date": post.date,
+            "author": post.author.name,
+        }
+        for post in posts
+    ]
+    return jsonify(posts_data)
+
+
+# api for the whoami command in terminal
+@app.route("/api/user")
+def api_user():
+    """Get current user information for terminal widget"""
+    if current_user.is_authenticated:
+        return jsonify(
+            {
+                "isAuthenticated": True,
+                "name": current_user.name,
+                "email": current_user.email,
+                "id": current_user.id,
+                "isAdmin": current_user.id == 1,
+            }
+        )
+    else:
+        return jsonify(
+            {
+                "isAuthenticated": False,
+                "name": "Guest",
+                "email": "guest@terminal-blog.com",
+                "id": None,
+                "isAdmin": False,
+            }
+        )
+
+
+@app.route("/api/weather")
+def api_weather():
+    """Get weather using wttr.in"""
+    city = request.args.get("city", "Gangtok")
+
+    try:
+        url = f"https://wttr.in/{city}?format=j1"
+        response = requests.get(url, timeout=5)
+        data = response.json()
+
+        if "current_condition" in data:
+            current = data["current_condition"][0]
+            location = data["nearest_area"][0]
+
+            return jsonify(
+                {
+                    "error": False,
+                    "city": location["areaName"][0]["value"],
+                    "country": location["country"][0]["value"],
+                    "temp": int(current["temp_C"]),
+                    "feels_like": int(current["FeelsLikeC"]),
+                    "description": current["weatherDesc"][0]["value"],
+                    "humidity": int(current["humidity"]),
+                    "wind_speed": round(float(current["windspeedKmph"])),
+                    "icon": current["weatherCode"],
+                }
+            )
+        else:
+            return jsonify({"error": True, "message": "City not found"}), 404
+
+    except Exception:
+        return jsonify({"error": True, "message": "Failed to fetch weather"}), 500
 
 
 if __name__ == "__main__":

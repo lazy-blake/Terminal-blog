@@ -47,6 +47,8 @@
       href="{{url_for('static', filename='css/styles.css')}}"
       rel="stylesheet"
     />
+    <!-- Terminal Widget Script -->
+    <script src="{{ url_for('static', filename='js/terminal.js') }}"></script>
   </head>
   <body>
     <!-- Animated Background -->
@@ -125,6 +127,55 @@
 
       {% include "footer.html"%}
     </div>
+
+    <!-- Terminal Widget -->
+    <div id="terminalWidget" class="terminal-widget hidden">
+      <div class="terminal-widget-header">
+        <div class="terminal-dots">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+        <span class="terminal-title">
+          <i class="fas fa-terminal"></i> terminal.sh
+        </span>
+        <button id="terminalClose" class="terminal-close-btn">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div id="terminalOutput" class="terminal-widget-output">
+        <div class="terminal-line">
+          <span class="terminal-prompt">visitor@terminal-blog:~$</span>
+          <span class="terminal-text"
+            >Welcome to Terminal Blog! Type
+            <span style="color: var(--terminal-cyan)">help</span> for available
+            commands.</span
+          >
+        </div>
+      </div>
+
+      <div class="terminal-widget-input-line">
+        <span class="terminal-prompt">visitor@terminal-blog:~$</span>
+        <input
+          type="text"
+          id="terminalInput"
+          class="terminal-widget-input"
+          placeholder="Type a command..."
+          autocomplete="off"
+          spellcheck="false"
+        />
+      </div>
+    </div>
+
+    <!-- Terminal Toggle Button -->
+    <button
+      id="terminalToggle"
+      class="terminal-toggle-btn"
+      title="Open Terminal (Ctrl+~)"
+    >
+      <i class="fas fa-terminal"></i>
+    </button>
     <script>
       // Create floating particles
       function createParticles() {

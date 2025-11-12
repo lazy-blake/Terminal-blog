@@ -2526,3 +2526,309 @@ body.menu-open {
   max-width: 100vw !important;
   overflow-x: hidden !important;
 }
+
+/* ============================================
+   TERMINAL WIDGET
+   ============================================ */
+
+.terminal-widget {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 900px;
+  height: 400px;
+  background: var(--terminal-bg-light);
+  border: 2px solid var(--terminal-green);
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+  box-shadow:
+    0 -10px 50px rgba(0, 255, 65, 0.3),
+    0 0 100px rgba(0, 255, 65, 0.2);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.terminal-widget.hidden {
+  transform: translateX(-50%) translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.terminal-widget-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid var(--terminal-border);
+  border-radius: 12px 12px 0 0;
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.terminal-dots .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: block;
+}
+
+.terminal-dots .dot.red {
+  background: #ff5f57;
+}
+
+.terminal-dots .dot.yellow {
+  background: #febc2e;
+}
+
+.terminal-dots .dot.green {
+  background: #28c840;
+}
+
+.terminal-title {
+  color: var(--terminal-text-dim);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.terminal-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--terminal-text-dim);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.25rem 0.5rem;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.terminal-close-btn:hover {
+  color: var(--terminal-red);
+  background: rgba(255, 95, 87, 0.1);
+}
+
+.terminal-widget-output {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--terminal-text);
+}
+
+.terminal-line {
+  margin-bottom: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.terminal-prompt {
+  color: var(--terminal-green);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.terminal-text {
+  color: var(--terminal-text);
+  flex: 1;
+}
+
+.terminal-error {
+  color: var(--terminal-red);
+}
+
+.terminal-success {
+  color: var(--terminal-green);
+}
+
+.terminal-info {
+  color: var(--terminal-cyan);
+}
+
+.terminal-command {
+  color: var(--terminal-yellow);
+}
+
+.terminal-link {
+  color: var(--terminal-cyan);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.terminal-link:hover {
+  color: var(--terminal-green);
+}
+
+.terminal-widget-input-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid var(--terminal-border);
+}
+
+.terminal-widget-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--terminal-text);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.9rem;
+  padding: 0;
+}
+
+.terminal-widget-input::placeholder {
+  color: var(--terminal-text-dim);
+}
+
+/* Toggle Button */
+.terminal-toggle-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(
+    135deg,
+    var(--terminal-cyan),
+    var(--terminal-green)
+  );
+  color: var(--terminal-bg);
+  border: none;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow:
+    0 4px 20px rgba(0, 255, 65, 0.4),
+    0 0 40px rgba(0, 255, 65, 0.2);
+  transition: all 0.3s ease;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.terminal-toggle-btn:hover {
+  transform: scale(1.1) translateY(-5px);
+  box-shadow:
+    0 6px 30px rgba(0, 255, 65, 0.6),
+    0 0 60px rgba(0, 255, 65, 0.4);
+}
+
+.terminal-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+.terminal-toggle-btn.active {
+  background: var(--terminal-red);
+}
+
+/* Scrollbar for terminal output */
+.terminal-widget-output::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terminal-widget-output::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.terminal-widget-output::-webkit-scrollbar-thumb {
+  background: var(--terminal-green);
+  border-radius: 4px;
+}
+
+.terminal-widget-output::-webkit-scrollbar-thumb:hover {
+  background: var(--terminal-cyan);
+}
+
+/* Typing cursor animation */
+.terminal-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1em;
+  background: var(--terminal-green);
+  animation: blink 1s infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .terminal-widget {
+    width: 95%;
+    height: 350px;
+  }
+
+  .terminal-toggle-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+
+  .terminal-widget-output {
+    font-size: 0.85rem;
+    padding: 0.75rem;
+  }
+
+  .terminal-widget-input {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .terminal-widget {
+    width: 100%;
+    height: 300px;
+    border-radius: 0;
+    max-width: none;
+  }
+
+  .terminal-widget-header {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .terminal-title {
+    font-size: 0.75rem;
+  }
+}
