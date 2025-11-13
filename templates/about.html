@@ -1,6 +1,8 @@
+{% extends 'base.html' %}
 <!doctype html>
 <html lang="en">
   <head>
+        {% block head %}
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -26,8 +28,12 @@
       type="text/css"
     />
     <link href="static/css/styles.css" rel="stylesheet" />
+    <!-- Terminal Widget Script -->
+    <script src="{{ url_for('static', filename='js/terminal.js') }}"></script>
+    {% endblock %}
   </head>
   <body>
+    {% block content %}
     <!-- Animated Background -->
     <div class="bg-grid"></div>
     <div class="particles" id="particles"></div>
@@ -726,5 +732,6 @@
         );
       });
     </script>
+    {% endblock %}
   </body>
 </html>

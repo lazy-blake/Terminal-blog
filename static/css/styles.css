@@ -780,6 +780,386 @@ article li::marker {
   margin-bottom: 2rem;
 }
 
+/* ============================================
+   SOCIAL SHARE BUTTONS
+   ============================================ */
+
+.social-share-section {
+  padding: 3rem 0;
+  border-top: 2px solid var(--terminal-border);
+  border-bottom: 2px solid var(--terminal-border);
+  margin: 3rem 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.share-container {
+  background: var(--terminal-bg-light);
+  border: 2px solid var(--terminal-border);
+  border-left: 4px solid var(--terminal-cyan);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.share-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  color: var(--terminal-cyan);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.share-header i {
+  font-size: 1.3rem;
+}
+
+/* Floating Share Bar */
+.floating-share-bar {
+  position: fixed;
+  left: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.floating-share-bar.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.float-share-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid var(--terminal-border);
+  background: var(--terminal-bg-light);
+  color: var(--terminal-text);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.float-share-btn:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 991px) {
+  .floating-share-bar {
+    display: none;
+  }
+}
+
+.share-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--terminal-border);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--terminal-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "JetBrains Mono", monospace;
+  position: relative;
+  overflow: hidden;
+}
+
+.share-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.share-btn:hover::before {
+  left: 100%;
+}
+
+.share-btn i {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.share-btn:hover i {
+  transform: scale(1.2);
+}
+/* Floating Share Bar - FORCE RIGHT SIDE */
+.floating-share-bar {
+  position: fixed !important;
+  right: 2rem !important;
+  left: auto !important; /* Force override any left positioning */
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.floating-share-bar.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.float-share-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid var(--terminal-border);
+  background: var(--terminal-bg-light);
+  color: var(--terminal-text);
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  position: relative;
+}
+
+.float-share-btn::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.float-share-btn:hover {
+  transform: scale(1.15) translateX(-5px); /* Moves LEFT on hover (towards center) */
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.6);
+}
+
+.float-share-btn:active {
+  transform: scale(1.05) translateX(-5px);
+}
+
+/* Twitter Button */
+.float-share-btn.twitter-btn:hover {
+  background: #1da1f2;
+  color: white;
+  border-color: #1da1f2;
+  box-shadow: 0 6px 25px rgba(29, 161, 242, 0.6);
+}
+
+.float-share-btn.twitter-btn:hover::before {
+  background: radial-gradient(circle, rgba(29, 161, 242, 0.3), transparent);
+  opacity: 1;
+}
+
+/* WhatsApp Button */
+.float-share-btn.whatsapp-btn:hover {
+  background: #25d366;
+  color: white;
+  border-color: #25d366;
+  box-shadow: 0 6px 25px rgba(37, 211, 102, 0.6);
+}
+
+.float-share-btn.whatsapp-btn:hover::before {
+  background: radial-gradient(circle, rgba(37, 211, 102, 0.3), transparent);
+  opacity: 1;
+}
+
+/* Facebook Button */
+.float-share-btn.facebook-btn:hover {
+  background: #4267b2;
+  color: white;
+  border-color: #4267b2;
+  box-shadow: 0 6px 25px rgba(66, 103, 178, 0.6);
+}
+
+.float-share-btn.facebook-btn:hover::before {
+  background: radial-gradient(circle, rgba(66, 103, 178, 0.3), transparent);
+  opacity: 1;
+}
+
+/* Copy Link Button */
+.float-share-btn.copy-btn:hover {
+  background: var(--terminal-green);
+  color: var(--terminal-bg);
+  border-color: var(--terminal-green);
+  box-shadow: 0 6px 25px var(--glow-green);
+}
+
+.float-share-btn.copy-btn:hover::before {
+  background: radial-gradient(circle, rgba(0, 255, 65, 0.3), transparent);
+  opacity: 1;
+}
+
+.float-share-btn.copy-btn.copied {
+  background: var(--terminal-green);
+  color: var(--terminal-bg);
+  border-color: var(--terminal-green);
+  animation: copyBounce 0.5s ease;
+}
+
+@keyframes copyBounce {
+  0%,
+  100% {
+    transform: scale(1.15) translateX(-5px);
+  }
+  50% {
+    transform: scale(1.25) translateX(-5px);
+  }
+}
+
+/* Success Message */
+.copy-success {
+  position: fixed !important;
+  bottom: 2rem !important;
+  right: 2rem !important;
+  left: auto !important; /* Force override */
+  transform: none !important; /* Remove any transform */
+  padding: 1rem 1.5rem;
+  background: rgba(0, 255, 65, 0.1);
+  border: 2px solid var(--terminal-green);
+  border-radius: 8px;
+  color: var(--terminal-green);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  z-index: 10001;
+  box-shadow: 0 4px 20px rgba(0, 255, 65, 0.3);
+  animation: slideInRight 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.copy-success.hidden {
+  display: none !important;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.copy-success i {
+  font-size: 1.2rem;
+}
+
+/* Pulse animation for share buttons */
+.floating-share-bar.visible .float-share-btn {
+  animation: subtlePulse 3s ease-in-out infinite;
+}
+
+.floating-share-bar.visible .float-share-btn:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.floating-share-bar.visible .float-share-btn:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.floating-share-bar.visible .float-share-btn:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.floating-share-bar.visible .float-share-btn:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+@keyframes subtlePulse {
+  0%,
+  100% {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(0, 255, 65, 0.2);
+  }
+}
+
+/* Terminal Toggle Button - Adjust to avoid overlap */
+.terminal-toggle-btn {
+  position: fixed !important;
+  bottom: 2rem !important;
+  right: 6rem !important; /* Space for share buttons */
+  left: auto !important;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .floating-share-bar {
+    right: 1rem !important;
+    gap: 0.75rem;
+  }
+
+  .float-share-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+
+  .copy-success {
+    right: 1rem !important;
+    font-size: 0.85rem;
+    padding: 0.75rem 1.25rem;
+  }
+
+  .terminal-toggle-btn {
+    right: 5rem !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .floating-share-bar {
+    display: none !important;
+  }
+
+  .copy-success {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .terminal-toggle-btn {
+    right: 1.5rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .terminal-toggle-btn {
+    right: 1.5rem !important;
+  }
+}
 /* ====================================
    ABOUT PAGE
    ==================================== */
